@@ -43,6 +43,7 @@
 		05D774A625E67D1900FA5CA5 /* MyGroupsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774A525E67D1900FA5CA5 /* MyGroupsTableVC.swift */; };
 		05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774A825E67D3200FA5CA5 /* GlobalGroupsTableVC.swift */; };
 		05D774AF25E6842A00FA5CA5 /* RoundedImgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */; };
+		05ED4F24261EDB7800FB097A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ED4F23261EDB7800FB097A /* Session.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		05D774A525E67D1900FA5CA5 /* MyGroupsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupsTableVC.swift; sourceTree = "<group>"; };
 		05D774A825E67D3200FA5CA5 /* GlobalGroupsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalGroupsTableVC.swift; sourceTree = "<group>"; };
 		05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImgView.swift; sourceTree = "<group>"; };
+		05ED4F23261EDB7800FB097A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,11 +126,9 @@
 		057D76F525DC363D00A9E18B /* Homework_1 */ = {
 			isa = PBXGroup;
 			children = (
+				05ED4F27261EDC3700FB097A /* Singleton */,
+				05ED4F22261EDAFC00FB097A /* tabBarGroups */,
 				0581820E26149BAB00542167 /* Customization */,
-				05840B7B260B2AC200B65FD9 /* profile */,
-				0581820D26149BA200542167 /* Groups */,
-				0581820C26149B9A00542167 /* Friends */,
-				0581820B26149B9200542167 /* News */,
 				0597AF5D25E3B78D0014BF41 /* Utilities */,
 				0597AF5C25E3B7870014BF41 /* Extensions */,
 				0597AF5A25E3B77A0014BF41 /* Model */,
@@ -248,12 +248,12 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
-		05840B7B260B2AC200B65FD9 /* profile */ = {
+		05840B7B260B2AC200B65FD9 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				0538E78725E8178D00FA631D /* ProfileVC.swift */,
 			);
-			path = profile;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		0597AF5A25E3B77A0014BF41 /* Model */ = {
@@ -291,6 +291,25 @@
 				0597AF5E25E3B79A0014BF41 /* Constants.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		05ED4F22261EDAFC00FB097A /* tabBarGroups */ = {
+			isa = PBXGroup;
+			children = (
+				05840B7B260B2AC200B65FD9 /* Profile */,
+				0581820D26149BA200542167 /* Groups */,
+				0581820C26149B9A00542167 /* Friends */,
+				0581820B26149B9200542167 /* News */,
+			);
+			path = tabBarGroups;
+			sourceTree = "<group>";
+		};
+		05ED4F27261EDC3700FB097A /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				05ED4F23261EDB7800FB097A /* Session.swift */,
+			);
+			path = Singleton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,6 +400,7 @@
 				0538E77A25E7A6AB00FA631D /* User.swift in Sources */,
 				0538E77D25E7CF2D00FA631D /* PhotosCell.swift in Sources */,
 				0597AF6525E3B8AB0014BF41 /* FriendsTableVC.swift in Sources */,
+				05ED4F24261EDB7800FB097A /* Session.swift in Sources */,
 				05D774AF25E6842A00FA5CA5 /* RoundedImgView.swift in Sources */,
 				054AAEA925FBE53D00E73DD9 /* UIImageViewExtension.swift in Sources */,
 				05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */,

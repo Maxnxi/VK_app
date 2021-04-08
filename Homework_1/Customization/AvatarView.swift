@@ -91,18 +91,10 @@ class AvatarView: UIView {
         switch recognizer.state {
         case.began:
             UIView.animate(withDuration: 0.5) {
-                //self.layer.transform = CATransform3DRotate(CATransform3DIdentity, CGFloat.pi, 0, 1, 0)
                 self.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
             } completion: { (finished) in
                 self.layer.transform = CATransform3DIdentity
             }
-//        case .changed:
-//            UIView.animate(withDuration: 0.5) {
-//                //self.layer.transform = CATransform3DRotate(CATransform3DIdentity, CGFloat.pi, 0, 1, 0)
-//                self.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
-//            } completion: { (finished) in
-//                self.layer.transform = CATransform3DIdentity
-//            }
         default:
             break
         }

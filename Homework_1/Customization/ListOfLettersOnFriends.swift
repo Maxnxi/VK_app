@@ -11,9 +11,7 @@ import Foundation
 @IBDesignable
 class ListOfLettersOnFriends: UIControl {
 
-    //var letters:[String] = []
     var sortedLets:[String] = []
-    
     private var buttons: [UIButton] = []
     private var stackView: UIStackView!
     
@@ -40,22 +38,14 @@ class ListOfLettersOnFriends: UIControl {
         print(#function)
         print("а вот и буквы: ", letters)
         setupView()
-        
     }
-    
-    
-        
+
     private func setupView() {
-        
-        //sortedLets = Friend.sortLetters(letters: letters)
-        
         print("кол-во букв: ",sortedLets.count)
         for letter in sortedLets {
-            //let button = UIButton(type: .system)
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
             button.setTitle(letter, for: .normal)
             button.setTitleColor(.white, for: .normal)
-            //button.setTitleColor(.lightGray, for: .selected)
             button.setTitleShadowColor(.lightGray, for: .normal)
             button.addTarget(self, action: #selector(selectLetter), for: .touchUpInside)
             
@@ -72,18 +62,12 @@ class ListOfLettersOnFriends: UIControl {
     }
     
     @objc func selectLetter(_ sender: UIButton){
-        //print(#function)
-       // print(buttons.hashValue)
         guard let index = self.buttons.firstIndex(of: sender) else { return}
         guard let letter = buttons[index].currentTitle else {return}
         self.selectedLetter = letter
         print(letter)
         
         FriendsTableVC.instance.setSelectedLetter(letter: letter)
-        
-        //setSelectedLetter
-        
-        
     }
     
     override func layoutSubviews() {
