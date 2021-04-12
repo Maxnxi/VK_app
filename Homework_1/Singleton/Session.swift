@@ -12,8 +12,8 @@ final class Session {
     
     private init() {}
     
-    var token: String? = "00123"
-    var userId: Int? = 00123
+    var token: String = ""
+    var userId: Int = 0
     
     
     
