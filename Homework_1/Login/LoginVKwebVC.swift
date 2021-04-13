@@ -5,6 +5,7 @@
 //  Created by Maksim on 12.04.2021.
 //
 
+
 import UIKit
 import Foundation
 import WebKit
@@ -21,7 +22,20 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         configureWebView()
         
-      
+        let queueVkData = DispatchQueue(label: "vkQueryQueue")
+        queueVkData.async {
+            sleep(2)
+            guard let userId = Session.instance.userId,
+                  let accessToken = Session.instance.token else {
+                print("\n Error while getting - user_id and access_token")
+                return
+            }
+            
+            Session.instance.getFriends(userId: userId, accessToken: accessToken)
+//            Session.instance.getUserPhotos(ownerId: "200037963")
+//            Session.instance.getUserGroups(userId: "200037963")
+//            Session.instance.getGroupsSearch(query: "Music")
+        }
         
     }
     
@@ -36,7 +50,7 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "scope", value: "262150"),
             URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: "5.68")
+            URLQueryItem(name: "v", value: "5.130")
         ]
         guard let urlToRequest = urlComponents.url else {return}
         let request = URLRequest(url: urlToRequest)
@@ -70,12 +84,12 @@ extension LoginVKwebVC {
                     return dict
             }
         guard let token = params["access_token"] else { return }
-        Session.instace.token = token
-        print("\n Token saved to singleton - done : \(Session.instace.token)")
+        Session.instance.token = token
+        print("\n Token saved to singleton - done : \(Session.instance.token)")
         
-        guard let userId: Int = Int(params["user_id"] ?? "0") else {return}
-        Session.instace.userId = userId
-        print("\n UserId saved to singleton - done : \(Session.instace.userId) \n")
+        guard let userId = params["user_id"] else {return}
+        Session.instance.userId = userId
+        print("\n UserId saved to singleton - done : \(Session.instance.userId) \n")
         //print("\n ", params)
         
         decisionHandler(.cancel)
