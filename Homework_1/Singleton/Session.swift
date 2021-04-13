@@ -52,15 +52,15 @@ final class Session {
     
     //MARK: -> Get Photos of user
     
-    func getUserPhotos(ownerId: String) {
-        //let url = "https://api.vk.com/method/photos.getAll?owner_id=200037963&count=3&v=5.130&access_token=e6727660911aaad2a9593dfaa44cfcede254163561e5075a15a0055093ad8c35cbfd7d277f4b503d5bf7b"
+    func getUserPhotos(ownerId: String, accessToken: String ) {
+        //let url = "https://api.vk.com/method/photos.getAll?owner_id=__&count=3&v=5.130&access_token=__"
         
         let url = BASE_URL + GET_USER_PHOTOS
         let parameters: Parameters = [
             "owner_id" : ownerId,
             "count" : "3",
             "v" : "5.130",
-            "access_token" : "e6727660911aaad2a9593dfaa44cfcede254163561e5075a15a0055093ad8c35cbfd7d277f4b503d5bf7b"
+            "access_token" : accessToken
         ]
         
         AF.request(url, method: .get, parameters: parameters).responseJSON { (response) in
@@ -71,8 +71,8 @@ final class Session {
     
     //MARK: -> Get Groups of user
     
-    func getUserGroups(userId: String) {
-//        let url = "https://api.vk.com/method/groups.get?user_id=200037963&count=3&extended=1&v=5.130&access_token=e6727660911aaad2a9593dfaa44cfcede254163561e5075a15a0055093ad8c35cbfd7d277f4b503d5bf7b"
+    func getUserGroups(userId: String, accessToken: String) {
+//        let url = "https://api.vk.com/method/groups.get?user_id=__&count=3&extended=1&v=5.130&access_token=__"
         
         let url = BASE_URL + GET_USER_GROUPS
         let parameters: Parameters = [
@@ -80,7 +80,7 @@ final class Session {
             "count" : "3",
             "extended" : "1",
             "v" : "5.130",
-        "access_token" : "e6727660911aaad2a9593dfaa44cfcede254163561e5075a15a0055093ad8c35cbfd7d277f4b503d5bf7b"
+            "access_token" : accessToken
         ]
         
         AF.request(url, method: .get, parameters: parameters).responseJSON { (response) in
@@ -91,15 +91,15 @@ final class Session {
     
     //MARK: -> Get groups search
     
-    func getGroupsSearch(query: String) {
-//        let url = "https://api.vk.com/method/groups.search?q=Music&count=3&v=5.130&access_token=e6727660911aaad2a9593dfaa44cfcede254163561e5075a15a0055093ad8c35cbfd7d277f4b503d5bf7b"
+    func getGroupsSearch(query: String, accessToken: String) {
+//        let url = "https://api.vk.com/method/groups.search?q=__&count=3&v=5.130&access_token=__"
         
         let url = BASE_URL + GET_GROUPS_SEARCH
         let parameters: Parameters = [
             "q" : query,
             "count" : "3",
             "v" : "5.130",
-            "access_token" : "e6727660911aaad2a9593dfaa44cfcede254163561e5075a15a0055093ad8c35cbfd7d277f4b503d5bf7b"
+            "access_token" : accessToken
         ]
         
         AF.request(url, method: .get, parameters: parameters).responseJSON { (response) in

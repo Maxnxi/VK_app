@@ -22,20 +22,7 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         configureWebView()
         
-        let queueVkData = DispatchQueue(label: "vkQueryQueue")
-        queueVkData.async {
-            sleep(2)
-            guard let userId = Session.instance.userId,
-                  let accessToken = Session.instance.token else {
-                print("\n Error while getting - user_id and access_token")
-                return
-            }
-            
-            Session.instance.getFriends(userId: userId, accessToken: accessToken)
-//            Session.instance.getUserPhotos(ownerId: "200037963")
-//            Session.instance.getUserGroups(userId: "200037963")
-//            Session.instance.getGroupsSearch(query: "Music")
-        }
+        
         
     }
     
@@ -91,8 +78,27 @@ extension LoginVKwebVC {
         Session.instance.userId = userId
         print("\n UserId saved to singleton - done : \(Session.instance.userId) \n")
         //print("\n ", params)
+        loadingVkData()
         
         decisionHandler(.cancel)
         
     }
+    
+    func loadingVkData() {
+        let queueVkData = DispatchQueue(label: "vkQueryQueue")
+        queueVkData.async {
+            sleep(2)
+            guard let userId = Session.instance.userId,
+                  let accessToken = Session.instance.token else {
+                print("\n Error while getting - user_id and access_token")
+                return
+            }
+            
+            Session.instance.getFriends(userId: userId, accessToken: accessToken)
+            Session.instance.getUserPhotos(ownerId: userId, accessToken: accessToken)
+            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
+            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)
+        }
+    }
+    
 }
