@@ -8,10 +8,13 @@
 import Foundation
 
 class User {
+    var identification: Int?
     var firstName: String?
     var lastName: String?
     
-    init(firstName: String, lastname: String) {
+    
+    init(identification: Int, firstName: String, lastname: String) {
+        self.identification = identification
         self.firstName = firstName
         self.lastName = lastname
     }

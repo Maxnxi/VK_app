@@ -78,7 +78,18 @@ extension LoginVKwebVC {
         Session.instance.userId = userId
         print("\n UserId saved to singleton - done : \(Session.instance.userId) \n")
         //print("\n ", params)
+        
+        //loading data
         loadingVkData()
+        
+        //loading UI
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let view = storyboard.instantiateViewController(withIdentifier: "afterLoginTabBarVC")
+        view.modalPresentationStyle = .fullScreen
+        present(view, animated: true, completion: nil)
+        print("You are Logged in.")
+        
+        
         
         decisionHandler(.cancel)
         
@@ -94,10 +105,12 @@ extension LoginVKwebVC {
                 return
             }
             
-            Session.instance.getFriends(userId: userId, accessToken: accessToken)
-            Session.instance.getUserPhotos(ownerId: userId, accessToken: accessToken)
-            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
-            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)
+            Session.instance.getFriends(userId: userId, accessToken: accessToken) { (friendsArray) in
+                print("Friends info downloaded, count:", friendsArray.count)
+            }
+//            Session.instance.getUserPhotos(ownerId: userId, accessToken: accessToken)
+//            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
+//            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)
         }
     }
     

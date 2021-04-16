@@ -49,7 +49,7 @@ class FriendsTableVC: UIViewController  {
     }
     
     func loadFriends() {
-        friends = Friend.dataLoad()
+        //friends = Friend.dataLoad()
         friends = friends.sorted(by: {
             $0.lastName.lowercased() < $1.lastName.lowercased()
         })

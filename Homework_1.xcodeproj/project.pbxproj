@@ -221,9 +221,9 @@
 		0581821226149D3B00542167 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0597AF6425E3B8AB0014BF41 /* FriendsTableVC.swift */,
 				0538E78A25E8258800FA631D /* PhotoVC.swift */,
 				0597AF6725E3B8DE0014BF41 /* FriendPhotoCollectionVC.swift */,
-				0597AF6425E3B8AB0014BF41 /* FriendsTableVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -268,9 +268,9 @@
 		0597AF5A25E3B77A0014BF41 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0538E77925E7A6AB00FA631D /* User.swift */,
 				0597AF6E25E3CB800014BF41 /* Friend.swift */,
 				05D774A225E6798900FA5CA5 /* Group.swift */,
-				0538E77925E7A6AB00FA631D /* User.swift */,
 				056A99612604EF2A0069E1C5 /* News.swift */,
 			);
 			path = Model;
@@ -314,10 +314,10 @@
 		05ED4F22261EDAFC00FB097A /* tabBarGroups */ = {
 			isa = PBXGroup;
 			children = (
+				0581820B26149B9200542167 /* News */,
+				0581820C26149B9A00542167 /* Friends */,
 				05840B7B260B2AC200B65FD9 /* Profile */,
 				0581820D26149BA200542167 /* Groups */,
-				0581820C26149B9A00542167 /* Friends */,
-				0581820B26149B9200542167 /* News */,
 			);
 			path = tabBarGroups;
 			sourceTree = "<group>";
