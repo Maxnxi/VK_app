@@ -18,7 +18,7 @@ class FriendsTableVC: UIViewController  {
     var selectedLetterToScroll: String = "" {
         didSet{
             print(selectedLetterToScroll)
-            self.scroolTableToLetter(letter: selectedLetterToScroll)
+            //self.scroolTableToLetter(letter: selectedLetterToScroll)
         }
     }
     
@@ -28,28 +28,48 @@ class FriendsTableVC: UIViewController  {
     
     
     
-    var friends:[Friend] = []
-    var filterListOfFriends: [Friend] = []
+    var friends:[User] = []
+    
+    var filterListOfFriends: [User] = []
     var sections: [String] = []
-    var cachedSectionsItems: [String:[Friend]] = [:]
+    var cachedSectionsItems: [String:[User]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
+//        loadFriends()
+//        setupDataSource()
+//        tableView.reloadData()
+    }
+    
+    func configureFriendsTableView(){
         loadFriends()
         setupDataSource()
+        //lettersView.configureView(letters: sections)
+        tableView.reloadData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+//        setupDataSource()
+//        lettersView.configureView(letters: sections)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        repeat {
+            sleep(4)
+            configureFriendsTableView()
+        } while (friends .isEmpty)
+        
+        
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        setupDataSource()
-        lettersView.configureView(letters: sections)
-    }
-    
     func loadFriends() {
-        //friends = Friend.dataLoad()
+        friends = allMyFriends
+        print(friends[1].firstName)
+        print("friends pushed to FriendsTableVC", friends.count)
         friends = friends.sorted(by: {
             $0.lastName.lowercased() < $1.lastName.lowercased()
         })
@@ -85,7 +105,7 @@ class FriendsTableVC: UIViewController  {
         }
     }
     
-    private func getFriend(for indexPath: IndexPath) -> Friend {
+    private func getFriend(for indexPath: IndexPath) -> User {
         let sectionLetter = sections[indexPath.section]
         return cachedSectionsItems[sectionLetter]![indexPath.row]
     }
@@ -148,6 +168,7 @@ extension FriendsTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let view = storyboard.instantiateViewController(withIdentifier: "friendPhotoCollectionVC") as? FriendPhotoCollectionVC else {return}
+        
         view.friend = getFriend(for: indexPath)
         print(view.friend?.firstName)
         view.modalPresentationStyle = .fullScreen
@@ -159,25 +180,25 @@ extension FriendsTableVC: UITableViewDelegate, UITableViewDataSource {
     
     
     // НЕ работает
-    func scroolTableToLetter(letter: String) {
-        var sectionIndex: Int?
-        print(letter)
-        
-        print(sections)
-        for i in sections {
-            if !i.contains(letter) {
-                
-                print(i.lowercased())
-            } else {
-                sectionIndex = sections.firstIndex(of: i)
-                print(i.lowercased())
-            }
-        }
-        print(sectionIndex)
-//        var indxs = IndexPath()
-//        indxs.section = sectionIndex ?? 0
-//        self.tableView.scrollToRow(at: indxs, at: .top, animated: true)
-    }
+//    func scroolTableToLetter(letter: String) {
+//        var sectionIndex: Int?
+//        print(letter)
+//
+//        print(sections)
+//        for i in sections {
+//            if !i.contains(letter) {
+//
+//                print(i.lowercased())
+//            } else {
+//                sectionIndex = sections.firstIndex(of: i)
+//                print(i.lowercased())
+//            }
+//        }
+//        print(sectionIndex)
+////        var indxs = IndexPath()
+////        indxs.section = sectionIndex ?? 0
+////        self.tableView.scrollToRow(at: indxs, at: .top, animated: true)
+//    }
     
 }
 

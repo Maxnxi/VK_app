@@ -23,6 +23,9 @@ class Friend {
         self.lastName = lastName
         self.avatarImg = avatarImg
     }
+    
+    
+    
 }
 
 
@@ -45,14 +48,14 @@ extension Friend {
     static let friend50 = Friend(firstName: "Чеша", lastName: "Дорн", avatarImg: "light18")
     static let friend60 = Friend(firstName: "Цу", lastName: "Эльф", avatarImg: "light9")
     static let friend70 = Friend(firstName: "Зина", lastName: "Ябида", avatarImg: "dark17")
-    
+
     static func dataLoad() -> [Friend] {
         return [ anna, maksim, nikolay, anna, maksim, nikolay, anna, maksim, nikolay, carl, carl, carl, friend1, friend2, friend3, friend4, friend5, friend6, friend7, friend10, friend20, friend30, friend40, friend50, friend60, friend70]
     }
-
-    
-    
-   
-    
-    
+//
+//
+//
+//
+//
+//
 }

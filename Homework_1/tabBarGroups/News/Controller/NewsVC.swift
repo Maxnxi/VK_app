@@ -16,7 +16,7 @@ class NewsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        news = News.newsDataLoad()
+        //news = News.newsDataLoad()
         
         tableView.delegate = self
         tableView.dataSource = self

@@ -10,6 +10,8 @@ import UIKit
 import Foundation
 import WebKit
 
+var allMyFriends: [User] = []
+
 class LoginVKwebVC: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var wkWebView: WKWebView! {
@@ -18,12 +20,11 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
-        
-        
-        
+
     }
     
     func configureWebView(){
@@ -107,7 +108,14 @@ extension LoginVKwebVC {
             
             Session.instance.getFriends(userId: userId, accessToken: accessToken) { (friendsArray) in
                 print("Friends info downloaded, count:", friendsArray.count)
+                allMyFriends = friendsArray
             }
+            
+//            Session.instance.getFriends(userId: userId, accessToken: accessToken) { (friendsArray) in
+//                print("Friends info downloaded, count:", friendsArray.count)
+                
+//
+//            }
 //            Session.instance.getUserPhotos(ownerId: userId, accessToken: accessToken)
 //            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
 //            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)

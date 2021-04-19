@@ -30,8 +30,8 @@ class NewsCellTableViewCell: UITableViewCell {
     func configureView(news: News) {
         self.newsAuthor.text = news.newsAuthorFullName
         self.newsDate.text = news.newsDate
-        self.newsAuthorAvatarView.avatarImage = UIImage(named: news.newsAuthorAvatarView) ?? UIImage(named: "emptyProfileImage")
-        newsAuthorAvatarView.configureView(nameOfImage: news.newsAuthorAvatarView)
+        self.newsAuthorAvatarView.avatarImage = news.newsAuthorAvatarView//UIImage(named: news.newsAuthorAvatarView) ?? UIImage(named: "emptyProfileImage")
+        //newsAuthorAvatarView.configureView(nameOfImage: news.newsAuthorAvatarView)
         newsAuthorAvatarView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             newsAuthorAvatarView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),

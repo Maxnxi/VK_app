@@ -13,7 +13,7 @@ class FriendPhotoCollectionVC: UIViewController {
     @IBOutlet weak var friendNameLbl: UILabel!
     @IBOutlet weak var friendAvatarView: AvatarView!
     
-    var friend: Friend?
+    var friend: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,8 @@ class FriendPhotoCollectionVC: UIViewController {
         title = String("Фотографии \(firstName)")
         
         self.friendNameLbl.text = friend?.fullName
-        self.friendAvatarView.avatarImage = UIImage(named: String(friend?.avatarImg ?? "profileDefault"))
+        self.friendAvatarView.avatarImage = friend?.avatarImage
+        //self.friendAvatarView.avatarImage = UIImage(named: String(friend?.avatarImg ?? "profileDefault"))
     }
 }
 
