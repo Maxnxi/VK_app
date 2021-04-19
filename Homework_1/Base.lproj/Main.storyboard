@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WZL-Ie-QxY">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -23,6 +23,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3fW-qa-pUx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1102" y="1312"/>
+        </scene>
+        <!--LoginV KwebVC-->
+        <scene sceneID="tnh-yM-Xdu">
+            <objects>
+                <viewController id="WZL-Ie-QxY" customClass="LoginVKwebVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UBX-eK-SwI">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FmF-AZ-MXm">
+                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5ND-id-Cdc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FmF-AZ-MXm" firstAttribute="leading" secondItem="5ND-id-Cdc" secondAttribute="leading" id="Git-7d-hNF"/>
+                            <constraint firstItem="FmF-AZ-MXm" firstAttribute="trailing" secondItem="5ND-id-Cdc" secondAttribute="trailing" id="ftP-v3-qrH"/>
+                            <constraint firstItem="FmF-AZ-MXm" firstAttribute="bottom" secondItem="5ND-id-Cdc" secondAttribute="bottom" id="qBf-Y3-K54"/>
+                            <constraint firstItem="FmF-AZ-MXm" firstAttribute="top" secondItem="5ND-id-Cdc" secondAttribute="top" id="tpf-lD-JYJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="wkWebView" destination="FmF-AZ-MXm" id="e4T-A8-qQS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sjh-0j-qiu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1014" y="468"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="tne-QT-ifu">
@@ -159,7 +193,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1103" y="469"/>
+            <point key="canvasLocation" x="968" y="-488"/>
         </scene>
         <!--Friend Photo CollectionVC-->
         <scene sceneID="gPJ-Mg-zYE">

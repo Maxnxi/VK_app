@@ -10,7 +10,6 @@ import UIKit
 @IBDesignable
 class LikeControl: UIView {
     
-
     var rectangleToDisplay: CGRect? {
         didSet {
             setupView()
@@ -50,14 +49,11 @@ class LikeControl: UIView {
         setupView()
     }
     
-    
     func configureView(rectangleToDisplay:CGRect, numOflikes: Int) {
         self.rectangleToDisplay = rectangleToDisplay
         self.numOfLikes = numOflikes
         print(#function, numOflikes)
     }
-    
-    
     
     func setupView() {
         self.layer.backgroundColor = UIColor.lightGray.cgColor
@@ -105,7 +101,6 @@ class LikeControl: UIView {
                 self.likedStatus = true
             } else {
                 self.likedStatus = false
-                
             }
         }
     
@@ -116,7 +111,6 @@ class LikeControl: UIView {
         } else {
             numOfLikeLbl.textColor = UIColor.darkGray
             numOfLikes -= 1
-            
         }
     }
     
@@ -127,25 +121,12 @@ class LikeControl: UIView {
         } else {
             heartImg = UIImage(named: "heart1")!
             setNeedsDisplay()
-            
         }
     }
     
-   
     func animateTransitionView(){
-        //идея с переворотом всей ячейки не удалась
-        //UIView.transition(from: numOfLikeLbl, to: numOfLikeLbl, duration: 1, options: .transitionFlipFromTop)
         UIView.transition(with: numOfLikeLbl, duration: 0.5, options: [.transitionFlipFromTop]) {
-            
         } completion: { (Bool) in
-            
         }
-//        UIView.transition(with: imageHeart, duration: 0.5, options: [.transitionFlipFromTop]) {
-//            
-//        } completion: { (Bool) in
-//            
-//        }
-        
-    
     }
 }

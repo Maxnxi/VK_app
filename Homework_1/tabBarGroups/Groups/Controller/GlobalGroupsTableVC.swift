@@ -11,8 +11,6 @@ class GlobalGroupsTableVC: UIViewController {
     
     let globalGroups:[Group] = Group.loadData()
 
-    
-
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -23,12 +21,6 @@ class GlobalGroupsTableVC: UIViewController {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
-    
- // MARK:
-    
-   
-
-
 }
 
 extension GlobalGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
