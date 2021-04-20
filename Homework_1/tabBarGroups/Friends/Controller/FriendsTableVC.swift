@@ -43,6 +43,13 @@ class FriendsTableVC: UIViewController  {
 //        setupDataSource()
 //        tableView.reloadData()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        repeat {
+            sleep(4)
+            configureFriendsTableView()
+        } while (friends .isEmpty)
+    }
     
     func configureFriendsTableView(){
         loadFriends()
@@ -50,25 +57,10 @@ class FriendsTableVC: UIViewController  {
         //lettersView.configureView(letters: sections)
         tableView.reloadData()
     }
-    override func viewWillAppear(_ animated: Bool) {
-//        setupDataSource()
-//        lettersView.configureView(letters: sections)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        repeat {
-            sleep(4)
-            configureFriendsTableView()
-        } while (friends .isEmpty)
-        
-        
-        
-    }
     
     func loadFriends() {
-        friends = allMyFriends
-        print(friends[1].firstName)
+        friends = ALL_MY_FRIENDS
+        //print(friends[1].firstName)
         print("friends pushed to FriendsTableVC", friends.count)
         friends = friends.sorted(by: {
             $0.lastName.lowercased() < $1.lastName.lowercased()

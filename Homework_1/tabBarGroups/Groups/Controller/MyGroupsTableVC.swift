@@ -31,15 +31,15 @@ class MyGroupsTableVC: UIViewController {
         guard let controller = segue.source as? GlobalGroupsTableVC,
               let indexPath = controller.tableView.indexPathForSelectedRow
         else { return }
-        let group = globGroups[indexPath.row]
+        //let group = globGroups[indexPath.row]
         
-        for index in 0..<myGroups.count {
-            if (myGroups[index].name == group.name) {
-                return
-            }
-        }
-        
-        myGroups.append(group)
+//        for index in 0..<myGroups.count {
+//            if (myGroups[index].name == group.name) {
+//                return
+//            }
+//        }
+//        
+//        myGroups.append(group)
         tableView.reloadData()
     }
 }
