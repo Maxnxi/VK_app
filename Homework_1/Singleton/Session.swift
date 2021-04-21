@@ -274,6 +274,10 @@ final class Session {
             }
         }
     }
+    
+    //MARK: -> get photos of Friend
+    
+    
 }
     
 
