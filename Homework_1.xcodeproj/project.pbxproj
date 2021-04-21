@@ -38,7 +38,6 @@
 		0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */; };
 		0597AF6F25E3CB800014BF41 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6E25E3CB800014BF41 /* Friend.swift */; };
 		0597AF7225E3D6890014BF41 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF7125E3D6890014BF41 /* CircleImageView.swift */; };
-		05AF0C1A26244813005EC742 /* DownloadServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AF0C1926244813005EC742 /* DownloadServices.swift */; };
 		05C9D1922624BB66002652BF /* LoginVKwebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D1912624BB66002652BF /* LoginVKwebVC.swift */; };
 		05D774A025E678AF00FA5CA5 /* GroupsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D7749F25E678AF00FA5CA5 /* GroupsCell.swift */; };
 		05D774A325E6798900FA5CA5 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774A225E6798900FA5CA5 /* Group.swift */; };
@@ -83,7 +82,6 @@
 		0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
 		0597AF6E25E3CB800014BF41 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		0597AF7125E3D6890014BF41 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
-		05AF0C1926244813005EC742 /* DownloadServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadServices.swift; sourceTree = "<group>"; };
 		05C9D1912624BB66002652BF /* LoginVKwebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVKwebVC.swift; sourceTree = "<group>"; };
 		05D7749F25E678AF00FA5CA5 /* GroupsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsCell.swift; sourceTree = "<group>"; };
 		05D774A225E6798900FA5CA5 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -137,13 +135,13 @@
 		057D76F525DC363D00A9E18B /* Homework_1 */ = {
 			isa = PBXGroup;
 			children = (
+				0597AF5B25E3B77F0014BF41 /* Login */,
 				05ED4F27261EDC3700FB097A /* Singleton */,
 				05ED4F22261EDAFC00FB097A /* tabBarGroups */,
 				0581820E26149BAB00542167 /* Customization */,
 				0597AF5D25E3B78D0014BF41 /* Utilities */,
 				0597AF5C25E3B7870014BF41 /* Extensions */,
 				0597AF5A25E3B77A0014BF41 /* Model */,
-				0597AF5B25E3B77F0014BF41 /* Login */,
 				057D76F625DC363D00A9E18B /* AppDelegate.swift */,
 				057D76F825DC363D00A9E18B /* SceneDelegate.swift */,
 				057D76FC25DC363D00A9E18B /* Main.storyboard */,
@@ -281,9 +279,7 @@
 		0597AF5B25E3B77F0014BF41 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				0573AE3326065E2B0088F611 /* PreLoginVC.swift */,
-				057D76FA25DC363D00A9E18B /* LoginVC.swift */,
-				054E82502615F475009ABD20 /* LoadingView.swift */,
+				05C9D19526258376002652BF /* oldVC */,
 				05C9D1912624BB66002652BF /* LoginVKwebVC.swift */,
 			);
 			path = Login;
@@ -305,6 +301,16 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		05C9D19526258376002652BF /* oldVC */ = {
+			isa = PBXGroup;
+			children = (
+				0573AE3326065E2B0088F611 /* PreLoginVC.swift */,
+				057D76FA25DC363D00A9E18B /* LoginVC.swift */,
+				054E82502615F475009ABD20 /* LoadingView.swift */,
+			);
+			path = oldVC;
+			sourceTree = "<group>";
+		};
 		05ED4F22261EDAFC00FB097A /* tabBarGroups */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,7 +326,6 @@
 			isa = PBXGroup;
 			children = (
 				05ED4F23261EDB7800FB097A /* Session.swift */,
-				05AF0C1926244813005EC742 /* DownloadServices.swift */,
 			);
 			path = Singleton;
 			sourceTree = "<group>";
@@ -466,7 +471,6 @@
 				0538E78825E8178D00FA631D /* ProfileVC.swift in Sources */,
 				05D774A325E6798900FA5CA5 /* Group.swift in Sources */,
 				057D76FB25DC363D00A9E18B /* LoginVC.swift in Sources */,
-				05AF0C1A26244813005EC742 /* DownloadServices.swift in Sources */,
 				0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */,
 				0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */,
 				05D774A025E678AF00FA5CA5 /* GroupsCell.swift in Sources */,
@@ -638,7 +642,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.maksimPonomarev.Homework-1";
+				PRODUCT_BUNDLE_IDENTIFIER = com.maksimPonomarev.Homework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -658,7 +662,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.maksimPonomarev.Homework-1";
+				PRODUCT_BUNDLE_IDENTIFIER = com.maksimPonomarev.Homework;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
