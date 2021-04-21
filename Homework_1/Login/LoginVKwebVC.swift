@@ -11,6 +11,7 @@ import Foundation
 import WebKit
 
 var ALL_MY_FRIENDS: [User] = []
+var ALL_MY_GROUPS: [Group] = []
 
 class LoginVKwebVC: UIViewController, WKNavigationDelegate {
 
@@ -80,8 +81,8 @@ extension LoginVKwebVC {
         print("\n UserId saved to singleton - done : \(Session.shared.userId) \n")
         //print("\n ", params)
         
-        //loading data
-        loadingVkData()
+        //fetch data
+        fetchDataFromVkServer()
         
         //loading UI
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -96,22 +97,32 @@ extension LoginVKwebVC {
         
     }
     
-    func loadingVkData() {
-        let queueVkData = DispatchQueue(label: "vkQueryQueue")
-        queueVkData.sync {
-        }
+    func fetchDataFromVkServer() {
+        
             sleep(2)
             guard let userId = Session.shared.userId,
                   let accessToken = Session.shared.token else {
                 print("\n Error while getting - user_id and access_token")
                 return
             }
+        
+        let queueVkData = DispatchQueue(label: "vkQueryQueue")
+        queueVkData.sync {
             
             Session.shared.getFriendsArray(userId: userId, accessToken: accessToken) { (friendsArray) in
                 print("Friends info downloaded, count:", friendsArray.count)
                 ALL_MY_FRIENDS = friendsArray
             }
+            
+            Session.shared.getGroupsArray(userId: userId, accessToken: accessToken) { (groupsArray) in
+                print("Groups info of user downloaded, count:", groupsArray.count)
+                ALL_MY_GROUPS = groupsArray
+            }
+            
+        }
+
     }
+}
             
 //            Session.instance.getFriends(userId: userId, accessToken: accessToken) { (friendsArray) in
 //                print("Friends info downloaded, count:", friendsArray.count)
@@ -135,5 +146,3 @@ extension LoginVKwebVC {
 //            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
 //            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)
         
-    
-}

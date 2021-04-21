@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 class MyGroupsTableVC: UIViewController {
 
@@ -15,9 +16,31 @@ class MyGroupsTableVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        repeat {
+            sleep(4)
+            configureGroupsTableView()
+        } while (myGroups.isEmpty)
+    }
+    
+    func configureGroupsTableView() {
+        loadGroups()
+        tableView.reloadData()
+    }
+    
+    func loadGroups() {
+        myGroups = ALL_MY_GROUPS
+        print("groups pushed to GroupsTableVC", myGroups.count)
+        
+        if !myGroups.isEmpty {
+            myGroups = myGroups.sorted(by: {
+                ($0.name?.lowercased())! < ($1.name?.lowercased())!
+            })
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -26,6 +49,7 @@ class MyGroupsTableVC: UIViewController {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
+    
 
     @IBAction func unwindFromGlobGroups(_ segue:UIStoryboardSegue){
         guard let controller = segue.source as? GlobalGroupsTableVC,
@@ -43,6 +67,7 @@ class MyGroupsTableVC: UIViewController {
         tableView.reloadData()
     }
 }
+
 
 extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     

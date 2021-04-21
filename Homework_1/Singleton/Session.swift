@@ -3,7 +3,7 @@
 //  Homework_1
 //
 //  Created by Maksim on 08.04.2021.
-//
+// 3c0e3aa1405b73ff7224aa5c5fa6cfe324f1cb1920f84a80482ee9d876c0bcc52be4977b60f499f475aef
 import UIKit
 import Foundation
 import Alamofire
@@ -20,13 +20,25 @@ let GET_GROUPS_SEARCH = "groups.search"
 final class Session {
     
     static let shared = Session()
-    
-    var dictOfUsersAvatars = Dictionary<String, UIImage>()
+        
     var token: String?
     var userId: String?
+    var dictOfUsersAvatars = Dictionary<String, UIImage>()
     
     private init() {}
     
+    //MARK: -> one func for downloading Image
+    
+    func downloadImageByUrl(urlString: String, completion: @escaping(_ image: UIImage) -> ()) {
+        AF.request(urlString).responseImage { (imageResponse) in
+            guard let image = imageResponse.value else {
+                    print("Error quit #001 - downloadImageByUrl - common func")
+                    return}
+            completion(image)
+            }
+        }
+    
+    //MARK: -> Get Friends Info
     func downloadingInfoAboutFriends(userId: String, accessToken: String, completion: @escaping(_ friendsInfoDictArray: [Dictionary<String, Any>]) -> ()) {
         var friendsInfoDictArray = [Dictionary<String, Any>]()
         
@@ -43,16 +55,23 @@ final class Session {
                 print("Error quit #1")
                 return
             }
-            let data = jsonResponse["response"] as? Dictionary<String, Any>
-            guard let friendsArray = data!["items"] as? [Dictionary<String, Any>] else { print("Error quit #2")
-                return}
+            
+            guard let data = jsonResponse["response"] as? Dictionary<String, Any> else {
+                print("Error quit #1")
+                return
+            }
+            
+            guard let friendsArray = data["items"] as? [Dictionary<String, Any>] else { print("Error quit #2")
+                return
+            }
             
             for friend in friendsArray{
                 guard let id = friend["id"] as? Int,
                 let firstName = friend["first_name"] as? String,
                 let lastName = friend["last_name"] as? String else {
                     print("Error quit #3")
-                    return }
+                    return
+                }
                 
                 let friendDict: Dictionary< String, Any> = [
                     "id" : id,
@@ -66,22 +85,25 @@ final class Session {
     }
     
     func getStringOfIds(array: [Dictionary<String, Any>], completion: @escaping(_ stringOfIds: String) -> ()) {
+        
         var stringArray: [String] = []
-        for i in 0..<array.count {
-            let tmp = array[i]
-            guard let id = tmp["id"] else {
+        for element in array {
+            guard let id = element["id"] else {
                 print("Error quit #4")
-                return}
+                return
+            }
             let stringOfMine = "\(id)"
             stringArray.append(stringOfMine)
         }
+     
         let stringOfIds = stringArray.joined(separator: ",")
         completion(stringOfIds)
     }
     
     func getUrlOfAvatarForIdDictArray(stringOfIds: String, accessToken: String, completion: @escaping(_ friendsAvatarsDictArray: [Dictionary<String, Any>]) ->()) {
+        
         var friendsAvatarsDictArray = [Dictionary<String, Any>]()
-                
+        
         let url = BASE_URL + GET_USER_AVATAR_IMAGE
         let parameters: Parameters = [
             "user_ids" : stringOfIds,
@@ -91,6 +113,8 @@ final class Session {
         ]
         
         AF.request(url, method: .get, parameters: parameters).responseJSON { (response) in
+            print("getUrlOfAvatarForIdDictArray - response valu is - ", response.value)
+            
             guard let json = response.value as? Dictionary<String, Any> else {
                 print("Error quit #5")
                 return
@@ -108,9 +132,10 @@ final class Session {
                       let lastName = friend["last_name"] as? String,
                       let imageUrl = friend["photo_50"] as? String else {
                     print("Error quit #7")
-                    return }
+                    return
+                }
                 
-                let friendDict: Dictionary< String, Any> = [
+                let friendDict: Dictionary<String, Any> = [
                     "id" : identification,
                     "firstName" : firstName,
                     "lastName" : lastName,
@@ -121,30 +146,22 @@ final class Session {
             completion(friendsAvatarsDictArray)
         }
     }
-    
-    func downloadAvatarByUrl(urlString: String, completion: @escaping(_ image: UIImage) -> ()) {
-        AF.request(urlString).responseImage { (imageResponse) in
-            guard let image = imageResponse.value else {
-                    print("Error quit #8")
-                    return}
-            completion(image)
-            }
-        }
-    
-    func getOneUserFromDict(fromDictionary dictionary: Dictionary<String, Any>, completion: @escaping(_ user: User) -> Void) {
+       
+    func getOneUserFromDict(fromDictionary dictionary: Dictionary<String, Any>, completion: @escaping(_ user: User) -> ()/*Void*/) {
         
         let id = dictionary["id"] as! Int
         let firstName = dictionary["firstName"] as! String
         let lastName = dictionary["lastName"] as! String
         let imageUrl = dictionary["imageUrl"] as! String
         
-        downloadAvatarByUrl(urlString: imageUrl) { (imageForAvatar) in
+        downloadImageByUrl(urlString: imageUrl) { (imageForAvatar) in
             let user = User(identification: id, firstName: firstName, lastname: lastName, avatarImage: imageForAvatar)
             completion(user)
         }
     }
 
     func getFriendsArray(userId: String, accessToken: String, completion: @escaping(_ friendsArray:[User]) -> ()) {
+        
         var friendsArray = [User]()
         self.downloadingInfoAboutFriends(userId: userId, accessToken: accessToken) { (arrayOfDictInfoFriends) in
             print("downloadingInfoAboutFriends - success", arrayOfDictInfoFriends.count)
@@ -157,23 +174,105 @@ final class Session {
                     
                     
                     for dict in arrayDictOfFriends {
-                        
-                        
-                            self.getOneUserFromDict(fromDictionary: dict) { (returnedUser) in
+                        self.getOneUserFromDict(fromDictionary: dict) { (returnedUser) in
                                 print("returnedUser - done ", returnedUser.firstName)
                                 friendsArray.append(returnedUser)
+                            
+                            if friendsArray.count == arrayDictOfFriends.count {
+                                print("myFriendsArray is - ", friendsArray.count)
+                                completion(friendsArray)
                             }
-                        
+                        }
                     }
-                    
-                    print("myFriendsArray is - ", friendsArray.count)
-                    completion(friendsArray)
-                    
                 }
-                
             }
         }
+    }
+    
+    
+    //MARK: -> Get Groups of user
+    
+        func getUserGroupsDict(userId: String, accessToken: String, completion: @escaping(_ groupsDictArray: [Dictionary<String, Any>]) -> ()) {
+            
+            var groupsDictArray = [Dictionary<String, Any>]()
+    //        let url = "https://api.vk.com/method/groups.get?user_id=200037963&count=3&extended=1&v=5.130&access_token=90357e2a0dd48463ecc434f006efdff8d19ddcc0acffa3cac615cb50924135f1c36d51cc4c239bc264e9e"
+            let url = BASE_URL + GET_USER_GROUPS
+            let parameters: Parameters = [
+                "user_id" : userId,
+                "extended" : "1",
+                "v" : "5.130",
+                "access_token" : accessToken
+            ]
+    
+            AF.request(url, method: .get, parameters: parameters).responseJSON { (response) in
+                guard let jsonResponse = response.value as? Dictionary<String, Any> else {
+                    print("Error quit #11")
+                    return
+                }
+                
+                guard let data = jsonResponse["response"] as? Dictionary<String, Any> else {
+                    print("Error quit #12")
+                    return
+                }
+                
+                guard let dataGroups = data["items"] as? [Dictionary<String, Any>] else {
+                    print("Error quit #13")
+                    return
+                }
+                
+                for group in dataGroups {
+                    guard let id = group["id"] as? Int,
+                    let name = group["name"] as? String,
+                    let imageUrl = group["photo_50"] as? String else {
+                        print("Error quit #14")
+                        return
+                    }
+                    
+                    let groupDict: Dictionary<String, Any> = [
+                        "id" : id,
+                        "name" : name,
+                        "imageUrl" : imageUrl
+                    ]
+                    groupsDictArray.append(groupDict)
+                }
+                completion (groupsDictArray)
+            }
+        }
+          
+    func getOneGroupFromDict(fromDictionary dictionary: Dictionary<String, Any>, completion: @escaping(_ group: Group) -> ()/*Void*/) {
         
+       guard let id = dictionary["id"] as? Int,
+             let name = dictionary["name"] as? String,
+             let imageUrl = dictionary["imageUrl"] as? String else {
+            print("Error quit #12")
+            return
+       }
+        
+        downloadImageByUrl(urlString: imageUrl) { (image) in
+            let group = Group(id: id, name: name, photo: image)
+            completion(group)
+        }
+    }
+    
+    func getGroupsArray(userId: String, accessToken: String, completion: @escaping(_ groupsArray: [Group]) -> ()) {
+        
+        var groupsArray = [Group]()
+        self.getUserGroupsDict(userId: userId, accessToken: accessToken) { (arrayOfDictGroups) in
+            print("getUserGroupsDict - success, ", arrayOfDictGroups.count)
+            
+            for group in arrayOfDictGroups{
+                
+                self.getOneGroupFromDict(fromDictionary: group) { (returnedGroup) in
+                    print("returnedGroup - done, ", returnedGroup.name)
+                    groupsArray.append(returnedGroup)
+                    
+                    if groupsArray.count == arrayOfDictGroups.count {
+                        print("myGroupsArray is - ", groupsArray.count)
+                        completion(groupsArray)
+                    }
+                }
+            }
+        }
     }
 }
     

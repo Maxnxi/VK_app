@@ -38,20 +38,16 @@ class FriendsTableVC: UIViewController  {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-//        loadFriends()
-//        setupDataSource()
-//        tableView.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         repeat {
             sleep(4)
             configureFriendsTableView()
-        } while (friends .isEmpty)
+        } while (friends.isEmpty) //?
     }
     
-    func configureFriendsTableView(){
+    func configureFriendsTableView() {
         loadFriends()
         setupDataSource()
         //lettersView.configureView(letters: sections)

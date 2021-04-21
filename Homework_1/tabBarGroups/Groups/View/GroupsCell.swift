@@ -25,6 +25,7 @@ class GroupsCell: UITableViewCell {
     
     func configureCell(group: Group){
         self.groupNameLbl.text = group.name
+        self.groupProfileImgView.image = group.photo
     }
 
 }
