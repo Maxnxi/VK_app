@@ -4,14 +4,9 @@
 //
 //  Created by Maksim on 12.04.2021.
 //
-
-
 import UIKit
 import Foundation
 import WebKit
-
-var ALL_MY_FRIENDS: [User] = []
-var ALL_MY_GROUPS: [Group] = []
 
 class LoginVKwebVC: UIViewController, WKNavigationDelegate {
 
@@ -25,7 +20,6 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
-
     }
     
     func configureWebView(){
@@ -45,9 +39,8 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         let request = URLRequest(url: urlToRequest)
         self.wkWebView.load(request)
     }
-
-
 }
+
 
 extension LoginVKwebVC {
     
@@ -74,15 +67,12 @@ extension LoginVKwebVC {
             }
         guard let token = params["access_token"] else { return }
         Session.shared.token = token
-        print("\n Token saved to singleton - done : \(Session.shared.token)")
+        print("\n Token saved to singleton - done : \(String(describing: Session.shared.token))")
         
         guard let userId = params["user_id"] else {return}
         Session.shared.userId = userId
-        print("\n UserId saved to singleton - done : \(Session.shared.userId) \n")
-        //print("\n ", params)
+        print("\n UserId saved to singleton - done : \(String(describing: Session.shared.userId)) \n")
         
-        //fetch data
-        fetchDataFromVkServer()
         
         //loading UI
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -90,59 +80,7 @@ extension LoginVKwebVC {
         view.modalPresentationStyle = .fullScreen
         present(view, animated: true, completion: nil)
         print("You are Logged in.")
-        
-        
-        
         decisionHandler(.cancel)
-        
-    }
-    
-    func fetchDataFromVkServer() {
-        
-            sleep(2)
-            guard let userId = Session.shared.userId,
-                  let accessToken = Session.shared.token else {
-                print("\n Error while getting - user_id and access_token")
-                return
-            }
-        
-        let queueVkData = DispatchQueue(label: "vkQueryQueue")
-        queueVkData.sync {
-            
-            Session.shared.getFriendsArray(userId: userId, accessToken: accessToken) { (friendsArray) in
-                print("Friends info downloaded, count:", friendsArray.count)
-                ALL_MY_FRIENDS = friendsArray
-            }
-            
-            Session.shared.getGroupsArray(userId: userId, accessToken: accessToken) { (groupsArray) in
-                print("Groups info of user downloaded, count:", groupsArray.count)
-                ALL_MY_GROUPS = groupsArray
-            }
-            
-        }
-
     }
 }
-            
-//            Session.instance.getFriends(userId: userId, accessToken: accessToken) { (friendsArray) in
-//                print("Friends info downloaded, count:", friendsArray.count)
-//                allMyFriends = friendsArray
-//            }
-            
-            
-            //sleep(10)
-            
-//            Session.instance.getUserGroups(userId: userId, accessToken: accessToken) {
-//                (userGroups) in
-//                print("smth done")
-//            }
-            
-//            Session.instance.getFriends(userId: userId, accessToken: accessToken) { (friendsArray) in
-//                print("Friends info downloaded, count:", friendsArray.count)
-                
-//
-//            }
-//            Session.instance.getUserPhotos(ownerId: userId, accessToken: accessToken)
-//            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
-//            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)
-        
+    

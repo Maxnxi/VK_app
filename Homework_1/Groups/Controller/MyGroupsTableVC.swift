@@ -11,6 +11,7 @@ import Foundation
 class MyGroupsTableVC: UIViewController {
 
     var myGroups:[Group] = []
+    let apiVkService = ApiVkServices()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -18,29 +19,42 @@ class MyGroupsTableVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        //configureGroupsTableView()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureGroupsTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        repeat {
-            sleep(4)
-            configureGroupsTableView()
-        } while (myGroups.isEmpty)
-    }
     
     func configureGroupsTableView() {
         loadGroups()
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     func loadGroups() {
-        myGroups = ALL_MY_GROUPS
-        print("groups pushed to GroupsTableVC", myGroups.count)
         
-        if !myGroups.isEmpty {
-            myGroups = myGroups.sorted(by: {
-                ($0.name?.lowercased())! < ($1.name?.lowercased())!
-            })
+        guard let userId = Session.shared.userId,
+              let accessToken = Session.shared.token else {
+            print("error getting userId")
+            return
+            
         }
+        apiVkService.getUserGroups(userId: userId, accessToken: accessToken) { (loadedGroups) in
+            self.myGroups = loadedGroups
+            print("groups pushed to GroupsTableVC", self.myGroups.count)
+            if !self.myGroups.isEmpty {
+                self.myGroups = self.myGroups.sorted(by: {
+                    ($0.name.lowercased()) < ($1.name.lowercased())
+                })
+            }
+            self.tableView.reloadData()
+            
+        }
+              
+        
+        
+       
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -76,7 +90,7 @@ extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupsCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? MyGroupsCell {
             cell.configureCell(group: myGroups[indexPath.row])
             return cell
         } else {

@@ -18,7 +18,7 @@ class NewsCellTableViewCell: UITableViewCell {
     @IBOutlet weak var counterOfSeenLbl: UILabel!
     @IBOutlet weak var counterOfLikeLbl: UILabel!
     @IBOutlet weak var counterOfComments: UILabel!
-    @IBOutlet weak var likeControlView: LikeControl!
+    @IBOutlet weak var likeControlView: LikeControlView!
     
     static var nibName: String = "NewsCellTableViewCell"
     static var reuseIdentifierOfCellNews: String = "NewsCell"

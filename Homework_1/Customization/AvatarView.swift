@@ -125,7 +125,8 @@ class AvatarView: UIView {
     }
     
     func setupView(){
-        self.layer.cornerRadius = self.frame.width/2
+        self.layer.cornerRadius = self.bounds.width/2
+        self.imageView.layer.cornerRadius = self.bounds.width/2
         self.layer.shadowOffset = CGSize(width: 3, height: 3)
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false

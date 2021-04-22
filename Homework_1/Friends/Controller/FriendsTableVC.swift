@@ -10,72 +10,76 @@ import Foundation
 class FriendsTableVC: UIViewController  {
    
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var lettersView: ListOfLettersOnFriends!
     @IBOutlet weak var tableView: UITableView!
 
-    static let instance = FriendsTableVC()
+    var apiVkServices = ApiVkServices()
     
-    var selectedLetterToScroll: String = "" {
+    var myFriends:[User] = [] {
         didSet{
-            print(selectedLetterToScroll)
-            //self.scroolTableToLetter(letter: selectedLetterToScroll)
+            tableView.reloadData()
         }
     }
-    
-    public func setSelectedLetter(letter: String) {
-        self.selectedLetterToScroll = letter
-    }
-    
-    
-    
-    var friends:[User] = []
     
     var filterListOfFriends: [User] = []
     var sections: [String] = []
     var cachedSectionsItems: [String:[User]] = [:]
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+
+        repeat {
+            configureFriendsTableView()
+        } while (!myFriends.isEmpty)
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        repeat {
-            sleep(4)
-            configureFriendsTableView()
-        } while (friends.isEmpty) //?
+        super.viewDidAppear(animated)
+        configureFriendsTableView()
     }
+    
     
     func configureFriendsTableView() {
         loadFriends()
         setupDataSource()
-        //lettersView.configureView(letters: sections)
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
+    // Загрузка данных с сервера
     func loadFriends() {
-        friends = ALL_MY_FRIENDS
-        //print(friends[1].firstName)
-        print("friends pushed to FriendsTableVC", friends.count)
-        friends = friends.sorted(by: {
-            $0.lastName.lowercased() < $1.lastName.lowercased()
-        })
-    }
-
-    //MARK: -> Data
-    
-    private func filterFriends(text: String?) {
-        guard let text = text, !text.isEmpty else {
-            filterListOfFriends = friends
+        guard let userId = Session.shared.userId,
+              let accessToken = Session.shared.token else {
+            print("error getting userId")
             return
         }
-        filterListOfFriends = friends.filter {
+        
+        apiVkServices.getFriends(userId: userId, accessToken: accessToken) { (loadedFriends) in
+            self.myFriends = loadedFriends
+            print("friends pushed to FriendsTableVC", self.myFriends.count)
+            if !self.myFriends.isEmpty {
+                self.myFriends = self.myFriends.sorted(by: {
+                    $0.lastName.lowercased() < $1.lastName.lowercased()
+                })
+            }
+            self.tableView.reloadData()
+        }
+    }
+
+    // фильтрация списка Друзей
+    private func filterFriends(text: String?) {
+        guard let text = text, !text.isEmpty else {
+            filterListOfFriends = myFriends
+            return
+        }
+        filterListOfFriends = myFriends.filter {
             $0.lastName.lowercased().contains(text.lowercased())
         }
         print("\n Фильтрация выполнена!")
     }
     
+    //сортировка списка Друзей
     func setupDataSource() {
         //1 filter friends
         filterFriends(text: searchBar?.text)
@@ -97,16 +101,10 @@ class FriendsTableVC: UIViewController  {
         let sectionLetter = sections[indexPath.section]
         return cachedSectionsItems[sectionLetter]![indexPath.row]
     }
-    
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let controller = segue.destination as? FriendPhotoCollectionVC, let indexPath = tableView.indexPathForSelectedRow {
-//            controller.friend = friends[indexPath.row]
-//        }
-//    }
 }
 
-//MARK: -> TableView
+
+//MARK: -> TableView Delegate and DataSource
 
 extension FriendsTableVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -155,40 +153,16 @@ extension FriendsTableVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let view = storyboard.instantiateViewController(withIdentifier: "friendPhotoCollectionVC") as? FriendPhotoCollectionVC else {return}
+        guard let view = storyboard.instantiateViewController(withIdentifier: "friendPhotoCollectionVC") as? FriendPhotoCollectionViewController else {return}
         
         view.friend = getFriend(for: indexPath)
         print(view.friend?.firstName)
         view.modalPresentationStyle = .fullScreen
         
         self.navigationController?.pushViewController(view, animated: true)
-        
-        //present(view, animated: true, completion: nil)
     }
-    
-    
-    // НЕ работает
-//    func scroolTableToLetter(letter: String) {
-//        var sectionIndex: Int?
-//        print(letter)
-//
-//        print(sections)
-//        for i in sections {
-//            if !i.contains(letter) {
-//
-//                print(i.lowercased())
-//            } else {
-//                sectionIndex = sections.firstIndex(of: i)
-//                print(i.lowercased())
-//            }
-//        }
-//        print(sectionIndex)
-////        var indxs = IndexPath()
-////        indxs.section = sectionIndex ?? 0
-////        self.tableView.scrollToRow(at: indxs, at: .top, animated: true)
-//    }
-    
 }
+
 
 //MARK: -> UISearchBar
 
@@ -202,7 +176,6 @@ extension FriendsTableVC: UISearchBarDelegate {
         setupDataSource()
         tableView.reloadData()
     }
-    
 }
 
 

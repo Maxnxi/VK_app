@@ -11,14 +11,14 @@ class FriendsTableCell: UITableViewCell {
     
     @IBOutlet weak var firstAndLastName: UILabel!
     @IBOutlet weak var avatarImgView: AvatarView!
-        
+            
     func configureCell(friend: User) {
         firstAndLastName.text = friend.fullName
         
-        avatarImgView.avatarImage = friend.avatarImage
+        guard let urlString = friend.photo as? String else { return }
+        let data = try? Data(contentsOf: URL(string: urlString)!)
+        guard let image = data else { return }
         
-        //avatarImgView.avatarImage = UIImage(named: friend.avatarImg )
-        //avatarImgView.configureView(nameOfImage: friend.avatarImg)
+        avatarImgView.avatarImage = UIImage(data: image)
     }
-
 }

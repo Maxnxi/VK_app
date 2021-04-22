@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 @IBDesignable
-class LikeControl: UIView {
+class LikeControlView: UIView {
     
     var rectangleToDisplay: CGRect? {
         didSet {

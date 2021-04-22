@@ -21,7 +21,7 @@ class News {
 
     init(author: User, date: String, news: String, image: String, counterOfSeen: Int, counterOfLike: Int, counterOfComments: Int) {
         self.newsAuthorFullName = author.fullName
-        self.newsAuthorAvatarView = author.avatarImage
+        self.newsAuthorAvatarView = UIImage(named: "profileDefault") ?? UIImage(named: "profileDefault")!//author.avatarImage
         self.newsDate = date
         self.newsLabel = news
         self.newImage = image
