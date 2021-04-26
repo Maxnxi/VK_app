@@ -20,7 +20,7 @@ class FriendPhotoCollectionViewController: UIViewController {
         }
     } // в модели  ResponseUserPhotos
     
-    var friend: User?
+    var friend: UserRealMObject?
     let apiVkService = ApiVkServices()
     
     override func viewDidLoad() {

@@ -12,7 +12,7 @@ class FriendsTableCell: UITableViewCell {
     @IBOutlet weak var firstAndLastName: UILabel!
     @IBOutlet weak var avatarImgView: AvatarView!
             
-    func configureCell(friend: User) {
+    func configureCell(friend: UserRealMObject) {
         firstAndLastName.text = friend.fullName
         
         guard let urlString = friend.photo as? String else { return }
