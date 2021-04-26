@@ -8,6 +8,7 @@ target 'Homework_1' do
   # Pods for Homework_1
   pod "Alamofire"
   pod "AlamofireImage"
+pod "RealmSwift"
 
 
 end
