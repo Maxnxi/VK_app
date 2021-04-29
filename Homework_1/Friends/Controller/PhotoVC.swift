@@ -13,7 +13,6 @@ class PhotoVC: UIViewController {
     @IBOutlet weak var imagePresView: UIImageView!
         
     var userPhotos : [UserPhoto] = []
-    
     var imageIndex: Int = 0 {
         didSet{
             if userPhotos.count != 0 {

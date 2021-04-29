@@ -41,6 +41,7 @@ class ApiVkServices {
                     freindsForRealm.append(friend)
                     
                     if friendsResponse.count == freindsForRealm.count {
+                        
                         //записываем данные в RealM
                         self.realMServices.saveFriendsData(freindsForRealm)
                         completion()
@@ -53,7 +54,7 @@ class ApiVkServices {
     }
     
     //MARK: -> Запрос к VK серверу "groups.get"
-    func getUserGroups(userId: String, accessToken: String, completion: @escaping(_ groups:[Group]) -> ()) {
+    func getUserGroups(userId: String, accessToken: String, completion: @escaping() -> ()) {
         let path = "groups.get"
         let parameters: Parameters = [
             "user_id": userId,
@@ -67,14 +68,21 @@ class ApiVkServices {
             guard let data = response.value else {return}
             do {
                 let groups = try JSONDecoder().decode( ResponseGroups.self, from: data).response.items
-                
-                //print("Succes - ", friends.first ?? 0)
-                completion(groups)
+                var groupsForRealm: [GroupsRealMObject] = []
+                for element in groups {
+                    let group = GroupsRealMObject(group: element)
+                    groupsForRealm.append(group)
+                    if groupsForRealm.count == groups.count {
+                        
+                        //записываем данные в RealM
+                        self.realMServices.saveGroupsData(groupsForRealm)
+                        completion()
+                    }
+                }
             } catch {
                 debugPrint("error #2", error)
             }
         }
-        
     }
     
     //MARK: -> Запрос к VK серверу "photos.getAll"

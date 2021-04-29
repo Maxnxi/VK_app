@@ -17,19 +17,17 @@ struct ResponsePhotosInfo: Codable {
 
 struct UserPhoto: Codable {
     let albumID, date, id, ownerID: Int
-        let hasTags: Bool
-        //let postID: Int?
-        let sizes: [Size]
-        let text: String
-        let likes: Likes
-        let reposts: Reposts
+    let hasTags: Bool
+    let sizes: [Size]
+    let text: String
+    let likes: Likes
+    let reposts: Reposts
 
         enum CodingKeys: String, CodingKey {
             case albumID = "album_id"
             case date, id
             case ownerID = "owner_id"
             case hasTags = "has_tags"
-            //case postID = "post_id"
             case sizes, text, likes, reposts
         }
 }

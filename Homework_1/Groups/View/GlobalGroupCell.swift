@@ -21,7 +21,7 @@ class GlobalGroupCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configureCell(group: Group){
+    func configureCell(group: GroupsRealMObject){
         self.groupNameLbl.text = group.name
     }
     

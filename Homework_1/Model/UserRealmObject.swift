@@ -14,27 +14,17 @@ class UserRealMObject: Object, Codable {
     @objc dynamic var id: Int = 0
     @objc dynamic var lastName: String = ""
     @objc dynamic var photo: String = ""
-    
           
     var fullName: String {
         return "\(firstName) \(lastName)"
     }
-    
-//    init(user: User) {
-//        self.firstName = user.firstName
-//        self.id = user.id
-//        self.lastName = user.lastName
-//        self.photo = user.photo
-//    }
         
     convenience init(user: User) {
         self.init()
-        
         self.firstName = user.firstName
         self.id = user.id
         self.lastName = user.lastName
         self.photo = user.photo
     }
-
 }
 

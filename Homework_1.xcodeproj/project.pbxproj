@@ -34,6 +34,7 @@
 		0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */; };
 		059F65332636E2320062CC36 /* RealMServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65322636E2320062CC36 /* RealMServices.swift */; };
 		059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65352636E2720062CC36 /* UserRealmObject.swift */; };
+		059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65392636E8E80062CC36 /* GroupsRealMObject.swift */; };
 		05C9D1922624BB66002652BF /* LoginVKwebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D1912624BB66002652BF /* LoginVKwebVC.swift */; };
 		05D774A025E678AF00FA5CA5 /* MyGroupsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D7749F25E678AF00FA5CA5 /* MyGroupsCell.swift */; };
 		05D774A325E6798900FA5CA5 /* ResponseGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774A225E6798900FA5CA5 /* ResponseGroups.swift */; };
@@ -74,6 +75,7 @@
 		0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
 		059F65322636E2320062CC36 /* RealMServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMServices.swift; sourceTree = "<group>"; };
 		059F65352636E2720062CC36 /* UserRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRealmObject.swift; sourceTree = "<group>"; };
+		059F65392636E8E80062CC36 /* GroupsRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealMObject.swift; sourceTree = "<group>"; };
 		05C9D1912624BB66002652BF /* LoginVKwebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVKwebVC.swift; sourceTree = "<group>"; };
 		05D7749F25E678AF00FA5CA5 /* MyGroupsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupsCell.swift; sourceTree = "<group>"; };
 		05D774A225E6798900FA5CA5 /* ResponseGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseGroups.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				057E1492263012BB00569460 /* ResponseUserPhotos.swift */,
 				056A99612604EF2A0069E1C5 /* News.swift */,
 				059F65352636E2720062CC36 /* UserRealmObject.swift */,
+				059F65392636E8E80062CC36 /* GroupsRealMObject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				0546BA1626037D7000CC57DF /* NewsVC.swift in Sources */,
 				059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */,
 				056A99622604EF2A0069E1C5 /* News.swift in Sources */,
+				059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */,
 				059F65332636E2320062CC36 /* RealMServices.swift in Sources */,
 				05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */,
 				05D774A625E67D1900FA5CA5 /* MyGroupsTableVC.swift in Sources */,

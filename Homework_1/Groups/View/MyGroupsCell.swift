@@ -14,25 +14,18 @@ class MyGroupsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        
     }
     
-    func configureCell(group: Group){
+    func configureCell(group: GroupsRealMObject){
         self.groupNameLbl.text = group.name
-        //self.groupProfileImgView.image = group.photo
-        
-        //let urlString = group.photo50
-        
-        guard let urlString = group.photo50 as? String else { return }
+                
+        guard let urlString = group.photo as? String else { return }
         let data = try? Data(contentsOf: URL(string: urlString)!)
         
-        //let data = try? Data(contentsOf: url)
         guard let image = data else { return }
         groupProfileImgView.image = UIImage(data: image)
     }

@@ -12,19 +12,13 @@ class FriendsTableViewController: UIViewController  {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    var apiVkServices = ApiVkServices()
-    var realMServices = RealMServices()
-    
-    var myFriends:[UserRealMObject] = [] {
-        didSet{
-            tableView.reloadData()
-        }
-    }
-    
+    let apiVkServices = ApiVkServices()
+    let realMServices = RealMServices()
+   
+    var myFriends:[UserRealMObject] = []
     var filterListOfFriends: [UserRealMObject] = []
     var sections: [String] = []
     var cachedSectionsItems: [String:[UserRealMObject]] = [:]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +27,7 @@ class FriendsTableViewController: UIViewController  {
 
         repeat {
             configureFriendsTableView()
+            tableView.reloadData()
         } while (!myFriends.isEmpty)
     }
 
@@ -45,7 +40,6 @@ class FriendsTableViewController: UIViewController  {
     func configureFriendsTableView() {
         loadFriends()
         setupDataSource()
-        self.tableView.reloadData()
     }
     
     // Загрузка данных с сервера
