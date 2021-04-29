@@ -6,6 +6,7 @@
 //
 import UIKit
 import Foundation
+import RealmSwift
 
 class FriendsTableViewController: UIViewController  {
    
@@ -14,7 +15,11 @@ class FriendsTableViewController: UIViewController  {
 
     let apiVkServices = ApiVkServices()
     let realMServices = RealMServices()
-   
+
+    // TO do RealM Notifications
+    var token: NotificationToken?
+    //---
+    
     var myFriends:[UserRealMObject] = []
     var filterListOfFriends: [UserRealMObject] = []
     var sections: [String] = []
