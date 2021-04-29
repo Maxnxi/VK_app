@@ -4,8 +4,6 @@
 //
 //  Created by Maksim on 12.04.2021.
 //
-
-
 import UIKit
 import Foundation
 import WebKit
@@ -18,12 +16,10 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureWebView()
-        
-        
-        
     }
     
     func configureWebView(){
@@ -43,9 +39,8 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         let request = URLRequest(url: urlToRequest)
         self.wkWebView.load(request)
     }
-
-
 }
+
 
 extension LoginVKwebVC {
     
@@ -71,34 +66,21 @@ extension LoginVKwebVC {
                     return dict
             }
         guard let token = params["access_token"] else { return }
-        Session.instance.token = token
-        print("\n Token saved to singleton - done : \(Session.instance.token)")
+        Session.shared.token = token
+        print("\n Token saved to singleton - done : \(String(describing: Session.shared.token))")
         
         guard let userId = params["user_id"] else {return}
-        Session.instance.userId = userId
-        print("\n UserId saved to singleton - done : \(Session.instance.userId) \n")
-        //print("\n ", params)
-        loadingVkData()
+        Session.shared.userId = userId
+        print("\n UserId saved to singleton - done : \(String(describing: Session.shared.userId)) \n")
         
+        
+        //loading UI
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let view = storyboard.instantiateViewController(withIdentifier: "afterLoginTabBarVC")
+        view.modalPresentationStyle = .fullScreen
+        present(view, animated: true, completion: nil)
+        print("You are Logged in.")
         decisionHandler(.cancel)
-        
     }
-    
-    func loadingVkData() {
-        let queueVkData = DispatchQueue(label: "vkQueryQueue")
-        queueVkData.async {
-            sleep(2)
-            guard let userId = Session.instance.userId,
-                  let accessToken = Session.instance.token else {
-                print("\n Error while getting - user_id and access_token")
-                return
-            }
-            
-            Session.instance.getFriends(userId: userId, accessToken: accessToken)
-            Session.instance.getUserPhotos(ownerId: userId, accessToken: accessToken)
-            Session.instance.getUserGroups(userId: userId, accessToken: accessToken)
-            Session.instance.getGroupsSearch(query: "Music", accessToken: accessToken)
-        }
-    }
-    
 }
+    
