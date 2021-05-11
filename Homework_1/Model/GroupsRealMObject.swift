@@ -20,4 +20,8 @@ class GroupsRealMObject: Object, Codable {
         self.name = group.name
         self.photo = group.photo50
     }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
 }

@@ -12,7 +12,7 @@ class PhotoVC: UIViewController {
 
     @IBOutlet weak var imagePresView: UIImageView!
         
-    var userPhotos : [UserPhoto] = []
+    var userPhotos : [PhotoRealMObject] = []
     var imageIndex: Int = 0 {
         didSet{
             if userPhotos.count != 0 {
@@ -50,7 +50,7 @@ class PhotoVC: UIViewController {
         
     }
     
-    func configureView(userPhotos: [UserPhoto], photoAtIndexPath: Int){
+    func configureView(userPhotos: [PhotoRealMObject], photoAtIndexPath: Int){
         self.imageIndex = photoAtIndexPath
         self.userPhotos = userPhotos
     }
@@ -91,22 +91,34 @@ class PhotoVC: UIViewController {
     
     // функция вытаскивает url из UserPhoto формата тип "х"
     func getUrlAndShowImage(indexOfPhoto: Int) -> UIImage? {
-        var image: UIImage?
-        let photoSizes = userPhotos[indexOfPhoto].sizes
-        for element in photoSizes{
-            if element.type == "x" {
-                let urlString = element.url
-                
-                print("urlString is - ",urlString)
-                let data = try? Data(contentsOf: URL(string: urlString)!)
-                
-                guard let imageData = data else {
-                    print("Error quit #39")
-                    break }
-                
-               image = UIImage(data: imageData)
-            }
-        }
+        
+        guard let stringUrl = userPhotos[indexOfPhoto].url as? String else { return UIImage() }
+        
+        let data = try? Data(contentsOf: URL(string: stringUrl)!)
+        
+        guard let imageData = data else {
+            print("Error quit #39")
+            return UIImage() }
+        
+        let image = UIImage(data: imageData)
+        
+//        var image: UIImage?
+//        let photoSizes = userPhotos[indexOfPhoto].sizes
+//        for element in photoSizes{
+//            if element.type == "x" {
+//                let urlString = element.url
+//
+//                print("urlString is - ",urlString)
+//                let data = try? Data(contentsOf: URL(string: urlString)!)
+//
+//                guard let imageData = data else {
+//                    print("Error quit #39")
+//                    break }
+//
+//               image = UIImage(data: imageData)
+//            }
+//        }
+//        return image
         return image
     }
 

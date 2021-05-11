@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WZL-Ie-QxY">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,11 +14,11 @@
             <objects>
                 <viewController id="WZL-Ie-QxY" customClass="LoginVKwebVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UBX-eK-SwI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FmF-AZ-MXm">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -47,11 +48,11 @@
             <objects>
                 <viewController storyboardIdentifier="friendPhotoCollectionVC" id="kay-E2-ISS" customClass="FriendPhotoCollectionViewController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cc6-EY-RCI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d4V-dG-6Y4">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8G-Ru-LAA" customClass="AvatarView" customModule="Homework_1" customModuleProvider="target">
                                         <rect key="frame" x="10" y="5" width="40" height="40"/>
@@ -64,7 +65,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$FriendName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A20-o2-2Xn">
                                         <rect key="frame" x="58" y="5" width="200" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="PA8-U3-KHc"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="PA8-U3-KHc"/>
                                             <constraint firstAttribute="height" constant="20" id="xYq-xD-OTW"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="15"/>
@@ -78,11 +79,12 @@
                                     <constraint firstItem="A20-o2-2Xn" firstAttribute="leading" secondItem="d8G-Ru-LAA" secondAttribute="trailing" constant="8" symbolic="YES" id="I99-DJ-w2h"/>
                                     <constraint firstAttribute="height" constant="50" id="LRc-Ek-fyL"/>
                                     <constraint firstItem="A20-o2-2Xn" firstAttribute="top" secondItem="d8G-Ru-LAA" secondAttribute="top" id="Npv-v1-ptw"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="A20-o2-2Xn" secondAttribute="trailing" symbolic="YES" id="gmj-0o-lEE"/>
                                     <constraint firstItem="d8G-Ru-LAA" firstAttribute="leading" secondItem="d4V-dG-6Y4" secondAttribute="leading" constant="10" id="xdM-nv-paC"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-Ne-920">
-                                <rect key="frame" x="0.0" y="50" width="600" height="550"/>
+                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="backgroundColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="S77-VW-flT">
                                     <size key="itemSize" width="100" height="100"/>
@@ -91,14 +93,13 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" reuseIdentifier="friendPhotoColCell" translatesAutoresizingMaskIntoConstraints="NO" id="HFO-eo-IMJ" customClass="PhotosCell" customModule="Homework_1" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="friendPhotoColCell" translatesAutoresizingMaskIntoConstraints="NO" id="HFO-eo-IMJ" customClass="PhotosCell" customModule="Homework_1" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTa-BY-0Sl">
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTa-BY-0Sl">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YWn-DT-Smn">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YWn-DT-Smn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="5rY-wK-cnT"/>
                                                         <constraint firstAttribute="height" constant="140" id="DH7-qf-euu"/>
@@ -114,6 +115,10 @@
                                                 <constraint firstAttribute="width" constant="140" id="sg5-RF-CMZ"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="vTa-BY-0Sl" firstAttribute="leading" secondItem="HFO-eo-IMJ" secondAttribute="leadingMargin" constant="5" id="AOC-iC-gJ4"/>
+                                            <constraint firstItem="vTa-BY-0Sl" firstAttribute="top" secondItem="HFO-eo-IMJ" secondAttribute="topMargin" constant="5" id="MYC-Xo-bDC"/>
+                                        </constraints>
                                         <size key="customSize" width="100" height="100"/>
                                         <connections>
                                             <outlet property="cellImgView" destination="YWn-DT-Smn" id="Bc8-2r-Uen"/>
@@ -152,12 +157,12 @@
             <objects>
                 <viewController storyboardIdentifier="photoVC" id="b0B-1m-n8C" customClass="PhotoVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fNf-62-964">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZjZ-xC-TYa">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.90746048710000005" green="1" blue="0.75043203830000005" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Y6p-Yl-Iru"/>
@@ -183,49 +188,46 @@
             <objects>
                 <viewController id="B60-66-b3R" customClass="MyGroupsTableVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cE3-nf-fof">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sNb-KF-KOX">
-                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
-                                <color key="backgroundColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" estimatedRowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9ln-hu-V1J">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupCell" rowHeight="80" id="BtR-ci-55h" customClass="MyGroupsCell" customModule="Homework_1" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="myGroupsCell" rowHeight="76" id="moh-i6-ktW" customClass="MyGroupsCell" customModule="Homework_1" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BtR-ci-55h" id="KFi-RH-J5O">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="moh-i6-ktW" id="uxr-93-57H">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7H7-I2-mvm" customClass="RoundedImgView" customModule="Homework_1" customModuleProvider="target">
-                                                    <rect key="frame" x="10" y="5" width="60" height="70"/>
-                                                    <color key="backgroundColor" red="0.58754431760000003" green="1" blue="0.64053959130000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KVc-MD-CzP" customClass="RoundedImgView" customModule="Homework_1" customModuleProvider="target">
+                                                    <rect key="frame" x="10" y="8" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.61307384119999997" green="0.68665683389999999" blue="0.2916570121" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="4l6-96-eOy"/>
-                                                        <constraint firstAttribute="height" constant="60" id="Zdc-54-pv5"/>
+                                                        <constraint firstAttribute="height" constant="60" id="BTj-gJ-6jg"/>
+                                                        <constraint firstAttribute="width" constant="60" id="FHa-1B-TqW"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group Name" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2qx-GP-Pve">
-                                                    <rect key="frame" x="95" y="12" width="464" height="26"/>
-                                                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="19"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$Group Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJ1-Oh-Whc">
+                                                    <rect key="frame" x="80" y="26.5" width="324" height="23.5"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="7H7-I2-mvm" secondAttribute="bottom" constant="5" id="Dl6-GD-FKI"/>
-                                                <constraint firstItem="7H7-I2-mvm" firstAttribute="top" secondItem="KFi-RH-J5O" secondAttribute="top" constant="5" id="H4E-ba-Fu5"/>
-                                                <constraint firstItem="7H7-I2-mvm" firstAttribute="leading" secondItem="KFi-RH-J5O" secondAttribute="leading" constant="10" id="kZ0-ur-hDg"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="2qx-GP-Pve" secondAttribute="trailing" constant="25" id="nDt-b5-ix4"/>
-                                                <constraint firstItem="2qx-GP-Pve" firstAttribute="leading" secondItem="7H7-I2-mvm" secondAttribute="trailing" constant="25" id="sDc-t1-Qb4"/>
-                                                <constraint firstItem="2qx-GP-Pve" firstAttribute="centerY" secondItem="KFi-RH-J5O" secondAttribute="centerY" constant="-15" id="yjt-bf-pQ4"/>
+                                                <constraint firstItem="KVc-MD-CzP" firstAttribute="centerY" secondItem="uxr-93-57H" secondAttribute="centerY" id="0Yf-lh-cTQ"/>
+                                                <constraint firstItem="eJ1-Oh-Whc" firstAttribute="trailing" secondItem="uxr-93-57H" secondAttribute="trailingMargin" constant="10" id="A48-Ob-urs"/>
+                                                <constraint firstItem="eJ1-Oh-Whc" firstAttribute="centerY" secondItem="uxr-93-57H" secondAttribute="centerY" id="TJz-5I-UbG"/>
+                                                <constraint firstItem="KVc-MD-CzP" firstAttribute="leading" secondItem="uxr-93-57H" secondAttribute="leading" constant="10" id="ifl-ip-Y32"/>
+                                                <constraint firstItem="eJ1-Oh-Whc" firstAttribute="leading" secondItem="KVc-MD-CzP" secondAttribute="trailing" constant="10" id="pX5-WA-Bre"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <outlet property="groupNameLbl" destination="2qx-GP-Pve" id="j1Q-IV-NCe"/>
-                                            <outlet property="groupProfileImgView" destination="7H7-I2-mvm" id="mZJ-h0-xD2"/>
+                                            <outlet property="groupNameLbl" destination="eJ1-Oh-Whc" id="H98-Fu-AO1"/>
+                                            <outlet property="groupProfileImgView" destination="KVc-MD-CzP" id="T2f-xo-kTQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -234,10 +236,10 @@
                         <viewLayoutGuide key="safeArea" id="e6Z-rX-Bbr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="sNb-KF-KOX" firstAttribute="top" secondItem="e6Z-rX-Bbr" secondAttribute="top" id="Agt-up-suM"/>
-                            <constraint firstItem="sNb-KF-KOX" firstAttribute="leading" secondItem="e6Z-rX-Bbr" secondAttribute="leading" id="C2j-vf-WqL"/>
-                            <constraint firstItem="e6Z-rX-Bbr" firstAttribute="trailing" secondItem="sNb-KF-KOX" secondAttribute="trailing" id="Iou-dW-2Ko"/>
-                            <constraint firstItem="e6Z-rX-Bbr" firstAttribute="bottom" secondItem="sNb-KF-KOX" secondAttribute="bottom" id="wfT-a1-3gt"/>
+                            <constraint firstItem="9ln-hu-V1J" firstAttribute="top" secondItem="e6Z-rX-Bbr" secondAttribute="top" id="5Gh-Zd-hok"/>
+                            <constraint firstItem="9ln-hu-V1J" firstAttribute="bottom" secondItem="e6Z-rX-Bbr" secondAttribute="bottom" id="5hY-90-Dqz"/>
+                            <constraint firstItem="9ln-hu-V1J" firstAttribute="trailing" secondItem="e6Z-rX-Bbr" secondAttribute="trailing" id="BDo-qK-esv"/>
+                            <constraint firstItem="9ln-hu-V1J" firstAttribute="leading" secondItem="e6Z-rX-Bbr" secondAttribute="leading" id="BMd-5K-bM6"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Groups" id="eaI-eJ-JI9">
@@ -248,32 +250,32 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="sNb-KF-KOX" id="Wbx-eZ-LNU"/>
+                        <outlet property="tableView" destination="9ln-hu-V1J" id="KYU-sB-jU5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q9k-jI-G25" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3992.8000000000002" y="823.53823088455783"/>
+            <point key="canvasLocation" x="3992.753623188406" y="822.99107142857144"/>
         </scene>
         <!--Global Search-->
         <scene sceneID="srn-gq-FfE">
             <objects>
                 <viewController id="LiT-8u-aRV" customClass="GlobalGroupsTableVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="N6o-LO-fD2">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpj-st-rX7">
-                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" red="0.32549019610000002" green="0.32549019610000002" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="fM8-Gm-Ux1">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="mRG-8p-Roa">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </searchBar>
                                     </subviews>
@@ -287,10 +289,10 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalGroupCell" rowHeight="80" id="tjd-Nv-XDG" customClass="GlobalGroupCell" customModule="Homework_1" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="600" height="80"/>
+                                        <rect key="frame" x="0.0" y="72" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="tjd-Nv-XDG" id="xst-6o-Zvi" customClass="GlobalGroupCell" customModule="Homework_1" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" id="mQy-69-rLK" customClass="RoundedImgView" customModule="Homework_1" customModuleProvider="target">
@@ -344,17 +346,17 @@
             <objects>
                 <viewController id="36G-Pd-Eth" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z07-yu-MQD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Profile Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mG-bz-gjk">
-                                <rect key="frame" x="213" y="60" width="174" height="20"/>
+                                <rect key="frame" x="120" y="104" width="174" height="20"/>
                                 <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3X-hu-Lp1">
-                                <rect key="frame" x="531" y="21" width="62" height="32"/>
+                                <rect key="frame" x="345" y="65" width="62" height="32"/>
                                 <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
                                 <state key="normal" title="Logout">
                                     <color key="titleColor" red="0.01856384426" green="0.59219354390000001" blue="0.68226462600000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -387,18 +389,18 @@
             <objects>
                 <viewController id="pTw-Vz-JFN" customClass="FriendsTableViewController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dUz-UA-E61">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="5" sectionFooterHeight="28" estimatedSectionFooterHeight="5" translatesAutoresizingMaskIntoConstraints="NO" id="wg7-xY-PHt">
-                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="obj-OI-2xB">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vr2-NE-zDo">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <textInputTraits key="textInputTraits"/>
                                             <connections>
                                                 <outlet property="delegate" destination="pTw-Vz-JFN" id="csu-5X-jd8"/>
@@ -415,10 +417,10 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" translatesAutoresizingMaskIntoConstraints="NO" id="gGG-ep-ZIP" customClass="FriendsTableCell" customModule="Homework_1" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="600" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="gGG-ep-ZIP" id="ydT-qd-FO6" customClass="FriendsTableCell" customModule="Homework_1" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="8RT-Fw-sJ2" customClass="AvatarView" customModule="Homework_1" customModuleProvider="target">
@@ -500,7 +502,7 @@
                     <tabBarItem key="tabBarItem" title="Groups" image="group" id="B1Q-iC-xLg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Ggr-mN-7TA" customClass="Cus">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.01856384426" green="0.59219354390000001" blue="0.68226462600000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -521,7 +523,7 @@
             <objects>
                 <viewController id="iMJ-p0-ZIv" customClass="NewsVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zSD-U6-VHh">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" id="cR2-ZS-Mkb">
@@ -554,7 +556,7 @@
             <objects>
                 <viewController id="QzB-Qs-Y4e" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lop-dg-bg1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="TsQ-oW-mzA"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -594,7 +596,7 @@
                     <tabBarItem key="tabBarItem" title="Friends" image="friends" id="Ebk-h9-HmQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="0QP-mF-wIg">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.01856384426" green="0.59219354390000001" blue="0.68226462600000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
@@ -620,7 +622,7 @@
                     <tabBarItem key="tabBarItem" title="Item" image="newspaper" catalog="system" id="fMa-Gi-JkU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="1Fr-Of-jmt">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.01856384426" green="0.59219354390000001" blue="0.68226462600000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">

@@ -23,22 +23,31 @@ class PhotosCell: UICollectionViewCell {
         addSubview(likeVw)
     }
     
-    func configureCell(userPhoto: UserPhoto){
-        var urlString = ""
+    func configureCell(userPhoto: PhotoRealMObject){
         
-        let photoSizes = userPhoto.sizes
-        for element in photoSizes{
-            if element.type == "x" {
-                urlString = element.url
-                
-                print("urlString is - ",urlString)
-                let data = try? Data(contentsOf: URL(string: urlString)!)
-                guard let imageData = data else {
-                    print("Error quit #44")
-                    return }
-                
-                cellImgView.image = UIImage(data: imageData)
-            }
-        }
+        guard let urlString = userPhoto.url as? String else { return }
+        
+        let data = try? Data(contentsOf: URL(string: urlString)!)
+                        guard let imageData = data else {
+                            print("Error quit #44")
+                            return }
+        
+                        cellImgView.image = UIImage(data: imageData)
+        
+        
+//        let photoSizes = userPhoto.sizes
+//        for element in photoSizes {
+//            if element.type == "x" {
+//                urlString = element.url
+//
+//                print("urlString is - ",urlString)
+//                let data = try? Data(contentsOf: URL(string: urlString)!)
+//                guard let imageData = data else {
+//                    print("Error quit #44")
+//                    return }
+//
+//                cellImgView.image = UIImage(data: imageData)
+//            }
+//        }
     }
 }

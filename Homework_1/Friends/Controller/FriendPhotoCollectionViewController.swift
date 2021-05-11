@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import RealmSwift
 
 class FriendPhotoCollectionViewController: UIViewController {
 
@@ -14,20 +15,29 @@ class FriendPhotoCollectionViewController: UIViewController {
     @IBOutlet weak var friendNameLbl: UILabel!
     @IBOutlet weak var friendAvatarView: AvatarView!
     
-    var photos = [UserPhoto]() {
-        didSet{
-            collectionView.reloadData()
-        }
-    } // в модели  ResponseUserPhotos
+    let apiVkServices = ApiVkServices()
+    let realMServices = RealMServices()
+    
+    //RealM Notifications
+    var token: NotificationToken?
     
     var friend: UserRealMObject?
-    let apiVkService = ApiVkServices()
-    
+    var photos = [PhotoRealMObject]() {
+        didSet{
+            print("photos - set", photos.count)
+            collectionView.reloadData()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+        //очистка перед загрузкой
+        clearRealmDoubleCheck()
+        photos = []
+        collectionView.reloadData()
+        // загрузка
         setupCollectionView()
     }
     
@@ -36,10 +46,29 @@ class FriendPhotoCollectionViewController: UIViewController {
         setupCollectionView()
     }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//               
+//    }
+    
+    func clearRealmDoubleCheck() {
+        do {
+            let realm = try Realm()
+            //_ = try Realm.deleteFiles(for: Realm.Configuration.defaultConfiguration)
+            let oldPhotosRequest = realm.objects(PhotoRealMObject.self)
+            realm.beginWrite()
+            realm.delete(oldPhotosRequest)
+            try realm.commitWrite()
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+    
     // объединяющая функция
     func setupCollectionView() {
         setupViewOfFriendInfo() // информация о друге
-        loadingPhotos() // фотографии друга
+        fetchDataPhotosFromVkServer()
+        loadDataPhotosFromRealm()
         collectionView.reloadData()
     }
     
@@ -53,24 +82,54 @@ class FriendPhotoCollectionViewController: UIViewController {
         friendAvatarView.avatarImage = UIImage(data: image)
     }
     
-    func loadingPhotos(){
+    // Загрузка данных с сервера (в RealM)
+    func fetchDataPhotosFromVkServer() {
         guard let userId = friend?.id,
               let accessToken = Session.shared.token else {
             print("Error while getting friendId in - FriendPhotoCollectionViewController ")
             return
         }
-        print("userId is - ",userId)
-        fetchPhotosFromVkServer(userId: userId, accessToken: accessToken)
-        collectionView.reloadData()
-    }
+            apiVkServices.getUserPhotos(userId: userId, accessToken: accessToken) { () in
+                print("Downloaded photos - done")
+            }
+        }
     
-    // загружаем с сервера
-    func fetchPhotosFromVkServer(userId:Int, accessToken: String) {
-        apiVkService.getUserPhotos(userId: userId, accessToken: accessToken) { (returnedPhotos) in
-            print("Downloaded photos - ", returnedPhotos.count)
-            self.photos = returnedPhotos
+    // загружаем из RealM
+    func loadDataPhotosFromRealm() {
+        do {
+            guard let realm = try? Realm() else { return }
+            let photosDataFromRealM = realm.objects(PhotoRealMObject.self)
+            
+//            self.token = photosDataFromRealM.observe({ (changes: RealmCollectionChange) in
+//                print("Данные изменились!")
+//                switch changes {
+//                case .initial:
+//                    print("initial - done")
+//                    self.collectionView.reloadData()
+//                case .update:
+//                    print("update - done")
+//                    self.collectionView.reloadData()
+//                case .error(let error): print(error)
+//                }
+//            })
+            
+           photos = Array(photosDataFromRealM)
+            
+        } catch {
+            debugPrint(error.localizedDescription)
         }
     }
+    
+    
+//    // загружаем с сервера
+//    func fetchPhotosFromVkServer(userId:Int, accessToken: String) {
+//        apiVkService.getUserPhotos(userId: userId, accessToken: accessToken) { (returnedPhotos) in
+//            print("Downloaded photos - ", returnedPhotos.count)
+//            self.photos = returnedPhotos
+//        }
+//    }
+    
+    
 }
 
 
@@ -85,7 +144,7 @@ extension FriendPhotoCollectionViewController: UICollectionViewDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "friendPhotoColCell", for: indexPath) as? PhotosCell {
             
-            guard let photo = photos[indexPath.row] as? UserPhoto else {
+            guard let photo = photos[indexPath.row] as? PhotoRealMObject else {
                 print("Error quit #43")
                 return UICollectionViewCell() }
             cell.configureCell(userPhoto: photo)
