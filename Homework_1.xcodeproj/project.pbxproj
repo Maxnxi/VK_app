@@ -30,6 +30,7 @@
 		0581821926149EC900542167 /* AnimatedNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0581821826149EC900542167 /* AnimatedNavController.swift */; };
 		0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0581821B2614A61B00542167 /* CustomPushAnimate.swift */; };
 		0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0581821E2614A63100542167 /* CustomPopAnimate.swift */; };
+		0583B531264E72470049FB58 /* LoginToFirebaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */; };
 		05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05920FB426311E2E00B54031 /* ApiVkServices.swift */; };
 		0597AF6525E3B8AB0014BF41 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */; };
 		0597AF6825E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6725E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift */; };
@@ -73,6 +74,7 @@
 		0581821826149EC900542167 /* AnimatedNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedNavController.swift; sourceTree = "<group>"; };
 		0581821B2614A61B00542167 /* CustomPushAnimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPushAnimate.swift; sourceTree = "<group>"; };
 		0581821E2614A63100542167 /* CustomPopAnimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopAnimate.swift; sourceTree = "<group>"; };
+		0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToFirebaseViewController.swift; sourceTree = "<group>"; };
 		05920FB426311E2E00B54031 /* ApiVkServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiVkServices.swift; sourceTree = "<group>"; };
 		0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		0597AF6725E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		0597AF5B25E3B77F0014BF41 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */,
 				05C9D1912624BB66002652BF /* LoginVKwebVC.swift */,
 			);
 			path = Login;
@@ -473,6 +476,7 @@
 				05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */,
 				057D76F725DC363D00A9E18B /* AppDelegate.swift in Sources */,
 				0546BA1A26037D8F00CC57DF /* NewsCellTableViewCell.swift in Sources */,
+				0583B531264E72470049FB58 /* LoginToFirebaseViewController.swift in Sources */,
 				0542ADBE25EE47CB003557DA /* AvatarView.swift in Sources */,
 				0546BA1626037D7000CC57DF /* NewsVC.swift in Sources */,
 				059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */,
