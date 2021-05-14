@@ -9,8 +9,11 @@ import UIKit
 
 class MyGroupsCell: UITableViewCell {
 
+//    @IBOutlet weak var groupNameLbl: UILabel!
+//    @IBOutlet weak var groupProfileImgView: UIImageView!
+    
     @IBOutlet weak var groupNameLbl: UILabel!
-    @IBOutlet weak var groupProfileImgView: UIImageView!
+    @IBOutlet weak var groupProfileImgView: RoundedImgView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
