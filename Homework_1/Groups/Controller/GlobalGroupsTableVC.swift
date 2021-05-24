@@ -9,9 +9,7 @@ import UIKit
 
 class GlobalGroupsTableVC: UIViewController {
     
-    let globalGroups:[Group] = Group.loadData()
-
-    
+    //let globalGroups:[Group] = Group.loadData()
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,23 +21,17 @@ class GlobalGroupsTableVC: UIViewController {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
-    
- // MARK:
-    
-   
-
-
 }
 
 extension GlobalGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return globalGroups.count
+        return 3//globalGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "globalGroupCell", for: indexPath) as? GlobalGroupCell {
-            cell.configureCell(group: globalGroups[indexPath.row])
+            //cell.configureCell(group: globalGroups[indexPath.row])
             return cell
         } else {
             return UITableViewCell()
