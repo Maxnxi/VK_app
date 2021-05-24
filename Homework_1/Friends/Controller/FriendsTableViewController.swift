@@ -7,23 +7,18 @@
 import UIKit
 import Foundation
 
-class FriendsTableVC: UIViewController  {
+class FriendsTableViewController: UIViewController  {
    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
-    var apiVkServices = ApiVkServices()
-    
-    var myFriends:[User] = [] {
-        didSet{
-            tableView.reloadData()
-        }
-    }
-    
-    var filterListOfFriends: [User] = []
+    let apiVkServices = ApiVkServices()
+    let realMServices = RealMServices()
+   
+    var myFriends:[UserRealMObject] = []
+    var filterListOfFriends: [UserRealMObject] = []
     var sections: [String] = []
-    var cachedSectionsItems: [String:[User]] = [:]
-    
+    var cachedSectionsItems: [String:[UserRealMObject]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +27,7 @@ class FriendsTableVC: UIViewController  {
 
         repeat {
             configureFriendsTableView()
+            tableView.reloadData()
         } while (!myFriends.isEmpty)
     }
 
@@ -44,7 +40,6 @@ class FriendsTableVC: UIViewController  {
     func configureFriendsTableView() {
         loadFriends()
         setupDataSource()
-        self.tableView.reloadData()
     }
     
     // Загрузка данных с сервера
@@ -55,15 +50,21 @@ class FriendsTableVC: UIViewController  {
             return
         }
         
-        apiVkServices.getFriends(userId: userId, accessToken: accessToken) { (loadedFriends) in
-            self.myFriends = loadedFriends
-            print("friends pushed to FriendsTableVC", self.myFriends.count)
-            if !self.myFriends.isEmpty {
-                self.myFriends = self.myFriends.sorted(by: {
-                    $0.lastName.lowercased() < $1.lastName.lowercased()
-                })
+        apiVkServices.getFriends(userId: userId, accessToken: accessToken) {
+            
+            // загружаем из RealM
+            self.realMServices.loadFriendsData {
+                loadedFriendsFromRealM in
+                
+                self.myFriends = loadedFriendsFromRealM
+                print("friends pushed to FriendsTableVC", self.myFriends.count)
+                if !self.myFriends.isEmpty {
+                    self.myFriends = self.myFriends.sorted(by: {
+                        $0.lastName.lowercased() < $1.lastName.lowercased()
+                    })
+                }
+                self.tableView.reloadData()
             }
-            self.tableView.reloadData()
         }
     }
 
@@ -97,7 +98,7 @@ class FriendsTableVC: UIViewController  {
         }
     }
     
-    private func getFriend(for indexPath: IndexPath) -> User {
+    private func getFriend(for indexPath: IndexPath) -> UserRealMObject {
         let sectionLetter = sections[indexPath.section]
         return cachedSectionsItems[sectionLetter]![indexPath.row]
     }
@@ -106,7 +107,7 @@ class FriendsTableVC: UIViewController  {
 
 //MARK: -> TableView Delegate and DataSource
 
-extension FriendsTableVC: UITableViewDelegate, UITableViewDataSource {
+extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -166,7 +167,7 @@ extension FriendsTableVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: -> UISearchBar
 
-extension FriendsTableVC: UISearchBarDelegate {
+extension FriendsTableViewController: UISearchBarDelegate {
    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
