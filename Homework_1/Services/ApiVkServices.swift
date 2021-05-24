@@ -65,6 +65,7 @@ class ApiVkServices {
         let url = baseUrl + path
         
         AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+            print("request - is ", response.request!)
             guard let data = response.value else {return}
             do {
                 let groups = try JSONDecoder().decode( ResponseGroups.self, from: data).response.items
@@ -86,13 +87,13 @@ class ApiVkServices {
     }
     
     //MARK: -> Запрос к VK серверу "photos.getAll"
-    func getUserPhotos(userId: Int, accessToken: String, completion: @escaping(_ userPhotos:[UserPhoto]) ->()) {
+    func getUserPhotos(userId: Int, accessToken: String, completion: @escaping() ->()) {
         let path = "photos.getAll"
         let parameters: Parameters = [
             "owner_id": userId,
             "access_token": accessToken,
             "no_service_albums": 0,
-            "count": 10,
+            "count": 100,
             "v": version,
             "extended": 1,
             "photo_sizes": 1
@@ -100,16 +101,23 @@ class ApiVkServices {
         let url = baseUrl + path
         
         AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-            
-            print("request photos  is - ", response.request)
             guard let data = response.value else {return}
             do {
                 let photos = try JSONDecoder().decode( ResponseUserPhotos.self, from: data).response.items
-                completion(photos)
+                var photosForRealm: [PhotoRealMObject] = []
+                for element in photos {
+                    let photo = PhotoRealMObject(userPhoto: element)
+                    photosForRealm.append(photo)
+                    if photosForRealm.count == photos.count {
+                        
+                        //to do save photos to realM
+                        self.realMServices.saveUrlPhotosToRealm(photosForRealm)
+                        completion()
+                    }
+                }
             } catch {
                 debugPrint("error #3", error)
             }
-            
         }
     }
     

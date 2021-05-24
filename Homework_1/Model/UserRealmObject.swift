@@ -18,13 +18,17 @@ class UserRealMObject: Object, Codable {
     var fullName: String {
         return "\(firstName) \(lastName)"
     }
-        
+              
     convenience init(user: User) {
         self.init()
         self.firstName = user.firstName
         self.id = user.id
         self.lastName = user.lastName
         self.photo = user.photo
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
     }
 }
 

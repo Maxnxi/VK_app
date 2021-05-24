@@ -6,6 +6,7 @@
 //
 import UIKit
 import Foundation
+import RealmSwift
 
 class FriendsTableViewController: UIViewController  {
    
@@ -14,8 +15,16 @@ class FriendsTableViewController: UIViewController  {
 
     let apiVkServices = ApiVkServices()
     let realMServices = RealMServices()
-   
-    var myFriends:[UserRealMObject] = []
+
+    //RealM Notifications
+    var token: NotificationToken?
+    
+    var myFriends:[UserRealMObject] = [] {
+        didSet {
+            tableView.reloadData()
+            print("myFriend set!")
+        }
+    }
     var filterListOfFriends: [UserRealMObject] = []
     var sections: [String] = []
     var cachedSectionsItems: [String:[UserRealMObject]] = [:]
@@ -24,11 +33,7 @@ class FriendsTableViewController: UIViewController  {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-
-        repeat {
-            configureFriendsTableView()
-            tableView.reloadData()
-        } while (!myFriends.isEmpty)
+        configureFriendsTableView()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -38,36 +43,56 @@ class FriendsTableViewController: UIViewController  {
     
     
     func configureFriendsTableView() {
-        loadFriends()
+        fetchDataFriendsFromVkServer()
+        loadDataFriendsFromRealm()
         setupDataSource()
     }
     
-    // Загрузка данных с сервера
-    func loadFriends() {
+    // Загрузка данных с сервера (в RealM)
+    func fetchDataFriendsFromVkServer() {
         guard let userId = Session.shared.userId,
               let accessToken = Session.shared.token else {
             print("error getting userId")
             return
         }
-        
         apiVkServices.getFriends(userId: userId, accessToken: accessToken) {
-            
-            // загружаем из RealM
-            self.realMServices.loadFriendsData {
-                loadedFriendsFromRealM in
-                
-                self.myFriends = loadedFriendsFromRealM
-                print("friends pushed to FriendsTableVC", self.myFriends.count)
-                if !self.myFriends.isEmpty {
-                    self.myFriends = self.myFriends.sorted(by: {
-                        $0.lastName.lowercased() < $1.lastName.lowercased()
-                    })
-                }
-                self.tableView.reloadData()
-            }
+            print("fetchDataFriendsFromVkServer - done")
         }
     }
-
+    
+    // загружаем из RealM
+    func loadDataFriendsFromRealm() {
+        do {
+        let realm = try Realm()
+        let friendsFromRealM = realm.objects(UserRealMObject.self)
+        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
+                guard let self = self, let tableView = self.tableView else { return }
+                
+                print("Данные изменились!")
+                switch changes {
+                case .initial:
+                    print("initial - done")
+                    tableView.reloadData()
+                case .update:
+                    print("update - done")
+                    tableView.reloadData()
+                case .error(let error):
+                    print(error)
+                }
+            })
+            myFriends = Array(friendsFromRealM)
+            
+            //сортировка
+            if !self.myFriends.isEmpty {
+                self.myFriends = self.myFriends.sorted(by: {
+                    $0.lastName.lowercased() < $1.lastName.lowercased()
+                })
+            }
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+    
     // фильтрация списка Друзей
     private func filterFriends(text: String?) {
         guard let text = text, !text.isEmpty else {
