@@ -19,6 +19,7 @@
 		054AAEA325FBE37500E73DD9 /* LikeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AAEA225FBE37500E73DD9 /* LikeControlView.swift */; };
 		054AAEA925FBE53D00E73DD9 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */; };
 		054E82542615FFD6009ABD20 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */; };
+		0555D74F26551ADC00B872FF /* NewsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0555D74E26551ADC00B872FF /* NewsResponse.swift */; };
 		0557F00C263C166000037E4C /* PhotoRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557F00B263C166000037E4C /* PhotoRealMObject.swift */; };
 		0562BFEE264E9F170088EE06 /* FirebaseUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0562BFED264E9F170088EE06 /* FirebaseUserInfo.swift */; };
 		056311AB264D583100A92E0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 056311AA264D583100A92E0B /* GoogleService-Info.plist */; };
@@ -62,6 +63,7 @@
 		054AAEA225FBE37500E73DD9 /* LikeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControlView.swift; sourceTree = "<group>"; };
 		054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
+		0555D74E26551ADC00B872FF /* NewsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsResponse.swift; sourceTree = "<group>"; };
 		0557F00B263C166000037E4C /* PhotoRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRealMObject.swift; sourceTree = "<group>"; };
 		0562BFED264E9F170088EE06 /* FirebaseUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserInfo.swift; sourceTree = "<group>"; };
 		056311AA264D583100A92E0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -144,7 +146,7 @@
 				0597AF5A25E3B77A0014BF41 /* Model */,
 				05840B7B260B2AC200B65FD9 /* Profile */,
 				0581820D26149BA200542167 /* Groups */,
-				05ED4F22261EDAFC00FB097A /* waitingToBeDone */,
+				0581820B26149B9200542167 /* News */,
 				0581820E26149BAB00542167 /* Customization */,
 				0597AF5C25E3B7870014BF41 /* Extensions */,
 				057D76FC25DC363D00A9E18B /* Main.storyboard */,
@@ -292,6 +294,7 @@
 				05D774A225E6798900FA5CA5 /* ResponseGroups.swift */,
 				057E1492263012BB00569460 /* ResponseUserPhotos.swift */,
 				056A99612604EF2A0069E1C5 /* News.swift */,
+				0555D74E26551ADC00B872FF /* NewsResponse.swift */,
 				059F65352636E2720062CC36 /* UserRealmObject.swift */,
 				059F65392636E8E80062CC36 /* GroupsRealMObject.swift */,
 				0557F00B263C166000037E4C /* PhotoRealMObject.swift */,
@@ -315,14 +318,6 @@
 				054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		05ED4F22261EDAFC00FB097A /* waitingToBeDone */ = {
-			isa = PBXGroup;
-			children = (
-				0581820B26149B9200542167 /* News */,
-			);
-			path = waitingToBeDone;
 			sourceTree = "<group>";
 		};
 		479057DA514EC9A452B13A0A /* Pods */ = {
@@ -462,6 +457,7 @@
 				0538E78B25E8258800FA631D /* PhotoVC.swift in Sources */,
 				054E82542615FFD6009ABD20 /* CustomInteractiveTransition.swift in Sources */,
 				0538E78825E8178D00FA631D /* ProfileVC.swift in Sources */,
+				0555D74F26551ADC00B872FF /* NewsResponse.swift in Sources */,
 				05D774A325E6798900FA5CA5 /* ResponseGroups.swift in Sources */,
 				0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */,
 				0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */,

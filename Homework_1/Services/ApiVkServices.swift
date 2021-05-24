@@ -121,14 +121,33 @@ class ApiVkServices {
         }
     }
     
-    //MARK: -> для реализации в будущем
-    func downloadImageByUrl(urlString: String, completion: @escaping(_ image: UIImage) -> ()) {
-            AF.request(urlString).responseImage { (imageResponse) in
-                guard let image = imageResponse.value else {
-                        print("Error quit #001 - downloadImageByUrl - common func")
-                        return}
-                completion(image)
-                }
-            }
+    //MARK: -> Запрос к серверу VK новостная лента
+    
+    func getNewsfeed(userId: String, accessToken: String, completion: @escaping() -> Void) {
+        //https://api.vk.com/method/newsfeed.get?access_token=68309aa52ce45fb18e5625696a5e43a884671ee994af76857e89ea5d8c24706b2bc902effdc29e9aef5ab&count=10&filters=post&source_ids=friends&user_id=200037963&v=5.130
+        
+        //https://api.vk.com/method/newsfeed.get?user_id=200037963&access_token=68309aa52ce45fb18e5625696a5e43a884671ee994af76857e89ea5d8c24706b2bc902effdc29e9aef5ab&filters=post&count=3&v=5.130
+        
+        
+        let path = "newsfeed.get"
+        
+        let parameters: Parameters = [
+            "user_id": userId,
+            "access_token": accessToken,
+            "v": version,
+            "filters": "post",
+            "source_ids": "friends",
+            "count": "10"
+        ]
+        let url = baseUrl + path
+        
+        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+            print("request - is ", response.request!)
+            
+            guard let data = response.value else { return }
+            
+        }
+    }
+
     
 }
