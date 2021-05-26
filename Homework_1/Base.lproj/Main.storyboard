@@ -545,7 +545,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uuw-Us-9vX">
-                                <rect key="frame" x="15" y="201" width="360" height="40"/>
+                                <rect key="frame" x="16" y="201" width="358" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="arA-oQ-zw9"/>
@@ -554,32 +554,45 @@
                                 <state key="normal" title="Log out from Firebase">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="logoutFromFirebaseBtnWasPrssd:" destination="36G-Pd-Eth" eventType="touchUpInside" id="5OL-L1-FVz"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2SU-VD-IZc">
-                                <rect key="frame" x="16" y="262" width="360" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2SU-VD-IZc">
+                                <rect key="frame" x="16" y="262" width="358" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="gil-XB-5tU"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="pjg-KG-nIH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
                                 <state key="normal" title="Log out from Vk.com">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="logoutFromVkServerBtnWasPrssd:" destination="36G-Pd-Eth" eventType="touchUpInside" id="O1z-XO-ZbC"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="f0t-Lw-Sjc"/>
                         <color key="backgroundColor" red="0.32545876499999998" green="0.32551032299999999" blue="0.32544746990000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Uuw-Us-9vX" firstAttribute="leading" secondItem="f0t-Lw-Sjc" secondAttribute="leading" constant="15" id="5uw-kz-abS"/>
+                            <constraint firstItem="Uuw-Us-9vX" firstAttribute="leading" secondItem="f0t-Lw-Sjc" secondAttribute="leading" constant="16" id="5uw-kz-abS"/>
                             <constraint firstItem="Uuw-Us-9vX" firstAttribute="top" secondItem="4mG-bz-gjk" secondAttribute="bottom" constant="77" id="F1w-O6-eJI"/>
+                            <constraint firstItem="2SU-VD-IZc" firstAttribute="top" secondItem="Uuw-Us-9vX" secondAttribute="bottom" constant="21" id="QFU-h2-Umy"/>
                             <constraint firstItem="4mG-bz-gjk" firstAttribute="top" secondItem="f0t-Lw-Sjc" secondAttribute="top" constant="60" id="SZ2-4O-fjE"/>
                             <constraint firstItem="4mG-bz-gjk" firstAttribute="centerX" secondItem="Z07-yu-MQD" secondAttribute="centerX" id="U1V-qn-9MW"/>
-                            <constraint firstItem="f0t-Lw-Sjc" firstAttribute="trailing" secondItem="Uuw-Us-9vX" secondAttribute="trailing" constant="15" id="hA5-cM-pdW"/>
+                            <constraint firstItem="f0t-Lw-Sjc" firstAttribute="trailing" secondItem="Uuw-Us-9vX" secondAttribute="trailing" constant="16" id="hA5-cM-pdW"/>
+                            <constraint firstItem="f0t-Lw-Sjc" firstAttribute="trailing" secondItem="2SU-VD-IZc" secondAttribute="trailing" constant="16" id="rPk-ey-b8A"/>
+                            <constraint firstItem="2SU-VD-IZc" firstAttribute="leading" secondItem="f0t-Lw-Sjc" secondAttribute="leading" constant="16" id="tiW-nW-QbR"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="profile" badgeValue="User Info" id="BOv-XU-R4f">
                         <color key="badgeColor" systemColor="systemGreenColor"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="logoutFromFirebaseBtn" destination="Uuw-Us-9vX" id="evK-UD-i94"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pYl-sC-ebF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

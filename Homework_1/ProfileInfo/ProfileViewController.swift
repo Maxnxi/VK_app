@@ -7,45 +7,60 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
 
     
-    let apiVkServices = ApiVkServices()
+    @IBOutlet weak var logoutFromFirebaseBtn: UIButton!
+    
+    private let apiVkServices = ApiVkServices()
+    private var handle: AuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+        setupView()
+    }
+    
+    func setupView() {
+        self.handle = Auth.auth().addStateDidChangeListener { auth, user in
+            if user != nil {
+                print("Пользователь Firebase обнаружен. Аутентификация не требуется.")
+                self.logoutFromFirebaseBtn.setTitle("Log out from Google(Firebase)", for: .normal)
+            } else {
+                print("Пользователь Firebase не обнаружен. Требуется аутентификация.")
+                self.logoutFromFirebaseBtn.setTitle("Log in to Google(Firebase)", for: .normal)
+                self.logoutFromFirebaseBtn.backgroundColor = .green
+            }
+        }
     }
     
 
+    @IBAction func logoutFromFirebaseBtnWasPrssd(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            self.dismiss(animated: true, completion: nil)
+        } catch (let error)
+        {
+            print("Auth sign out failed: \(error)")
+        }
+    }
     
-
+    @IBAction func logoutFromVkServerBtnWasPrssd(_ sender: Any) {
+        apiVkServices.logOutFromVkServer()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let view = storyboard.instantiateViewController(withIdentifier: "vkLogin")
+        view.modalPresentationStyle = .fullScreen
+        present(view, animated: true, completion: nil)
+    }
+    
 }
 
 
 
-//https://login.vk.com/?act=logout&hash=bbf6e9bd4f095255c9&_origin=https%3A%2F%2Fvk.com&reason=tn
 
-    
-    
-    
 
-    
-    
-    
-//    @IBAction func logOutFromFirebaseButtonWasPressed(_ sender: Any) {
-//        
-//        do {
-//        try Auth.auth().signOut()
-//            self.dismiss(animated: true, completion: nil)
-//        } catch (let error)
-//        {
-//        print("Auth sign out failed: \(error)")
-//            
-//        }
-//    }
-    
+
     
 
