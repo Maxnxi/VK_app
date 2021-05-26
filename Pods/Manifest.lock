@@ -371,6 +371,7 @@ PODS:
   - Realm/Headers (10.7.6)
   - RealmSwift (10.7.6):
     - Realm (= 10.7.6)
+  - RxSwift (6.2.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -381,6 +382,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Firestore
   - RealmSwift
+  - RxSwift
 
 SPEC REPOS:
   trunk:
@@ -407,6 +409,7 @@ SPEC REPOS:
     - PromisesObjC
     - Realm
     - RealmSwift
+    - RxSwift
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -432,7 +435,8 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
   RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
+  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
 
-PODFILE CHECKSUM: 0b014bfd39264137781e1790c3d000d3eb1a2728
+PODFILE CHECKSUM: 07de13d9c9b5d4d0d1653ab864167cca28fe78fa
 
 COCOAPODS: 1.10.1

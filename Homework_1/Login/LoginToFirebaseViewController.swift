@@ -89,6 +89,10 @@ class LoginToFirebaseViewController: UIViewController {
         
     }
     
+    @IBAction func backBtnWasPrssd(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func skipLoginButton(_ sender: Any) {
        moveToVkLoginViewController()
     }

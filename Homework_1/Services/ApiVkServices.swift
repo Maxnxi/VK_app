@@ -121,6 +121,16 @@ class ApiVkServices {
         }
     }
     
+    //MARK: -> Logout from VK
+    
+    //https://login.vk.com/?act=logout&hash=bbf6e9bd4f095255c9&_origin=https%3A%2F%2Fvk.com&reason=tn
+    func logOutFromVkServer() {
+       
+        let url = "https://login.vk.com/?act=logout&hash=bbf6e9bd4f095255c9&_origin=https%3A%2F%2Fvk.com&reason=tn"
+        
+        AF.request(url)
+    }
+    
     //MARK: -> для реализации в будущем
     func downloadImageByUrl(urlString: String, completion: @escaping(_ image: UIImage) -> ()) {
             AF.request(urlString).responseImage { (imageResponse) in

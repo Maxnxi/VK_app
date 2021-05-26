@@ -1,18 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OkC-qJ-Ckm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8C1-f3-hmB">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Entry View Controller-->
+        <scene sceneID="72Z-NK-IUx">
+            <objects>
+                <viewController id="8C1-f3-hmB" customClass="EntryViewController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GV0-SF-xm5">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBGImage" translatesAutoresizingMaskIntoConstraints="NO" id="LwN-G6-rv8">
+                                <rect key="frame" x="0.0" y="44" width="390" height="284"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VK_app_Maks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0H-P0-yN2">
+                                <rect key="frame" x="112.66666666666669" y="72" width="165" height="34"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="24"/>
+                                <color key="textColor" red="1" green="0.65449558887261872" blue="0.41865490996399735" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Pw-TN-80V">
+                                <rect key="frame" x="10" y="136" width="370" height="112"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="112" id="py0-J9-bLx"/>
+                                </constraints>
+                                <string key="text">Добро пожаловать в приложение VK_app_Maks - Альтернативный клиент для сервиса ВКонтакте. Чтобы использовать все функции слиента рекомендуем авторизоваться в Google(Firebase).</string>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZ3-ND-7Km">
+                                <rect key="frame" x="10" y="368" width="370" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="3fu-nO-LOR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <state key="normal" title="Login to Google">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonWasPressed:" destination="OkC-qJ-Ckm" eventType="touchUpInside" id="Zrm-dA-LDi"/>
+                                    <action selector="loginToGoogleBtnWasPrssd:" destination="8C1-f3-hmB" eventType="touchUpInside" id="z5N-Oz-acW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQd-Qx-ihh">
+                                <rect key="frame" x="10" y="432" width="370" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="wPQ-BO-F5U"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <state key="normal" title="Skip Login to Google / Login to VK">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonWasPressed:" destination="OkC-qJ-Ckm" eventType="touchUpInside" id="5b6-Sv-dfM"/>
+                                    <action selector="skipGoogleLoginBtnWasPrssd:" destination="8C1-f3-hmB" eventType="touchUpInside" id="eVd-oP-97b"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ft1-bB-qfN"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ft1-bB-qfN" firstAttribute="trailing" secondItem="gZ3-ND-7Km" secondAttribute="trailing" constant="10" id="9ek-mV-8VV"/>
+                            <constraint firstItem="Ft1-bB-qfN" firstAttribute="trailing" secondItem="zQd-Qx-ihh" secondAttribute="trailing" constant="10" id="CaX-rV-oum"/>
+                            <constraint firstItem="i0H-P0-yN2" firstAttribute="top" secondItem="Ft1-bB-qfN" secondAttribute="top" constant="28" id="DsI-oL-6Yd"/>
+                            <constraint firstItem="zQd-Qx-ihh" firstAttribute="top" secondItem="gZ3-ND-7Km" secondAttribute="bottom" constant="24" id="GN3-O9-L2f"/>
+                            <constraint firstItem="LwN-G6-rv8" firstAttribute="trailing" secondItem="Ft1-bB-qfN" secondAttribute="trailing" id="S0H-Ue-XfM"/>
+                            <constraint firstItem="LwN-G6-rv8" firstAttribute="leading" secondItem="GV0-SF-xm5" secondAttribute="leading" id="U5m-jl-Oof"/>
+                            <constraint firstItem="gZ3-ND-7Km" firstAttribute="leading" secondItem="Ft1-bB-qfN" secondAttribute="leading" constant="10" id="YJa-eQ-kyV"/>
+                            <constraint firstItem="gZ3-ND-7Km" firstAttribute="top" secondItem="LwN-G6-rv8" secondAttribute="bottom" constant="40" id="ZnX-RJ-yxY"/>
+                            <constraint firstItem="Ft1-bB-qfN" firstAttribute="trailing" secondItem="1Pw-TN-80V" secondAttribute="trailing" constant="10" id="cMS-iG-fbM"/>
+                            <constraint firstItem="zQd-Qx-ihh" firstAttribute="leading" secondItem="Ft1-bB-qfN" secondAttribute="leading" constant="10" id="d5G-2F-Mjc"/>
+                            <constraint firstItem="i0H-P0-yN2" firstAttribute="centerX" secondItem="GV0-SF-xm5" secondAttribute="centerX" id="eID-Az-9qN"/>
+                            <constraint firstItem="1Pw-TN-80V" firstAttribute="top" secondItem="i0H-P0-yN2" secondAttribute="bottom" constant="30" id="jdA-Cm-VSZ"/>
+                            <constraint firstItem="LwN-G6-rv8" firstAttribute="top" secondItem="Ft1-bB-qfN" secondAttribute="top" id="l8W-2Q-aZp"/>
+                            <constraint firstItem="1Pw-TN-80V" firstAttribute="leading" secondItem="Ft1-bB-qfN" secondAttribute="leading" constant="10" id="q6R-gf-pBc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="appNameLbl" destination="i0H-P0-yN2" id="8Wx-rt-1g7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QYq-b8-rgi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-655.38461538461536" y="467.7725118483412"/>
+        </scene>
         <!--Login To Firebase View Controller-->
         <scene sceneID="H3n-Au-i12">
             <objects>
-                <viewController id="OkC-qJ-Ckm" customClass="LoginToFirebaseViewController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginToFirebaseViewController" id="OkC-qJ-Ckm" customClass="LoginToFirebaseViewController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hrb-jd-BTk">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -67,12 +154,26 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kk7-BC-2YT">
+                                <rect key="frame" x="26" y="54" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="4uB-CZ-4JL"/>
+                                    <constraint firstAttribute="height" constant="24" id="QmE-2p-9z2"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" image="chevron.backward" catalog="system"/>
+                                <connections>
+                                    <action selector="backBtnWasPrssd:" destination="OkC-qJ-Ckm" eventType="touchUpInside" id="K6c-CC-jfh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zcQ-op-hs7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="kk7-BC-2YT" firstAttribute="leading" secondItem="Hrb-jd-BTk" secondAttribute="leadingMargin" constant="10" id="7WL-is-bu2"/>
                             <constraint firstAttribute="trailing" secondItem="gdZ-ja-diT" secondAttribute="trailing" constant="10" id="Otl-mP-Ge5"/>
                             <constraint firstItem="gdZ-ja-diT" firstAttribute="leading" secondItem="Hrb-jd-BTk" secondAttribute="leading" constant="10" id="YaU-kn-Xs2"/>
+                            <constraint firstItem="kk7-BC-2YT" firstAttribute="top" secondItem="Hrb-jd-BTk" secondAttribute="topMargin" constant="10" id="oBZ-CI-RNu"/>
                             <constraint firstItem="gdZ-ja-diT" firstAttribute="top" secondItem="zcQ-op-hs7" secondAttribute="top" constant="50" id="vjf-tS-jK4"/>
                         </constraints>
                     </view>
@@ -84,7 +185,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9HW-3A-FC2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="170" y="469"/>
+            <point key="canvasLocation" x="289" y="468"/>
         </scene>
         <!--LoginV KwebVC-->
         <scene sceneID="tnh-yM-Xdu">
@@ -102,14 +203,28 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ycu-FD-VBw">
+                                <rect key="frame" x="10" y="54" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="589-pA-ySh"/>
+                                    <constraint firstAttribute="height" constant="24" id="hZr-3F-pS8"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" image="chevron.backward" catalog="system"/>
+                                <connections>
+                                    <action selector="backBtnWasPrssd:" destination="WZL-Ie-QxY" eventType="touchUpInside" id="3Vz-EO-D9n"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5ND-id-Cdc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="FmF-AZ-MXm" firstAttribute="leading" secondItem="5ND-id-Cdc" secondAttribute="leading" id="Git-7d-hNF"/>
                             <constraint firstItem="FmF-AZ-MXm" firstAttribute="trailing" secondItem="5ND-id-Cdc" secondAttribute="trailing" id="ftP-v3-qrH"/>
+                            <constraint firstItem="ycu-FD-VBw" firstAttribute="top" secondItem="5ND-id-Cdc" secondAttribute="top" constant="10" id="pmX-jW-QUh"/>
                             <constraint firstItem="FmF-AZ-MXm" firstAttribute="bottom" secondItem="5ND-id-Cdc" secondAttribute="bottom" id="qBf-Y3-K54"/>
                             <constraint firstItem="FmF-AZ-MXm" firstAttribute="top" secondItem="5ND-id-Cdc" secondAttribute="top" id="tpf-lD-JYJ"/>
+                            <constraint firstItem="ycu-FD-VBw" firstAttribute="leading" secondItem="5ND-id-Cdc" secondAttribute="leading" constant="10" id="tr7-tU-RfD"/>
                         </constraints>
                     </view>
                     <connections>
@@ -418,7 +533,7 @@
         <!--Profile-->
         <scene sceneID="LT1-zp-b4N">
             <objects>
-                <viewController id="36G-Pd-Eth" customClass="ProfileVC" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="36G-Pd-Eth" customClass="ProfileViewController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z07-yu-MQD">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -429,29 +544,27 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3X-hu-Lp1">
-                                <rect key="frame" x="321" y="65" width="62" height="32"/>
-                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
-                                <state key="normal" title="Logout">
-                                    <color key="titleColor" red="0.01856384426" green="0.59219354390000001" blue="0.68226462600000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="o7o-tf-fS7" kind="unwind" unwindAction="unWindToLogin:" id="8KU-hV-B6y"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uuw-Us-9vX">
                                 <rect key="frame" x="15" y="201" width="360" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="arA-oQ-zw9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
                                 <state key="normal" title="Log out from Firebase">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="logOutFromFirebaseButtonWasPressed:" destination="36G-Pd-Eth" eventType="touchUpInside" id="RIu-i5-ScW"/>
-                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2SU-VD-IZc">
+                                <rect key="frame" x="16" y="262" width="360" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="gil-XB-5tU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <state key="normal" title="Log out from Vk.com">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="f0t-Lw-Sjc"/>
@@ -459,22 +572,16 @@
                         <constraints>
                             <constraint firstItem="Uuw-Us-9vX" firstAttribute="leading" secondItem="f0t-Lw-Sjc" secondAttribute="leading" constant="15" id="5uw-kz-abS"/>
                             <constraint firstItem="Uuw-Us-9vX" firstAttribute="top" secondItem="4mG-bz-gjk" secondAttribute="bottom" constant="77" id="F1w-O6-eJI"/>
-                            <constraint firstItem="f0t-Lw-Sjc" firstAttribute="trailing" secondItem="l3X-hu-Lp1" secondAttribute="trailing" constant="7" id="QtY-Ow-plh"/>
                             <constraint firstItem="4mG-bz-gjk" firstAttribute="top" secondItem="f0t-Lw-Sjc" secondAttribute="top" constant="60" id="SZ2-4O-fjE"/>
                             <constraint firstItem="4mG-bz-gjk" firstAttribute="centerX" secondItem="Z07-yu-MQD" secondAttribute="centerX" id="U1V-qn-9MW"/>
                             <constraint firstItem="f0t-Lw-Sjc" firstAttribute="trailing" secondItem="Uuw-Us-9vX" secondAttribute="trailing" constant="15" id="hA5-cM-pdW"/>
-                            <constraint firstItem="l3X-hu-Lp1" firstAttribute="top" secondItem="f0t-Lw-Sjc" secondAttribute="top" constant="21" id="r67-Q7-BL3"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="profile" badgeValue="User Info" id="BOv-XU-R4f">
                         <color key="badgeColor" systemColor="systemGreenColor"/>
                     </tabBarItem>
-                    <connections>
-                        <outlet property="logOutFromFirebaseButton" destination="Uuw-Us-9vX" id="sXX-e8-5rt"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pYl-sC-ebF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="o7o-tf-fS7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3043.0769230769229" y="-598.57819905213262"/>
         </scene>
@@ -734,11 +841,16 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="friends" width="18" height="18"/>
         <image name="group" width="18" height="18"/>
+        <image name="loginBGImage" width="375" height="284"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="newspaper" catalog="system" width="128" height="108"/>
         <image name="profile" width="18" height="18"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
