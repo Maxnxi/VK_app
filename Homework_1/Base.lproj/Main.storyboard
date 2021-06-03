@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8C1-f3-hmB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8C1-f3-hmB">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -385,7 +385,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="myGroupsCell" rowHeight="76" id="moh-i6-ktW" customClass="MyGroupsCell" customModule="Homework_1" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="390" height="76"/>
+                                        <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="moh-i6-ktW" id="uxr-93-57H">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="76"/>
@@ -478,7 +478,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalGroupCell" rowHeight="80" id="tjd-Nv-XDG" customClass="GlobalGroupCell" customModule="Homework_1" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="390" height="80"/>
+                                        <rect key="frame" x="0.0" y="68.333333969116211" width="390" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="tjd-Nv-XDG" id="xst-6o-Zvi" customClass="GlobalGroupCell" customModule="Homework_1" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="80"/>
@@ -631,7 +631,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" translatesAutoresizingMaskIntoConstraints="NO" id="gGG-ep-ZIP" customClass="FriendsTableCell" customModule="Homework_1" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="390" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="68.333333969116211" width="390" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="gGG-ep-ZIP" id="ydT-qd-FO6" customClass="FriendsTableCell" customModule="Homework_1" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -745,6 +745,16 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="54" id="2f0-J2-r3Y">
+                                        <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="54"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2f0-J2-r3Y" id="qD6-u7-Rgy">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="czp-3a-Ov4"/>
@@ -765,21 +775,6 @@
             </objects>
             <point key="canvasLocation" x="3992.3076923076924" y="1591.7061611374406"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="zF9-FR-yv2">
-            <objects>
-                <viewController id="QzB-Qs-Y4e" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Lop-dg-bg1">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="TsQ-oW-mzA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MoH-au-3KI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4812" y="1592"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="71T-ti-TxB">
             <objects>
@@ -795,6 +790,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="HzT-Qz-eB9" kind="relationship" relationship="viewControllers" id="gGR-x1-pPu"/>
+                        <segue destination="Euh-YM-w6L" kind="relationship" relationship="viewControllers" id="rE6-ya-Mgo"/>
                         <segue destination="76Q-WA-J7L" kind="relationship" relationship="viewControllers" id="nFw-mR-b08"/>
                         <segue destination="36G-Pd-Eth" kind="relationship" relationship="viewControllers" id="AOX-Nb-QRT"/>
                     </connections>
@@ -829,11 +825,11 @@
             </objects>
             <point key="canvasLocation" x="3055" y="115"/>
         </scene>
-        <!--Item-->
+        <!--News-->
         <scene sceneID="HhN-pd-f4o">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Euh-YM-w6L" customClass="AnimatedNavController" customModule="Homework_1" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="newspaper" catalog="system" id="fMa-Gi-JkU"/>
+                    <tabBarItem key="tabBarItem" title="News" image="newspaper" catalog="system" id="fMa-Gi-JkU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="1Fr-Of-jmt">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>

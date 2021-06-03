@@ -131,6 +131,30 @@ class ApiVkServices {
         AF.request(url)
     }
     
+    //MARK: -> Запрос к VK серверу "newsfeed.get"
+    func getNews(userId: String, accessToken: String, completion: @escaping() -> Void) {
+        
+        let path = "newsfeed.get"
+        
+        let parameters: Parameters = [
+            "user_id": userId,
+            "access_token": accessToken,
+            "filters": "post",
+            "count": "1",
+            "v": version
+            
+        ]
+        let url = baseUrl + path
+        
+        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+            print("request - is ", response.request!)
+            
+            
+            
+        }
+    }
+    
+    
     //MARK: -> для реализации в будущем
     func downloadImageByUrl(urlString: String, completion: @escaping(_ image: UIImage) -> ()) {
             AF.request(urlString).responseImage { (imageResponse) in
