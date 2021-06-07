@@ -31,7 +31,7 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
             URLQueryItem(name: "client_id", value: "7821622"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "scope", value: "270342"),
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "v", value: "5.130")
         ]
@@ -39,6 +39,11 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         let request = URLRequest(url: urlToRequest)
         self.wkWebView.load(request)
     }
+    
+    @IBAction func backBtnWasPrssd(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 
@@ -82,5 +87,7 @@ extension LoginVKwebVC {
         print("You are Logged in.")
         decisionHandler(.cancel)
     }
+    
+    
 }
     

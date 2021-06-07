@@ -7,6 +7,10 @@
 import UIKit
 import Foundation
 import RealmSwift
+import Firebase
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseFirestore
 
 class FriendsTableViewController: UIViewController  {
    
@@ -18,6 +22,10 @@ class FriendsTableViewController: UIViewController  {
 
     //RealM Notifications
     var token: NotificationToken?
+    
+    //Firebase
+    private var users = [FirebaseUserInfo]()
+    private let ref = Database.database().reference(withPath: "users")
     
     var myFriends:[UserRealMObject] = [] {
         didSet {
@@ -34,6 +42,26 @@ class FriendsTableViewController: UIViewController  {
         tableView.delegate = self
         tableView.dataSource = self
         configureFriendsTableView()
+        
+        //adding user to firebase
+        addUserInfoToFirebase()
+        
+        //firebase observe
+        ref.observe(.value) { (snapshot) in
+            var users: [FirebaseUserInfo] = []
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                   let user = FirebaseUserInfo(snapshot: snapshot) {
+                    users.append(user)
+                }
+            }
+            self.users = users
+            print("observe firebase users - is ", users)
+        }
+        
+        //загружаем в Firestore информацию о группах пользователя
+        //(1 - запрос с vk сервера, 2 - сохранение в RealM, 3 - выгрузка в Firestore )
+        fetchDataGroupsFromVkServer()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -204,4 +232,80 @@ extension FriendsTableViewController: UISearchBarDelegate {
     }
 }
 
+//MARK: -> Adding UserInfo to Firebase
 
+extension FriendsTableViewController {
+    
+    func addUserInfoToFirebase() {
+        
+        guard let vkUserId = Session.shared.userId as? String else {
+            print("\n\n\nError 302")
+            return
+        }
+        let vkUserIdToInt = Int(vkUserId) ?? 0
+        print("\n\n\n vk user id is - ", vkUserIdToInt)
+        let user = FirebaseUserInfo(id: vkUserIdToInt)
+        let userRef = self.ref.child(vkUserId.lowercased())
+        userRef.setValue(user.toAnyObject())
+    }
+}
+
+//MARK: -> Добавляем инфу о группах пользователя в Firestore
+
+extension FriendsTableViewController {
+    
+    // Загрузка данных с сервера (в RealM)
+    func fetchDataGroupsFromVkServer() {
+        guard let userId = Session.shared.userId,
+              let accessToken = Session.shared.token else {
+            print("error getting userId")
+            return
+        }
+        apiVkServices.getUserGroups(userId: userId, accessToken: accessToken) {
+            print("fetchDataGroupsFromServer - done")
+            self.addUserGroupsInfo()
+        }
+    }
+    
+    func addUserGroupsInfo() {
+        let usersRef = "users"
+        
+            do {
+                // Загружаем группы пользователя из RealM
+                guard let realm = try? Realm() else { return }
+                let groupsFromRealm = realm.objects(GroupsRealMObject.self)
+                let mainUserGroups = Array(groupsFromRealm)
+                var groupsInfoConvertedToFirestore:[Dictionary<String, Any>] = []
+                
+                for element in mainUserGroups {
+                    let id = element.id
+                    let name = element.name
+                    let group = [
+                        "id": id,
+                        "name": name
+                    ] as [String : Any]
+                    groupsInfoConvertedToFirestore.append(group)
+                }
+                
+                // Выгружаем группы пользователя в Firestore
+                Firestore.firestore().collection(usersRef).addDocument(data: [
+                    "userId": Auth.auth().currentUser?.uid ?? "",
+                    "vkUserId": Session.shared.userId,
+                    "groups": groupsInfoConvertedToFirestore
+                ]) { (error) in
+                    if let error = error {
+                        debugPrint("Error #1. adding user info to firestore. \(error.localizedDescription)")
+                    } else {
+                        print("\n\n\nUser info added to firestore - succes")
+                    }
+                    return
+                }
+                
+            } catch {
+                debugPrint(error.localizedDescription)
+            }
+        
+        
+        
+    }
+}

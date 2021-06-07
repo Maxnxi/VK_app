@@ -9,6 +9,13 @@ target 'Homework_1' do
   pod "Alamofire"
   pod "AlamofireImage"
 pod "RealmSwift"
+pod "Firebase/Analytics"
+pod "RxSwift"
+
+pod "Firebase/Core"
+pod "Firebase/Auth"
+pod "Firebase/Database"
+pod "Firebase/Firestore"
 
 
 end
