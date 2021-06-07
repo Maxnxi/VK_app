@@ -131,8 +131,10 @@ class ApiVkServices {
         AF.request(url)
     }
     
-    //MARK: -> Запрос к VK серверу "newsfeed.get"
-    func getNews(userId: String, accessToken: String, completion: @escaping() -> Void) {
+    //MARK: -> Запрос к VK серверу "newsfeed.get" / данные в Realm не сохраняем
+    func getNewsPost(userId: String, accessToken: String, completion: @escaping() -> Void) {
+        
+        //https://api.vk.com/method/newsfeed.get?access_token=23f5d9413b77384e80cd010e98d870716da2c4a25a1b70758f3dd345b0bb84600b4cde496a6c1374ce9d9&count=2&filters=post,photo&user_id=200037963&v=5.130
         
         let path = "newsfeed.get"
         
@@ -140,16 +142,55 @@ class ApiVkServices {
             "user_id": userId,
             "access_token": accessToken,
             "filters": "post",
-            "count": "1",
+            "count": "10",
             "v": version
-            
         ]
         let url = baseUrl + path
         
         AF.request(url, method: .get, parameters: parameters).responseData { (response) in
             print("request - is ", response.request!)
+            // TO DO PARSE DATA
+            guard let data = response.value else {return}
+            do {
+                let items = try JSONDecoder().decode( ResponseNews.self, from: data).response?.items
+                var newsForRealm: [NewsRealmObject] = []
+                guard let itemsArr = items as? [ItemNews] else {
+                    print("Error #311")
+                    return
+                }
+                for element in itemsArr {
+                    let oneNew = NewsRealmObject(news: element)
+                    newsForRealm.append(oneNew)
+                    if newsForRealm.count == itemsArr.count {
+                        
+                        //записываем данные в RealM
+                        self.realMServices.saveNewsData(newsForRealm)
+                        completion()
+                    }
+                }
+            } catch {
+                debugPrint("error #4", error)
+            }
             
-            
+        }
+    }
+    
+    func getNewsPhoto(userId: String, accessToken: String, completion: @escaping() -> Void) {
+        
+        let path = "newsfeed.get"
+        
+        let parameters: Parameters = [
+            "user_id": userId,
+            "access_token": accessToken,
+            "filters": "photo",
+            "count": "1",
+            "v": version
+        ]
+        let url = baseUrl + path
+        
+        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+            print("request - is ", response.request!)
+            // TO DO PARSE DATA
             
         }
     }

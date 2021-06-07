@@ -81,6 +81,24 @@ class RealMServices {
 //        }
 //    }
     
+    //MARK: -> сохраняем новости в бд
+    
+    func saveNewsData(_ news: [NewsRealmObject]) {
+        do {
+            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm(configuration: config)
+            let oldValues = realm.objects(NewsRealmObject.self)
+
+            realm.beginWrite()
+            realm.delete(oldValues)
+            realm.add(news)
+            try realm.commitWrite()
+            print("News save in realm - ", news)
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+    
     //MARK: -> сохраняем url фото в бд
     func saveUrlPhotosToRealm(_ photos: [PhotoRealMObject]) {
         do {

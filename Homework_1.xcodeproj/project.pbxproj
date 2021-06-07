@@ -29,7 +29,7 @@
 		0557F00C263C166000037E4C /* PhotoRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0557F00B263C166000037E4C /* PhotoRealMObject.swift */; };
 		0562BFEE264E9F170088EE06 /* FirebaseUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0562BFED264E9F170088EE06 /* FirebaseUserInfo.swift */; };
 		056311AB264D583100A92E0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 056311AA264D583100A92E0B /* GoogleService-Info.plist */; };
-		056A99622604EF2A0069E1C5 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A99612604EF2A0069E1C5 /* News.swift */; };
+		056A99622604EF2A0069E1C5 /* ResponseNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056A99612604EF2A0069E1C5 /* ResponseNews.swift */; };
 		057D76F725DC363D00A9E18B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057D76F625DC363D00A9E18B /* AppDelegate.swift */; };
 		057D76F925DC363D00A9E18B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057D76F825DC363D00A9E18B /* SceneDelegate.swift */; };
 		057D76FE25DC363D00A9E18B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 057D76FC25DC363D00A9E18B /* Main.storyboard */; };
@@ -46,6 +46,8 @@
 		059F65332636E2320062CC36 /* RealMServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65322636E2320062CC36 /* RealMServices.swift */; };
 		059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65352636E2720062CC36 /* UserRealmObject.swift */; };
 		059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65392636E8E80062CC36 /* GroupsRealMObject.swift */; };
+		05B59C47266E199F00A838D5 /* HeaderNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B59C46266E199F00A838D5 /* HeaderNewsView.swift */; };
+		05B59C49266E1BBA00A838D5 /* NewsRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */; };
 		05C43D75265E344D003338E7 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C43D74265E344D003338E7 /* EntryViewController.swift */; };
 		05C43D94265E6851003338E7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C43D93265E6851003338E7 /* ProfileViewController.swift */; };
 		05C9D1922624BB66002652BF /* LoginVKwebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D1912624BB66002652BF /* LoginVKwebVC.swift */; };
@@ -81,7 +83,7 @@
 		0557F00B263C166000037E4C /* PhotoRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRealMObject.swift; sourceTree = "<group>"; };
 		0562BFED264E9F170088EE06 /* FirebaseUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserInfo.swift; sourceTree = "<group>"; };
 		056311AA264D583100A92E0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		056A99612604EF2A0069E1C5 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		056A99612604EF2A0069E1C5 /* ResponseNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseNews.swift; sourceTree = "<group>"; };
 		057D76F325DC363D00A9E18B /* Homework_1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Homework_1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		057D76F625DC363D00A9E18B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		057D76F825DC363D00A9E18B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +102,8 @@
 		059F65322636E2320062CC36 /* RealMServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMServices.swift; sourceTree = "<group>"; };
 		059F65352636E2720062CC36 /* UserRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRealmObject.swift; sourceTree = "<group>"; };
 		059F65392636E8E80062CC36 /* GroupsRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealMObject.swift; sourceTree = "<group>"; };
+		05B59C46266E199F00A838D5 /* HeaderNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderNewsView.swift; sourceTree = "<group>"; };
+		05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRealmObject.swift; sourceTree = "<group>"; };
 		05C43D74265E344D003338E7 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		05C43D93265E6851003338E7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		05C9D1912624BB66002652BF /* LoginVKwebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVKwebVC.swift; sourceTree = "<group>"; };
@@ -129,14 +133,15 @@
 		051BE5622668BFE800582590 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				05B59C4A266E73D700A838D5 /* notWorking */,
 				051BE5632668C01300582590 /* HeaderNewsCell.swift */,
-				051BE5642668C01300582590 /* HeaderNewsCell.xib */,
 				051BE5672668C02A00582590 /* TextNewsCell.swift */,
-				051BE56D2668C05300582590 /* FooterNewsCell.swift */,
-				051BE56E2668C05300582590 /* FooterNewsCell.xib */,
-				051BE5682668C02A00582590 /* TextNewsCell.xib */,
 				051BE5712668C06700582590 /* PhotosNewsCell.swift */,
+				051BE56D2668C05300582590 /* FooterNewsCell.swift */,
+				051BE5642668C01300582590 /* HeaderNewsCell.xib */,
+				051BE5682668C02A00582590 /* TextNewsCell.xib */,
 				051BE5722668C06700582590 /* PhotosNewsCell.xib */,
+				051BE56E2668C05300582590 /* FooterNewsCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -171,11 +176,11 @@
 		057D76F525DC363D00A9E18B /* Homework_1 */ = {
 			isa = PBXGroup;
 			children = (
-				0581820B26149B9200542167 /* News */,
 				05920FAF26311B1700B54031 /* App */,
 				05920FB326311E1600B54031 /* Services */,
 				0597AF5B25E3B77F0014BF41 /* Login */,
 				0581820C26149B9A00542167 /* Friends */,
+				0581820B26149B9200542167 /* News */,
 				0597AF5A25E3B77A0014BF41 /* Model */,
 				0581820D26149BA200542167 /* Groups */,
 				05ED4F22261EDAFC00FB097A /* waitingToBeDone */,
@@ -318,7 +323,8 @@
 				0538E77925E7A6AB00FA631D /* ResponseUsers.swift */,
 				05D774A225E6798900FA5CA5 /* ResponseGroups.swift */,
 				057E1492263012BB00569460 /* ResponseUserPhotos.swift */,
-				056A99612604EF2A0069E1C5 /* News.swift */,
+				056A99612604EF2A0069E1C5 /* ResponseNews.swift */,
+				05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */,
 				059F65352636E2720062CC36 /* UserRealmObject.swift */,
 				059F65392636E8E80062CC36 /* GroupsRealMObject.swift */,
 				0557F00B263C166000037E4C /* PhotoRealMObject.swift */,
@@ -343,6 +349,14 @@
 				054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		05B59C4A266E73D700A838D5 /* notWorking */ = {
+			isa = PBXGroup;
+			children = (
+				05B59C46266E199F00A838D5 /* HeaderNewsView.swift */,
+			);
+			path = notWorking;
 			sourceTree = "<group>";
 		};
 		05C43D96265E6863003338E7 /* ProfileInfo */ = {
@@ -520,6 +534,8 @@
 				051BE5692668C02A00582590 /* TextNewsCell.swift in Sources */,
 				05D774AF25E6842A00FA5CA5 /* RoundedImgView.swift in Sources */,
 				054AAEA925FBE53D00E73DD9 /* UIImageViewExtension.swift in Sources */,
+				05B59C47266E199F00A838D5 /* HeaderNewsView.swift in Sources */,
+				05B59C49266E1BBA00A838D5 /* NewsRealmObject.swift in Sources */,
 				05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */,
 				057D76F725DC363D00A9E18B /* AppDelegate.swift in Sources */,
 				0546BA1A26037D8F00CC57DF /* NewsCellTableViewCell.swift in Sources */,
@@ -527,7 +543,7 @@
 				0542ADBE25EE47CB003557DA /* AvatarView.swift in Sources */,
 				0546BA1626037D7000CC57DF /* NewsVC.swift in Sources */,
 				059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */,
-				056A99622604EF2A0069E1C5 /* News.swift in Sources */,
+				056A99622604EF2A0069E1C5 /* ResponseNews.swift in Sources */,
 				059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */,
 				0562BFEE264E9F170088EE06 /* FirebaseUserInfo.swift in Sources */,
 				059F65332636E2320062CC36 /* RealMServices.swift in Sources */,
