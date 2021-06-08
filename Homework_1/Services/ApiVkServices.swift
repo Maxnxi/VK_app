@@ -131,38 +131,41 @@ class ApiVkServices {
         AF.request(url)
     }
     
-    //MARK: -> Запрос к VK серверу "newsfeed.get" / данные в Realm не сохраняем
+    //MARK: -> Запрос к VK серверу "newsfeed.get" / данные в Realm сохраняем
     func getNewsPost(userId: String, accessToken: String, completion: @escaping() -> Void) {
-        
         //https://api.vk.com/method/newsfeed.get?access_token=23f5d9413b77384e80cd010e98d870716da2c4a25a1b70758f3dd345b0bb84600b4cde496a6c1374ce9d9&count=2&filters=post,photo&user_id=200037963&v=5.130
         
-        let path = "newsfeed.get"
-        
-        let parameters: Parameters = [
-            "user_id": userId,
-            "access_token": accessToken,
-            "filters": "post",
-            "count": "10",
-            "v": version
-        ]
-        let url = baseUrl + path
-        
-        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-            print("request - is ", response.request!)
-            // TO DO PARSE DATA
-            guard let data = response.value else {return}
-            do {
-                let items = try JSONDecoder().decode( ResponseNews.self, from: data).response?.items
-                
-                let groups = try JSONDecoder().decode( ResponseNews.self, from: data).response?.groups
-                
-                let profiles = try JSONDecoder().decode( ResponseNews.self, from: data).response?.profiles
-                
-                var newsForRealm: [NewsRealmObject] = []
-                guard let itemsArr = items as? [ItemNews] else {
+        //Dispatch Group ДЗ №2
+        let dispatchGroup = DispatchGroup()
+        var newsForRealm: [NewsRealmObject] = []
+
+            let path = "newsfeed.get"
+            let parameters: Parameters = [
+                "user_id": userId,
+                "access_token": accessToken,
+                "filters": "post",
+                "count": "10",
+                "v": self.version
+            ]
+            let url = self.baseUrl + path
+            
+//        DispatchQueue.global().sync() {
+            AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+                print("request - is ", response.request!)
+                guard let data = response.value else {return}
+                do {
+                    let items = try JSONDecoder().decode( ResponseNews.self, from: data).response?.items
+                    let groups = try JSONDecoder().decode( ResponseNews.self, from: data).response?.groups
+                    let profiles = try JSONDecoder().decode( ResponseNews.self, from: data).response?.profiles
+
+                guard let itemsArr = items as? [ItemNews],
+                      let groupsArr = groups as? [GroupNews],
+                      let profilesArr = profiles as? [Profile] else {
                     print("Error #311")
                     return
                 }
+                
+                    //подготавливаем данные для модели NewsRealmObject
                 for element in itemsArr {
                     guard let idVk = element.sourceID as? Int else { return }
                     if idVk < 0 {
@@ -184,9 +187,15 @@ class ApiVkServices {
             } catch {
                 debugPrint("error #4", error)
             }
-            
-        }
+            }
+//        }
+        
+//        dispatchGroup.notify(queue: DispatchQueue.main) {
+//            //записываем данные в RealM
+//            self.realMServices.saveNewsData(newsForRealm)
+//        }
     }
+
     
     func getNewsPhoto(userId: String, accessToken: String, completion: @escaping() -> Void) {
         

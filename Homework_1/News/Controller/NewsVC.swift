@@ -59,37 +59,38 @@ class NewsVC: UIViewController {
     }
     
     func loadNewsFromRealm(){
-        do {
-        let realm = try Realm()
-        let newsFromRealm = realm.objects(NewsRealmObject.self)
-        
-//            self.token = newsFromRealm.observe({ [weak self] (changes: RealmCollectionChange) in
-//                guard let self = self, let tableView = self.tableView else { return }
-//                
-//                print("Данные изменились!")
-//                switch changes {
-//                case .initial:
-//                    print("initial - done")
-//                    tableView.reloadData()
-//                case .update:
-//                    print("update - done")
-//                    tableView.reloadData()
-//                case .error(let error):
-//                    print(error)
+        // ДЗ №~2
+//        DispatchQueue.global(qos: .default).async {
+            do {
+            let realm = try Realm()
+            let newsFromRealm = realm.objects(NewsRealmObject.self)
+            
+    //            self.token = newsFromRealm.observe({ [weak self] (changes: RealmCollectionChange) in
+    //                guard let self = self, let tableView = self.tableView else { return }
+    //
+    //                print("Данные изменились!")
+    //                switch changes {
+    //                case .initial:
+    //                    print("initial - done")
+    //                    tableView.reloadData()
+    //                case .update:
+    //                    print("update - done")
+    //                    tableView.reloadData()
+    //                case .error(let error):
+    //                    print(error)
+    //                }
+    //            })
+//                DispatchQueue.main.async {
+                    self.myNews = Array(newsFromRealm)
+                    
 //                }
-//            })
-            myNews = Array(newsFromRealm)
-            
-            //to do сортировка по времени
-            
-        } catch {
-            debugPrint(error.localizedDescription)
+                //to do сортировка по времени
+ 
+            } catch {
+                debugPrint(error.localizedDescription)
+            }
         }
-    }
-    
-
-  
-
+//    }
 }
 
 extension NewsVC: UITableViewDelegate, UITableViewDataSource {

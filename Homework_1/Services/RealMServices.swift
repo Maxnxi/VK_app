@@ -87,11 +87,11 @@ class RealMServices {
         do {
             let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
             let realm = try Realm(configuration: config)
-            let oldValues = realm.objects(NewsRealmObject.self)
+            //let oldValues = realm.objects(NewsRealmObject.self)
 
             realm.beginWrite()
-            realm.delete(oldValues)
-            realm.add(news)
+            //realm.delete(oldValues)
+            realm.add(news, update: .all)
             try realm.commitWrite()
             print("News save in realm - ", news)
         } catch {
