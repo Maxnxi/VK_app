@@ -35,6 +35,15 @@ class NewsVC: UIViewController {
         
         fetchDataFromVkServer()
         loadNewsFromRealm()
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        fetchDataFromVkServer()
+        loadNewsFromRealm()
+        tableView.reloadData()
     }
     
     
@@ -120,11 +129,11 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
             return textCell
         case 2:
             guard let photoCell = tableView.dequeueReusableCell(withIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? PhotosNewsCell else { return UITableViewCell() }
-            if let photoUrl = oneNew.photoUrl as? String {
-                photoCell.configureCell(newsPhoto: photoUrl)
+            if oneNew.photoOneUrl == "NO_PHOTO" {
+                photoCell.minimizeView()
                 return photoCell
             } else {
-                photoCell.minimizeView()
+                photoCell.configureCell(news: oneNew)
                 return photoCell
             }
             

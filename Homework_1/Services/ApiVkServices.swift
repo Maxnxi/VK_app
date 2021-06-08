@@ -153,14 +153,27 @@ class ApiVkServices {
             guard let data = response.value else {return}
             do {
                 let items = try JSONDecoder().decode( ResponseNews.self, from: data).response?.items
+                
+                let groups = try JSONDecoder().decode( ResponseNews.self, from: data).response?.groups
+                
+                let profiles = try JSONDecoder().decode( ResponseNews.self, from: data).response?.profiles
+                
                 var newsForRealm: [NewsRealmObject] = []
                 guard let itemsArr = items as? [ItemNews] else {
                     print("Error #311")
                     return
                 }
                 for element in itemsArr {
-                    let oneNew = NewsRealmObject(news: element)
-                    newsForRealm.append(oneNew)
+                    guard let idVk = element.sourceID as? Int else { return }
+                    if idVk < 0 {
+                        let additionalData = groups?.first(where: { $0.id == -idVk})
+                        let oneNew = NewsRealmObject(news: element, additionalGroupData: additionalData)
+                        newsForRealm.append(oneNew)
+                    } else {
+                        let additionalData = profiles?.first(where: { $0.id == idVk})
+                        let oneNew = NewsRealmObject(news: element, additionalProfileData: additionalData)
+                        newsForRealm.append(oneNew)
+                    }
                     if newsForRealm.count == itemsArr.count {
                         
                         //записываем данные в RealM
