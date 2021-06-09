@@ -53,9 +53,13 @@ class NewsVC: UIViewController {
             print("error getting userId")
             return
         }
-        apiVkServices.getNewsPost(userId: userId, accessToken: accessToken) {
-            print("getNews - done")
+        //ДЗ #2
+        DispatchQueue.global(qos: .utility).async {
+            self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken) {
+                print("getNews - done")
+            }
         }
+        
     }
     
     func loadNewsFromRealm(){
@@ -130,7 +134,8 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
             return textCell
         case 2:
             guard let photoCell = tableView.dequeueReusableCell(withIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? PhotosNewsCell else { return UITableViewCell() }
-            if oneNew.photoOneUrl == "NO_PHOTO" {
+            //проверка на наличие фото в новости
+            if oneNew.photoOneUrl == "NO_PHOTO" || oneNew.photoOneUrl == " " {
                 photoCell.minimizeView()
                 return photoCell
             } else {
@@ -145,6 +150,36 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
         default:
             return UITableViewCell()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let oneNew = myNews[indexPath.section]
+        var heightOfCell:CGFloat = 0
+        switch indexPath.row {
+        case 0:
+            heightOfCell = 40.0
+        case 1:
+            if oneNew.text.count == 0 {
+                heightOfCell = 0.0
+            } else if oneNew.text.count > 0 && oneNew.text.count < 50 {
+                heightOfCell = 40.0
+            } else if oneNew.text.count > 50 && oneNew.text.count < 150 {
+                heightOfCell = 60.0
+            } else if oneNew.text.count > 150 && oneNew.text.count < 350 {
+                heightOfCell = 100.0
+            }
+        case 2:
+            if oneNew.photoOneUrl == "NO_PHOTO" || oneNew.photoOneUrl == "" {
+                heightOfCell = 0.0
+            } else {
+                heightOfCell = 200.0
+            }
+        case 3:
+            heightOfCell = 40.0
+        default:
+            heightOfCell = 0.0
+        }
+        return heightOfCell
     }
     
     

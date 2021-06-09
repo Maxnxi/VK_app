@@ -149,15 +149,17 @@ class ApiVkServices {
             ]
             let url = self.baseUrl + path
             
-//        DispatchQueue.global().sync() {
+        
             AF.request(url, method: .get, parameters: parameters).responseData { (response) in
                 print("request - is ", response.request!)
                 guard let data = response.value else {return}
                 do {
+                    //ДЗ №2
+//                    DispatchQueue.global().async(group: dispatchGroup) {
                     let items = try JSONDecoder().decode( ResponseNews.self, from: data).response?.items
                     let groups = try JSONDecoder().decode( ResponseNews.self, from: data).response?.groups
                     let profiles = try JSONDecoder().decode( ResponseNews.self, from: data).response?.profiles
-
+//                    }
                 guard let itemsArr = items as? [ItemNews],
                       let groupsArr = groups as? [GroupNews],
                       let profilesArr = profiles as? [Profile] else {
@@ -180,8 +182,11 @@ class ApiVkServices {
                     if newsForRealm.count == itemsArr.count {
                         
                         //записываем данные в RealM
-                        self.realMServices.saveNewsData(newsForRealm)
-                        completion()
+                        DispatchQueue.main.async {
+                            self.realMServices.saveNewsData(newsForRealm)
+                            completion()
+                        }
+                        
                     }
                 }
             } catch {
