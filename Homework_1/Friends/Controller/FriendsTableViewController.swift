@@ -261,10 +261,11 @@ extension FriendsTableViewController {
             print("error getting userId")
             return
         }
-        apiVkServices.getUserGroups(userId: userId, accessToken: accessToken) {
+        apiVkServices.getUserGroups(userId: userId, accessToken: accessToken)
+        //{
             print("fetchDataGroupsFromServer - done")
             self.addUserGroupsInfo()
-        }
+        //}
     }
     
     func addUserGroupsInfo() {

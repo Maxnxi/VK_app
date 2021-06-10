@@ -55,9 +55,10 @@ class MyGroupsTableVC: UIViewController {
             print("error getting userId")
             return
         }
-        apiVkService.getUserGroups(userId: userId, accessToken: accessToken) {
+        apiVkService.getUserGroups(userId: userId, accessToken: accessToken)
+        //{
             print("fetchDataGroupsFromServer - done")
-        }
+        //}
     }
     
     // загружаем из RealM

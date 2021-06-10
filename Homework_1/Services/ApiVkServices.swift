@@ -16,6 +16,9 @@ class ApiVkServices {
     let version = "5.130"
     let realMServices = RealMServices()
     
+    //Для ДЗ №3 - Operation
+    private let queue = OperationQueue()
+    
     //MARK: -> Запрос к VK серверу "friends.get"
     func getFriends(userId: String, accessToken: String, completion: @escaping() -> Void) {
         let path = "friends.get"
@@ -54,37 +57,58 @@ class ApiVkServices {
     }
     
     //MARK: -> Запрос к VK серверу "groups.get"
-    func getUserGroups(userId: String, accessToken: String, completion: @escaping() -> ()) {
-        let path = "groups.get"
-        let parameters: Parameters = [
-            "user_id": userId,
-            "access_token": accessToken,
-            "v": version,
-            "extended": "1"
-        ]
-        let url = baseUrl + path
+//версия №2
+//ДЗ №3
+    func getUserGroups(userId: String, accessToken: String) {
+   
+        let getGroupDataOperation = GetGroupDataFromVKOperation(userId: userId, accessToken: accessToken)
+        queue.addOperation(getGroupDataOperation)
         
-        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-            print("request - is ", response.request!)
-            guard let data = response.value else {return}
-            do {
-                let groups = try JSONDecoder().decode( ResponseGroups.self, from: data).response.items
-                var groupsForRealm: [GroupsRealMObject] = []
-                for element in groups {
-                    let group = GroupsRealMObject(group: element)
-                    groupsForRealm.append(group)
-                    if groupsForRealm.count == groups.count {
-                        
-                        //записываем данные в RealM
-                        self.realMServices.saveGroupsData(groupsForRealm)
-                        completion()
-                    }
-                }
-            } catch {
-                debugPrint("error #2", error)
-            }
-        }
+        let parseGroupDataOperation = ParseGroupDataFromVKOperation<Group>()
+        parseGroupDataOperation.addDependency(getGroupDataOperation)
+        queue.addOperation(parseGroupDataOperation)
+        
+        let convertGroupToRealmObjOperation = ConvertGroupFromVKParseToRealmObjectOperation<Group>()
+        convertGroupToRealmObjOperation.addDependency(parseGroupDataOperation)
+        queue.addOperation(convertGroupToRealmObjOperation)
+        
+        let saveToRealmOperation = SaveGroupRealmObjDataToRealmOperation<Group>()
+        saveToRealmOperation.addDependency(convertGroupToRealmObjOperation)
+        queue.addOperation(saveToRealmOperation)
     }
+    
+    // версия №1
+    //    func getUserGroups(userId: String, accessToken: String, completion: @escaping() -> ()) {
+//        let path = "groups.get"
+//        let parameters: Parameters = [
+//            "user_id": userId,
+//            "access_token": accessToken,
+//            "v": version,
+//            "extended": "1"
+//        ]
+//        let url = baseUrl + path
+//
+//        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+//            print("request - is ", response.request!)
+//            guard let data = response.value else {return}
+//            do {
+//                let groups = try JSONDecoder().decode( ResponseGroups.self, from: data).response.items
+//                var groupsForRealm: [GroupsRealMObject] = []
+//                for element in groups {
+//                    let group = GroupsRealMObject(group: element)
+//                    groupsForRealm.append(group)
+//                    if groupsForRealm.count == groups.count {
+//
+//                        //записываем данные в RealM
+//                        self.realMServices.saveGroupsData(groupsForRealm)
+//                        completion()
+//                    }
+//                }
+//            } catch {
+//                debugPrint("error #2", error)
+//            }
+//        }
+//    }
     
     //MARK: -> Запрос к VK серверу "photos.getAll"
     func getUserPhotos(userId: Int, accessToken: String, completion: @escaping() ->()) {

@@ -22,7 +22,7 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         configureWebView()
     }
     
-    func configureWebView(){
+    func configureWebView() {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "oauth.vk.com"
