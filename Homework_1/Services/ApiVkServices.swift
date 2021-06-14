@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 import AlamofireImage
 import RealmSwift
+import PromiseKit
 
 class ApiVkServices {
     
@@ -16,45 +17,118 @@ class ApiVkServices {
     let version = "5.130"
     let realMServices = RealMServices()
     
+    private var urlConstructor = URLComponents()
+    private let configuration: URLSessionConfiguration!
+    private let session: URLSession!
+    
+    init(){
+        urlConstructor.scheme = "https"
+        urlConstructor.host = "api.vk.com"
+        configuration = URLSessionConfiguration.default
+        session = URLSession(configuration: configuration)
+    }
+    
+    //TO DO
+    func authorizationVkRequest(){
+        
+    }
+    
     //Для ДЗ №3 - Operation
     private let queue = OperationQueue()
     
     //MARK: -> Запрос к VK серверу "friends.get"
-    func getFriends(userId: String, accessToken: String, completion: @escaping() -> Void) {
-        let path = "friends.get"
-        
-        let parameters: Parameters = [
-            "user_id": userId,
-            "access_token": accessToken,
-            "v": version,
-            "fields": "photo"
+    //ДЗ №4
+    //версия 2
+    func getUrl(userId:String, accessToken:String) -> Promise<URL> {
+        urlConstructor.path = "/method/friends.get"
+        urlConstructor.queryItems = [
+            URLQueryItem(name: "filters", value: "post"),
+            URLQueryItem(name: "start_from", value: "next_from"),
+            URLQueryItem(name: "count", value: "20"),
+            URLQueryItem(name: "access_token", value: accessToken),
+            URLQueryItem(name: "user_id", value: userId),
+            URLQueryItem(name: "v", value: version),
         ]
-        let url = baseUrl + path
         
-        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-            print("request - is ", response.request!)
-            
-            guard let data = response.value else { return }
-            do {
-                let friendsResponse = try JSONDecoder().decode( ResponseUsers.self, from: data).response.items
-                
-                var freindsForRealm:[UserRealMObject] = []
-                for element in friendsResponse {
-                    let friend = UserRealMObject(user: element)
-                    freindsForRealm.append(friend)
-                    
-                    if friendsResponse.count == freindsForRealm.count {
-                        
-                        //записываем данные в RealM
-                        self.realMServices.saveFriendsData(freindsForRealm)
-                        completion()
-                    }
+        return Promise { resolver in
+            guard let url = urlConstructor.url else { resolver.reject(AppError.notCorrectUrl)
+                return
+            }
+            resolver.fulfill(url)
+        }
+    }
+    
+    func getData(promisedUrl url: URL) -> Promise<Data> {
+        return Promise { resolver in
+            session.dataTask(with: url) { (data, response, error) in
+                guard let data = data else {
+                    resolver.reject(AppError.errorTask)
+                    return
                 }
+                resolver.fulfill(data)
+            }.resume()
+        }
+    }
+    
+    func getParsedData(promisedData data: Data) -> Promise<ResponseUsersInfo> {
+        return Promise { resolver in
+            do {
+                let response = try JSONDecoder().decode(ResponseUsers.self, from: data).response
+                resolver.fulfill(response)
             } catch {
-                debugPrint("error #1", error)
+                resolver.reject(AppError.failedtoDecode)
             }
         }
     }
+    
+    func getFriends(promisedItems items: ResponseUsersInfo) -> Promise<[UserRealMObject]> {
+        return Promise<[UserRealMObject]> { resolver in
+            var friends = items.items
+            var friendsForRealm:[UserRealMObject] = []
+            for element in friends {
+                let friend = UserRealMObject(user: element)
+                friendsForRealm.append(friend)
+            }
+            resolver.fulfill(friendsForRealm)
+        }
+    }
+    
+    //версия 1
+//    func getFriends(userId: String, accessToken: String, completion: @escaping() -> Void) {
+//        let path = "friends.get"
+//
+//        let parameters: Parameters = [
+//            "user_id": userId,
+//            "access_token": accessToken,
+//            "v": version,
+//            "fields": "photo"
+//        ]
+//        let url = baseUrl + path
+//
+//        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+//            print("request - is ", response.request!)
+//
+//            guard let data = response.value else { return }
+//            do {
+//                let friendsResponse = try JSONDecoder().decode( ResponseUsers.self, from: data).response.items
+//
+//                var freindsForRealm:[UserRealMObject] = []
+//                for element in friendsResponse {
+//                    let friend = UserRealMObject(user: element)
+//                    freindsForRealm.append(friend)
+//
+//                    if friendsResponse.count == freindsForRealm.count {
+//
+//                        //записываем данные в RealM
+//                        self.realMServices.saveFriendsData(freindsForRealm)
+//                        completion()
+//                    }
+//                }
+//            } catch {
+//                debugPrint("error #1", error)
+//            }
+//        }
+//    }
     
     //MARK: -> Запрос к VK серверу "groups.get"
 //версия №2

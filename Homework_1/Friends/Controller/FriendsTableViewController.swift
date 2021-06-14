@@ -76,16 +76,37 @@ class FriendsTableViewController: UIViewController  {
         setupDataSource()
     }
     
-    // Загрузка данных с сервера (в RealM)
+    // Загрузка данных с сервера //(в RealM) - отдельно
     func fetchDataFriendsFromVkServer() {
         guard let userId = Session.shared.userId,
               let accessToken = Session.shared.token else {
             print("error getting userId")
             return
         }
-        apiVkServices.getFriends(userId: userId, accessToken: accessToken) {
-            print("fetchDataFriendsFromVkServer - done")
-        }
+        //ДЗ №4
+        //версия 2
+        
+        apiVkServices.getUrl(userId: userId, accessToken: accessToken)
+            .get({url in
+                print("\\ Запрос списка друзей пользователя - ", url)
+            })
+            .then(on: DispatchQueue.global(), apiVkServices.getData(promisedUrl:))
+            .then(apiVkServices.getParsedData(promisedData:))
+            .then(apiVkServices.getFriends(promisedItems:))
+            .done(on: DispatchQueue.main) { friends in
+                print("\\ Получен список друзей - done")
+                // save friends to realm
+                self.realMServices.saveFriendsData(friends)
+            }.ensure {
+                //TO DO animating
+            }.catch { error in
+                print(error)
+            }
+        
+        //версия 1
+//        apiVkServices.getFriends(userId: userId, accessToken: accessToken) {
+//            print("fetchDataFriendsFromVkServer - done")
+//        }
     }
     
     // загружаем из RealM

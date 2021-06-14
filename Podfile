@@ -11,6 +11,7 @@ target 'Homework_1' do
 pod "RealmSwift"
 pod "Firebase/Analytics"
 pod "RxSwift"
+pod "PromiseKit"
 
 pod "Firebase/Core"
 pod "Firebase/Auth"
