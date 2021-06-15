@@ -20,7 +20,12 @@ class GetGroupDataFromVKOperation: AsyncOperation {
     let version = "5.130"
     
     var data: Data?
+    //private var request: DataRequest
     
+//    override func cancel() {
+//        request.cancel()
+//        super.cancel()
+//    }
     
     override func main() {
         let parameters: Parameters = [
@@ -32,14 +37,15 @@ class GetGroupDataFromVKOperation: AsyncOperation {
         
         let url = baseUrl + path
         
-        AF.request(url, method: .get, parameters: parameters).responseData { response in
+        AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
             
-            guard let data = response.value else { return }
-            self.data = data
-            self.state = .finished
-            
+            guard let data = response.value else {
+                print("AF.request groups -  failed")
+                return }
+            self?.data = data
+            print("AF.request groups -  done", data)
+            self?.state = .finished
         }
-         
     }
     
     init(userId: String, accessToken:String) {

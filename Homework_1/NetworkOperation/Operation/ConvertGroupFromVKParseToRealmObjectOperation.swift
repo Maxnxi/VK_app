@@ -10,15 +10,19 @@ import Realm
 
 class ConvertGroupFromVKParseToRealmObjectOperation<T:Codable>: Operation {
     
-    var groupsForRealm: [GroupsRealMObject]?
+    var groupsForRealm: [GroupsRealMObject]? = []
     
     override func main (){
         guard let parsedGroupData = dependencies.first as? ParseGroupDataFromVKOperation<Group>,
-              let groups = parsedGroupData.outputData else { return }
-        for element in groups {
-            let group = GroupsRealMObject(group: element)
-            groupsForRealm?.append(group)
+              let groups = parsedGroupData.outputData else {
+            print("parsedGroupData.outputData - failed")
+            return
+        }
+        for i in 0..<groups.count {
+            let community = GroupsRealMObject(group: groups[i])
+            groupsForRealm?.append(community)
             
         }
+        print("ConvertGroupFromVKParseToRealmObjectOperation - done", groupsForRealm?.count)
     }
 }

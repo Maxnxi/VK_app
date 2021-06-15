@@ -61,7 +61,7 @@ class FriendsTableViewController: UIViewController  {
         
         //загружаем в Firestore информацию о группах пользователя
         //(1 - запрос с vk сервера, 2 - сохранение в RealM, 3 - выгрузка в Firestore )
-        fetchDataGroupsFromVkServer()
+        //fetchDataGroupsFromVkServer()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -83,8 +83,9 @@ class FriendsTableViewController: UIViewController  {
             print("error getting userId")
             return
         }
-        //ДЗ №4
+        
         //версия 2
+        //ДЗ №4 - технология использования Promise
         
         apiVkServices.getUrl(userId: userId, accessToken: accessToken)
             .get({url in

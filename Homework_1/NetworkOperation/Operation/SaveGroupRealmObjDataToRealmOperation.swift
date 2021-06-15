@@ -13,8 +13,11 @@ class SaveGroupRealmObjDataToRealmOperation<T:Codable> : Operation {
     let realMServices = RealMServices()
     
     override func main() {
-        guard let convertedToRealmData = dependencies.first as? ConvertGroupFromVKParseToRealmObjectOperation<GroupsRealMObject>,
-              let data = convertedToRealmData.groupsForRealm else { return }
+        guard let convertedToRealmData = dependencies.first as? ConvertGroupFromVKParseToRealmObjectOperation<Group>,
+              let data = convertedToRealmData.groupsForRealm else {
+            print("SaveGroupRealmObjDataToRealmOperation - failed")
+            return
+        }
         realMServices.saveGroupsData(data)
         print("Completed Saving")
     }

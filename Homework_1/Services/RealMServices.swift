@@ -49,9 +49,9 @@ class RealMServices {
     //MARK: -> сохряняем Группы в бд
     func saveGroupsData(_ groups: [GroupsRealMObject]) {
         do {
-            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(configuration: config)
-                
+            //let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            //let realm = try Realm(configuration: config)
+              let realm = try Realm()
             // очистка бд
 //            if realm.objects(GroupsRealMObject.self).count != 0 {
 //                let oldGroupsRequest = realm.objects(GroupsRealMObject.self)

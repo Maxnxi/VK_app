@@ -65,27 +65,31 @@ class ApiVkServices {
                     resolver.reject(AppError.errorTask)
                     return
                 }
+                print("/n/n data is - ", data )
                 resolver.fulfill(data)
             }.resume()
         }
     }
     
-    func getParsedData(promisedData data: Data) -> Promise<ResponseUsersInfo> {
+    func getParsedData(promisedData data: Data) -> Promise<[User]> {
         return Promise { resolver in
             do {
                 let response = try JSONDecoder().decode(ResponseUsers.self, from: data).response
-                resolver.fulfill(response)
+                let usersItems = response.items
+                print("/n/n ")
+                resolver.fulfill(usersItems)
             } catch {
                 resolver.reject(AppError.failedtoDecode)
+                
             }
         }
     }
     
-    func getFriends(promisedItems items: ResponseUsersInfo) -> Promise<[UserRealMObject]> {
+    func getFriends(promisedItems items: [User]) -> Promise<[UserRealMObject]> {
         return Promise<[UserRealMObject]> { resolver in
-            var friends = items.items
+            //let friends = items.items
             var friendsForRealm:[UserRealMObject] = []
-            for element in friends {
+            for element in items {
                 let friend = UserRealMObject(user: element)
                 friendsForRealm.append(friend)
             }
@@ -149,6 +153,7 @@ class ApiVkServices {
         let saveToRealmOperation = SaveGroupRealmObjDataToRealmOperation<Group>()
         saveToRealmOperation.addDependency(convertGroupToRealmObjOperation)
         queue.addOperation(saveToRealmOperation)
+        print("getUserGroups - done")
     }
     
     // версия №1

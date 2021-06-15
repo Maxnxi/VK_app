@@ -17,6 +17,7 @@ class ParseGroupDataFromVKOperation<T:Codable>: Operation {
 //        do {
         guard let dataParsed = try? JSONDecoder().decode(ResponseGroups.self, from: data).response.items else { return }
         outputData = dataParsed
+        print("ParseGroupDataFromVKOperation - done", dataParsed)
 //        } catch {
 //            debugPrint("error in ParseGroupDataFromVKOperation", error)
 //        }
