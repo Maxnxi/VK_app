@@ -46,6 +46,45 @@ class RealMServices {
 //        }
 //    }
     
+    func loadDataFriendsFromRealm() -> [UserRealMObject] {
+        var friends:[UserRealMObject] = []
+        do {
+        let realm = try Realm()
+        let friendsFromRealM = realm.objects(UserRealMObject.self)
+          
+            //realm observer
+//        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
+//                guard let self = self, let tableView = self.tableView else { return }
+//
+//                print("Данные изменились!")
+//                switch changes {
+//                case .initial:
+//                    print("initial - done")
+//                    tableView.reloadData()
+//                case .update:
+//                    print("update - done")
+//                    tableView.reloadData()
+//                case .error(let error):
+//                    print(error)
+//                }
+//            })
+            friends = Array(friendsFromRealM)
+            
+            //сортировка
+//            if !self.myFriends.isEmpty {
+//                self.myFriends = self.myFriends.sorted(by: {
+//                    $0.lastName.lowercased() < $1.lastName.lowercased()
+//                })
+//            }
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+        return friends
+    }
+    
+    
+    
+    
     //MARK: -> сохряняем Группы в бд
     func saveGroupsData(_ groups: [GroupsRealMObject]) {
         do {

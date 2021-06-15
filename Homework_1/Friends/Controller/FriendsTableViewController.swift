@@ -19,12 +19,15 @@ class FriendsTableViewController: UIViewController  {
 
     let apiVkServices = ApiVkServices()
     let realMServices = RealMServices()
+    
+    //vkUserId
+    private var vkUserId: String = "0"
 
     //RealM Notifications
     var token: NotificationToken?
     
     //Firebase
-    private var users = [FirebaseUserInfo]()
+    private var usersFirebaceInfo = [FirebaseUserInfo]()
     private let ref = Database.database().reference(withPath: "users")
     
     var myFriends:[UserRealMObject] = [] {
@@ -39,25 +42,33 @@ class FriendsTableViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let userId = Session.shared.userId as? String else {
+                    print("Failed to get vkUserId")
+                    return
+                }
+        self.vkUserId = userId
+        
         tableView.delegate = self
         tableView.dataSource = self
         configureFriendsTableView()
         
         //adding user to firebase
-        addUserInfoToFirebase()
+        FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
         
+        // перенесен в класс FirebaseModel
         //firebase observe
-        ref.observe(.value) { (snapshot) in
-            var users: [FirebaseUserInfo] = []
-            for child in snapshot.children {
-                if let snapshot = child as? DataSnapshot,
-                   let user = FirebaseUserInfo(snapshot: snapshot) {
-                    users.append(user)
-                }
-            }
-            self.users = users
-            print("observe firebase users - is ", users)
-        }
+//        ref.observe(.value) { (snapshot) in
+//            var users: [FirebaseUserInfo] = []
+//            for child in snapshot.children {
+//                if let snapshot = child as? DataSnapshot,
+//                   let user = FirebaseUserInfo(snapshot: snapshot) {
+//                    users.append(user)
+//                }
+//            }
+//            self.users = users
+//            print("observe firebase users - is ", users)
+//        }
+        usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
         
         //загружаем в Firestore информацию о группах пользователя
         //(1 - запрос с vk сервера, 2 - сохранение в RealM, 3 - выгрузка в Firestore )
@@ -72,7 +83,16 @@ class FriendsTableViewController: UIViewController  {
     
     func configureFriendsTableView() {
         fetchDataFriendsFromVkServer()
-        loadDataFriendsFromRealm()
+        
+        //Загрузка списка друзей из Realm (рефакторинг)
+        var friendsArr = realMServices.loadDataFriendsFromRealm()
+        //loadDataFriendsFromRealm()
+        
+        //сортировка друзей
+        myFriends = friendsArr.sorted(by: {
+            $0.lastName.lowercased() < $1.lastName.lowercased()
+        })
+        
         setupDataSource()
     }
     
@@ -110,38 +130,39 @@ class FriendsTableViewController: UIViewController  {
 //        }
     }
     
+    //перенесено в RealMServices
     // загружаем из RealM
-    func loadDataFriendsFromRealm() {
-        do {
-        let realm = try Realm()
-        let friendsFromRealM = realm.objects(UserRealMObject.self)
-        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
-                guard let self = self, let tableView = self.tableView else { return }
-                
-                print("Данные изменились!")
-                switch changes {
-                case .initial:
-                    print("initial - done")
-                    tableView.reloadData()
-                case .update:
-                    print("update - done")
-                    tableView.reloadData()
-                case .error(let error):
-                    print(error)
-                }
-            })
-            myFriends = Array(friendsFromRealM)
-            
-            //сортировка
-            if !self.myFriends.isEmpty {
-                self.myFriends = self.myFriends.sorted(by: {
-                    $0.lastName.lowercased() < $1.lastName.lowercased()
-                })
-            }
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
-    }
+//    func loadDataFriendsFromRealm() {
+//        do {
+//        let realm = try Realm()
+//        let friendsFromRealM = realm.objects(UserRealMObject.self)
+//        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
+//                guard let self = self, let tableView = self.tableView else { return }
+//
+//                print("Данные изменились!")
+//                switch changes {
+//                case .initial:
+//                    print("initial - done")
+//                    tableView.reloadData()
+//                case .update:
+//                    print("update - done")
+//                    tableView.reloadData()
+//                case .error(let error):
+//                    print(error)
+//                }
+//            })
+//            myFriends = Array(friendsFromRealM)
+//
+//            //сортировка
+//            if !self.myFriends.isEmpty {
+//                self.myFriends = self.myFriends.sorted(by: {
+//                    $0.lastName.lowercased() < $1.lastName.lowercased()
+//                })
+//            }
+//        } catch {
+//            debugPrint(error.localizedDescription)
+//        }
+//    }
     
     // фильтрация списка Друзей
     private func filterFriends(text: String?) {
@@ -254,22 +275,63 @@ extension FriendsTableViewController: UISearchBarDelegate {
     }
 }
 
+//MARK: -> RealM Observer
+extension FriendsTableViewController {
+    func startRealmObserver() {
+        //var friends:[UserRealMObject] = []
+        do {
+        let realm = try Realm()
+        let friendsFromRealM = realm.objects(UserRealMObject.self)
+          
+            //realm observer
+        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
+                guard let self = self, let tableView = self.tableView else { return }
+
+                print("Данные изменились!")
+                switch changes {
+                case .initial:
+                    print("initial - done")
+                    tableView.reloadData()
+                case .update:
+                    print("update - done")
+                    tableView.reloadData()
+                case .error(let error):
+                    print(error)
+                }
+            })
+            //friends = Array(friendsFromRealM)
+            
+            //сортировка
+//            if !self.myFriends.isEmpty {
+//                self.myFriends = self.myFriends.sorted(by: {
+//                    $0.lastName.lowercased() < $1.lastName.lowercased()
+//                })
+//            }
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+        return friends
+    }
+}
+
+
 //MARK: -> Adding UserInfo to Firebase
 
 extension FriendsTableViewController {
     
-    func addUserInfoToFirebase() {
-        
-        guard let vkUserId = Session.shared.userId as? String else {
-            print("\n\n\nError 302")
-            return
-        }
-        let vkUserIdToInt = Int(vkUserId) ?? 0
-        print("\n\n\n vk user id is - ", vkUserIdToInt)
-        let user = FirebaseUserInfo(id: vkUserIdToInt)
-        let userRef = self.ref.child(vkUserId.lowercased())
-        userRef.setValue(user.toAnyObject())
-    }
+    // перенесен в класс FirebaseModel
+//    func addUserInfoToFirebase() {
+//
+//        guard let vkUserId = Session.shared.userId as? String else {
+//            print("\n\n\nError 302")
+//            return
+//        }
+//        let vkUserIdToInt = Int(vkUserId) ?? 0
+//        print("\n\n\n vk user id is - ", vkUserIdToInt)
+//        let user = FirebaseUserInfo(id: vkUserIdToInt)
+//        let userRef = self.ref.child(vkUserId.lowercased())
+//        userRef.setValue(user.toAnyObject())
+//    }
 }
 
 //MARK: -> Добавляем инфу о группах пользователя в Firestore
@@ -290,45 +352,38 @@ extension FriendsTableViewController {
         //}
     }
     
-    func addUserGroupsInfo() {
-        let usersRef = "users"
-        
-            do {
-                // Загружаем группы пользователя из RealM
-                guard let realm = try? Realm() else { return }
-                let groupsFromRealm = realm.objects(GroupsRealMObject.self)
-                let mainUserGroups = Array(groupsFromRealm)
-                var groupsInfoConvertedToFirestore:[Dictionary<String, Any>] = []
-                
-                for element in mainUserGroups {
-                    let id = element.id
-                    let name = element.name
-                    let group = [
-                        "id": id,
-                        "name": name
-                    ] as [String : Any]
-                    groupsInfoConvertedToFirestore.append(group)
-                }
-                
-                // Выгружаем группы пользователя в Firestore
-                Firestore.firestore().collection(usersRef).addDocument(data: [
-                    "userId": Auth.auth().currentUser?.uid ?? "",
-                    "vkUserId": Session.shared.userId,
-                    "groups": groupsInfoConvertedToFirestore
-                ]) { (error) in
-                    if let error = error {
-                        debugPrint("Error #1. adding user info to firestore. \(error.localizedDescription)")
-                    } else {
-                        print("\n\n\nUser info added to firestore - succes")
-                    }
-                    return
-                }
-                
-            } catch {
-                debugPrint(error.localizedDescription)
-            }
-        
-        
-        
-    }
+//    func addUserGroupsInfo() {
+//        let usersRef = "users"
+//            do {
+//                // Загружаем группы пользователя из RealM
+//                guard let realm = try? Realm() else { return }
+//                let groupsFromRealm = realm.objects(GroupsRealMObject.self)
+//                let mainUserGroups = Array(groupsFromRealm)
+//                var groupsInfoConvertedToFirestore:[Dictionary<String, Any>] = []
+//                for element in mainUserGroups {
+//                    let id = element.id
+//                    let name = element.name
+//                    let group = [
+//                        "id": id,
+//                        "name": name
+//                    ] as [String : Any]
+//                    groupsInfoConvertedToFirestore.append(group)
+//                }
+//                // Выгружаем группы пользователя в Firestore
+//                Firestore.firestore().collection(usersRef).addDocument(data: [
+//                    "userId": Auth.auth().currentUser?.uid ?? "",
+//                    "vkUserId": Session.shared.userId,
+//                    "groups": groupsInfoConvertedToFirestore
+//                ]) { (error) in
+//                    if let error = error {
+//                        debugPrint("Error #1. adding user info to firestore. \(error.localizedDescription)")
+//                    } else {
+//                        print("\n\n\nUser info added to firestore - succes")
+//                    }
+//                    return
+//                }
+//            } catch {
+//                debugPrint(error.localizedDescription)
+//            }
+//    }
 }
