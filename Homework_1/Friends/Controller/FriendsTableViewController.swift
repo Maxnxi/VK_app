@@ -30,7 +30,7 @@ class FriendsTableViewController: UIViewController  {
     var myFriends:[UserRealMObject] = [] {
         didSet {
             tableView.reloadData()
-            print("myFriend set!")
+            print("myFriend set!", myFriends.count)
         }
     }
     var filterListOfFriends: [UserRealMObject] = []

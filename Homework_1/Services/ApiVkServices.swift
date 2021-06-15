@@ -14,7 +14,7 @@ import PromiseKit
 class ApiVkServices {
     
     let baseUrl = "https://api.vk.com/method/"
-    let version = "5.130"
+    let version = "5.131"
     let realMServices = RealMServices()
     
     private var urlConstructor = URLComponents()
@@ -42,9 +42,7 @@ class ApiVkServices {
     func getUrl(userId:String, accessToken:String) -> Promise<URL> {
         urlConstructor.path = "/method/friends.get"
         urlConstructor.queryItems = [
-            URLQueryItem(name: "filters", value: "post"),
-            URLQueryItem(name: "start_from", value: "next_from"),
-            URLQueryItem(name: "count", value: "20"),
+            URLQueryItem(name: "fields", value: "photo"),
             URLQueryItem(name: "access_token", value: accessToken),
             URLQueryItem(name: "user_id", value: userId),
             URLQueryItem(name: "v", value: version),
