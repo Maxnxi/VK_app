@@ -39,11 +39,13 @@ class GetGroupDataFromVKOperation: AsyncOperation {
         
         AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
             
+            print("groups request - is ", response.request)
+            
             guard let data = response.value else {
                 print("AF.request groups -  failed")
                 return }
             self?.data = data
-            print("AF.request groups -  done", data)
+            print("AF.request groups -  done", data.count)
             self?.state = .finished
         }
     }

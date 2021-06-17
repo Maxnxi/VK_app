@@ -38,7 +38,9 @@ class NewsRealmObject: Object, Codable {
             self.category = "group"
         } else if additionalProfileData != nil {
             self.id = additionalProfileData?.id ?? 0
-            self.authorName = "\(additionalProfileData?.firstName) \(additionalProfileData?.lastName)"
+            
+            
+            self.authorName = (additionalProfileData?.firstName ?? "") + " " + (additionalProfileData?.lastName ?? "")
             self.avatarImgUrl = additionalProfileData?.photo100 ?? "profile"
             self.category = "person"
         }

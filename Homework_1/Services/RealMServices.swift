@@ -12,8 +12,8 @@ class RealMServices {
     //MARK: -> Сохряняем друзей в бд
     func saveFriendsData(_ users: [UserRealMObject]) {
         do {
-            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(configuration: config)
+            //let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm(/*configuration: config*/)
                 
             // очистка бд
             
@@ -34,56 +34,46 @@ class RealMServices {
         }
     }
     
-//    func loadFriendsData(completion: @escaping(_ users: [UserRealMObject]) ->()) {
-//        do {
-//            let realm = try Realm()
-//            let usersResult = realm.objects(UserRealMObject.self)
-//            let usersArray = Array(usersResult)
-//            debugPrint("\n\n\n loadFriendsData - done")
-//            completion(usersArray)
-//        } catch {
-//            debugPrint(error.localizedDescription)
-//        }
-//    }
-    
     func loadDataFriendsFromRealm() -> [UserRealMObject] {
         var friends:[UserRealMObject] = []
         do {
-        let realm = try Realm()
-        let friendsFromRealM = realm.objects(UserRealMObject.self)
-          
-            //realm observer
-//        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
-//                guard let self = self, let tableView = self.tableView else { return }
-//
-//                print("Данные изменились!")
-//                switch changes {
-//                case .initial:
-//                    print("initial - done")
-//                    tableView.reloadData()
-//                case .update:
-//                    print("update - done")
-//                    tableView.reloadData()
-//                case .error(let error):
-//                    print(error)
-//                }
-//            })
+            let realm = try Realm()
+            let friendsFromRealM = realm.objects(UserRealMObject.self)
             friends = Array(friendsFromRealM)
-            
-            //сортировка
-//            if !self.myFriends.isEmpty {
-//                self.myFriends = self.myFriends.sorted(by: {
-//                    $0.lastName.lowercased() < $1.lastName.lowercased()
-//                })
-//            }
         } catch {
             debugPrint(error.localizedDescription)
         }
         return friends
     }
     
-    
-    
+    // observer Realm для FriendsTableViewController
+    func startRealmObserver(view:FriendsTableViewController) {
+        do {
+        let realm = try Realm()
+        let friendsFromRealM = realm.objects(UserRealMObject.self)
+            view.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
+            guard let self = self, let tableView = view.tableView else { return }
+                switch changes {
+                case .initial:
+                    print("initial friends - done")
+                    view.sortAlphabeticFriendsArr()
+                    view.tableView.reloadData()
+                    //tableView.reloadData()
+                    //view.tableViewReloadDataFromObserver()
+                case .update:
+                    print("update friends - done")
+                    view.sortAlphabeticFriendsArr()
+                    view.tableView.reloadData()
+                    //tableView.reloadData()
+                    //view.tableViewReloadDataFromObserver()
+                case .error(let error):
+                    print(error)
+                }
+            })
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
     
     //MARK: -> сохряняем Группы в бд
     func saveGroupsData(_ groups: [GroupsRealMObject]) {
@@ -108,7 +98,7 @@ class RealMServices {
         }
     }
     
-//    func loadGroupssData(completion: @escaping(_ groups: [GroupsRealMObject]) ->()) {
+//    func loadGroupsData(completion: @escaping(_ groups: [GroupsRealMObject]) ->()) {
 //        do {
 //            let realm = try Realm()
 //            let groupsResult = realm.objects(GroupsRealMObject.self)
@@ -120,19 +110,69 @@ class RealMServices {
 //        }
 //    }
     
-    //MARK: -> сохраняем новости в бд
+//    func loadGroupsDataFromRealm() -> [GroupsRealMObject] {
+//        var groups:[GroupsRealMObject] = []
+//        do {
+//            let realm = try Realm()
+//            let groupsFromRealm = realm.objects(GroupsRealMObject.self)
+//            groups = Array(groupsFromRealm)
+//        } catch {
+//            debugPrint(error.localizedDescription)
+//        }
+//        return groups
+//    }
+    
+    //MARK: -> запросы к Realm - колонка Новости (News)
     
     func saveNewsData(_ news: [NewsRealmObject]) {
         do {
-            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(configuration: config)
+            //let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm(/*configuration: config*/)
             //let oldValues = realm.objects(NewsRealmObject.self)
 
             realm.beginWrite()
             //realm.delete(oldValues)
             realm.add(news, update: .all)
             try realm.commitWrite()
-            print("News save in realm - ", news)
+            print("News save in realm.")
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+    
+    // получаем News из Realm
+        func loadNewsDataFromRealm() -> [NewsRealmObject] {
+            var news:[NewsRealmObject] = []
+            do {
+                let realm = try Realm()
+                let newsFromRealm = realm.objects(NewsRealmObject.self)
+                news = Array(newsFromRealm)
+            } catch {
+                debugPrint(error.localizedDescription)
+            }
+            return news
+        }
+    
+    // realm observer к News
+    func startNewsRealmObserver(view:NewsVC) {
+        do {
+        let realm = try Realm()
+        let newsFromRealM = realm.objects(NewsRealmObject.self)
+            view.token = newsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
+            guard let self = self, let tableView = view.tableView else { return }
+                switch changes {
+                case .initial:
+                    print("initial news - done")
+                    view.sortNewsByDate()
+                    view.tableView.reloadData()
+                case .update:
+                    print("update news - done")
+                    view.sortNewsByDate()
+                    view.tableView.reloadData()
+                case .error(let error):
+                    print(error)
+                }
+            })
         } catch {
             debugPrint(error.localizedDescription)
         }

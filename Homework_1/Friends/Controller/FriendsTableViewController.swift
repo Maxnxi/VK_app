@@ -30,12 +30,13 @@ class FriendsTableViewController: UIViewController  {
     private var usersFirebaceInfo = [FirebaseUserInfo]()
     private let ref = Database.database().reference(withPath: "users")
     
-    var myFriends:[UserRealMObject] = [] {
-        didSet {
-            tableView.reloadData()
-            print("myFriend set!", myFriends.count)
-        }
-    }
+    var myFriends:[UserRealMObject] = []
+//    {
+//        didSet {
+//            tableView.reloadData()
+//            print("myFriend set! ", myFriends.count)
+//        }
+//    }
     var filterListOfFriends: [UserRealMObject] = []
     var sections: [String] = []
     var cachedSectionsItems: [String:[UserRealMObject]] = [:]
@@ -54,46 +55,40 @@ class FriendsTableViewController: UIViewController  {
         
         //adding user to firebase
         FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
-        
-        // перенесен в класс FirebaseModel
-        //firebase observe
-//        ref.observe(.value) { (snapshot) in
-//            var users: [FirebaseUserInfo] = []
-//            for child in snapshot.children {
-//                if let snapshot = child as? DataSnapshot,
-//                   let user = FirebaseUserInfo(snapshot: snapshot) {
-//                    users.append(user)
-//                }
-//            }
-//            self.users = users
-//            print("observe firebase users - is ", users)
-//        }
         usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
         
-        //загружаем в Firestore информацию о группах пользователя
-        //(1 - запрос с vk сервера, 2 - сохранение в RealM, 3 - выгрузка в Firestore )
-        //fetchDataGroupsFromVkServer()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configureFriendsTableView()
+        //configureFriendsTableView()
+        sleep(2)
+        if myFriends.count == 0 {
+            configureFriendsTableView()
+        }
+        tableView.reloadData()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        // закрываем token Realm
+        super.viewDidDisappear(animated)
+        token?.invalidate()
+    }
     
     func configureFriendsTableView() {
         fetchDataFriendsFromVkServer()
-        
         //Загрузка списка друзей из Realm (рефакторинг)
-        var friendsArr = realMServices.loadDataFriendsFromRealm()
+        myFriends = realMServices.loadDataFriendsFromRealm()
         //loadDataFriendsFromRealm()
-        
-        //сортировка друзей
-        myFriends = friendsArr.sorted(by: {
+        realMServices.startRealmObserver(view: self)
+        setupDataSource()
+    }
+    
+    //сортировка друзей
+    func sortAlphabeticFriendsArr(){
+        myFriends = myFriends.sorted(by: {
             $0.lastName.lowercased() < $1.lastName.lowercased()
         })
-        
-        setupDataSource()
     }
     
     // Загрузка данных с сервера //(в RealM) - отдельно
@@ -106,7 +101,6 @@ class FriendsTableViewController: UIViewController  {
         
         //версия 2
         //ДЗ №4 - технология использования Promise
-        
         apiVkServices.getUrl(userId: userId, accessToken: accessToken)
             .get({url in
                 print("\\ Запрос списка друзей пользователя - ", url)
@@ -118,8 +112,10 @@ class FriendsTableViewController: UIViewController  {
                 print("\\ Получен список друзей - done")
                 // save friends to realm
                 self.realMServices.saveFriendsData(friends)
+             
             }.ensure {
                 //TO DO animating
+              
             }.catch { error in
                 print(error)
             }
@@ -129,40 +125,6 @@ class FriendsTableViewController: UIViewController  {
 //            print("fetchDataFriendsFromVkServer - done")
 //        }
     }
-    
-    //перенесено в RealMServices
-    // загружаем из RealM
-//    func loadDataFriendsFromRealm() {
-//        do {
-//        let realm = try Realm()
-//        let friendsFromRealM = realm.objects(UserRealMObject.self)
-//        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
-//                guard let self = self, let tableView = self.tableView else { return }
-//
-//                print("Данные изменились!")
-//                switch changes {
-//                case .initial:
-//                    print("initial - done")
-//                    tableView.reloadData()
-//                case .update:
-//                    print("update - done")
-//                    tableView.reloadData()
-//                case .error(let error):
-//                    print(error)
-//                }
-//            })
-//            myFriends = Array(friendsFromRealM)
-//
-//            //сортировка
-//            if !self.myFriends.isEmpty {
-//                self.myFriends = self.myFriends.sorted(by: {
-//                    $0.lastName.lowercased() < $1.lastName.lowercased()
-//                })
-//            }
-//        } catch {
-//            debugPrint(error.localizedDescription)
-//        }
-//    }
     
     // фильтрация списка Друзей
     private func filterFriends(text: String?) {
@@ -238,7 +200,6 @@ extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as? FriendsTableCell {
-            
             let friendsInSection = getFriend(for: indexPath)
             cell.configureCell(friend: friendsInSection)
             return cell
@@ -246,7 +207,6 @@ extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -262,7 +222,6 @@ extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource
 
 
 //MARK: -> UISearchBar
-
 extension FriendsTableViewController: UISearchBarDelegate {
    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -275,48 +234,7 @@ extension FriendsTableViewController: UISearchBarDelegate {
     }
 }
 
-//MARK: -> RealM Observer
-extension FriendsTableViewController {
-    func startRealmObserver() {
-        //var friends:[UserRealMObject] = []
-        do {
-        let realm = try Realm()
-        let friendsFromRealM = realm.objects(UserRealMObject.self)
-          
-            //realm observer
-        self.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
-                guard let self = self, let tableView = self.tableView else { return }
-
-                print("Данные изменились!")
-                switch changes {
-                case .initial:
-                    print("initial - done")
-                    tableView.reloadData()
-                case .update:
-                    print("update - done")
-                    tableView.reloadData()
-                case .error(let error):
-                    print(error)
-                }
-            })
-            //friends = Array(friendsFromRealM)
-            
-            //сортировка
-//            if !self.myFriends.isEmpty {
-//                self.myFriends = self.myFriends.sorted(by: {
-//                    $0.lastName.lowercased() < $1.lastName.lowercased()
-//                })
-//            }
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
-        return friends
-    }
-}
-
-
 //MARK: -> Adding UserInfo to Firebase
-
 extension FriendsTableViewController {
     
     // перенесен в класс FirebaseModel
@@ -335,22 +253,21 @@ extension FriendsTableViewController {
 }
 
 //MARK: -> Добавляем инфу о группах пользователя в Firestore
-
 extension FriendsTableViewController {
     
     // Загрузка данных с сервера (в RealM)
-    func fetchDataGroupsFromVkServer() {
-        guard let userId = Session.shared.userId,
-              let accessToken = Session.shared.token else {
-            print("error getting userId")
-            return
-        }
-        apiVkServices.getUserGroups(userId: userId, accessToken: accessToken)
-        //{
-            print("fetchDataGroupsFromServer - done")
-            self.addUserGroupsInfo()
-        //}
-    }
+//    func fetchDataGroupsFromVkServer() {
+//        guard let userId = Session.shared.userId,
+//              let accessToken = Session.shared.token else {
+//            print("error getting userId")
+//            return
+//        }
+//        apiVkServices.getUserGroups(userId: userId, accessToken: accessToken)
+//        //{
+//            print("fetchDataGroupsFromServer - done")
+//            self.addUserGroupsInfo()
+//        //}
+//    }
     
 //    func addUserGroupsInfo() {
 //        let usersRef = "users"

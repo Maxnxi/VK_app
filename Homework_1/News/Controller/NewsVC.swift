@@ -13,39 +13,70 @@ class NewsVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var infoUpdateLabel: UILabel!
+    
     let apiVkServices = ApiVkServices()
+    let realmServices = RealMServices()
     
     //RealM Notifications
     var token: NotificationToken?
     
     var myNews:[NewsRealmObject] = []
     
+    var updateStatus: Bool = true
+    
+    var timer: Timer?
+    var timeLeft = 60
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-                       
-        tableView.register(UINib(nibName: HeaderNewsCell.nibName, bundle: nil), forCellReuseIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews)
-        tableView.register(UINib(nibName: TextNewsCell.nibName, bundle: nil), forCellReuseIdentifier: TextNewsCell.reuseIdentifierOfCellNews)
-        tableView.register(UINib(nibName: PhotosNewsCell.nibName, bundle: nil), forCellReuseIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews)
-        tableView.register(UINib(nibName: FooterNewsCell.nibName, bundle: nil), forCellReuseIdentifier: FooterNewsCell.reuseIdentifierOfCellNews)
         
+        // регистируем cells tableview
+        registerTableViewCells()
         
-        fetchDataFromVkServer()
-        loadNewsFromRealm()
-        tableView.reloadData()
+        configureNewsTableview()
+        
+        // настройка кнопки таймера
+        setingTimerButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        fetchDataFromVkServer()
-        loadNewsFromRealm()
-        tableView.reloadData()
+        sleep(2)
+        if myNews.count == 0 {
+            fetchDataFromVkServer()
+        }
+        //realm observer
+        realmServices.startNewsRealmObserver(view: self)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // отключаем realm observer
+        token?.invalidate()
+    }
+    
+    //MARK: -> настройки
+    func registerTableViewCells(){
+        tableView.register(UINib(nibName: HeaderNewsCell.nibName, bundle: nil), forCellReuseIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews)
+        tableView.register(UINib(nibName: TextNewsCell.nibName, bundle: nil), forCellReuseIdentifier: TextNewsCell.reuseIdentifierOfCellNews)
+        tableView.register(UINib(nibName: PhotosNewsCell.nibName, bundle: nil), forCellReuseIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews)
+        tableView.register(UINib(nibName: FooterNewsCell.nibName, bundle: nil), forCellReuseIdentifier: FooterNewsCell.reuseIdentifierOfCellNews)
+    }
+    
+    func configureNewsTableview(){
+        //загружаем данные с сервера VK и сохраняем в realm
+        fetchDataFromVkServer()
+        //берем данные из realm и выводим в cells
+        myNews = realmServices.loadNewsDataFromRealm()
+        //сортируем по дате ($0>$1)
+        sortNewsByDate()
+    }
     
     func fetchDataFromVkServer() {
         guard let userId = Session.shared.userId,
@@ -55,46 +86,57 @@ class NewsVC: UIViewController {
         }
         //ДЗ #2
         DispatchQueue.global(qos: .utility).async {
-            self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken) {
-                print("getNews - done")
+            self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken) { news in
+            //сохраняем news в Realm
+            self.realmServices.saveNewsData(news)
             }
         }
-        
     }
     
-    func loadNewsFromRealm(){
-        // ДЗ №~2
-//        DispatchQueue.global(qos: .default).async {
-            do {
-            let realm = try Realm()
-            let newsFromRealm = realm.objects(NewsRealmObject.self)
-            
-    //            self.token = newsFromRealm.observe({ [weak self] (changes: RealmCollectionChange) in
-    //                guard let self = self, let tableView = self.tableView else { return }
-    //
-    //                print("Данные изменились!")
-    //                switch changes {
-    //                case .initial:
-    //                    print("initial - done")
-    //                    tableView.reloadData()
-    //                case .update:
-    //                    print("update - done")
-    //                    tableView.reloadData()
-    //                case .error(let error):
-    //                    print(error)
-    //                }
-    //            })
-//                DispatchQueue.main.async {
-                    self.myNews = Array(newsFromRealm)
-                    
-//                }
-                //to do сортировка по времени
- 
-            } catch {
-                debugPrint(error.localizedDescription)
+    func sortNewsByDate(){
+        myNews = myNews.sorted(by: {$0.date > $1.date})
+    }
+    
+    func setingTimerButton(){
+        updateButton.isUserInteractionEnabled = true
+        updateButton.layer.cornerRadius = updateButton.frame.width/2
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerFunc), userInfo: nil, repeats: true)
+    }
+    
+    @objc func timerFunc() {
+        if updateStatus == true {
+            timeLeft -= 1
+            timerLabel.text = "\(timeLeft)"
+            if timeLeft == 0 {
+                fetchDataFromVkServer()
+                timeLeft = 60
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             }
+        } else {
+            print("")
         }
-//    }
+    }
+    
+    @IBAction func updatePauseBtnWasPressed(_ sender: Any) {
+        
+        UIView.animate(withDuration: 0.18) { // 0.1 - слишком быстро
+            self.updateButton.imageView?.layer.contentsScale = 1.8
+            self.updateButton.backgroundColor = .darkGray
+        } completion: { _ in
+            self.updateButton.imageView?.layer.contentsScale = 1
+            self.updateButton.backgroundColor = .clear
+        }
+        
+        if updateStatus == true {
+            updateStatus = false
+            print("news update status - off")
+            updateButton.setImage(UIImage(systemName: "play"), for: .normal)
+        } else if updateStatus == false {
+            updateStatus = true
+            print("news update status - on")
+            updateButton.setImage(UIImage(systemName: "pause"), for: .normal)
+        }
+    }
 }
 
 extension NewsVC: UITableViewDelegate, UITableViewDataSource {
@@ -118,9 +160,6 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-//        for section in indexPath.section
-        
         let oneNew = myNews[indexPath.section]
         
         switch indexPath.row {
@@ -142,7 +181,6 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
                 photoCell.configureCell(news: oneNew)
                 return photoCell
             }
-            
         case 3:
             guard let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? FooterNewsCell else { return UITableViewCell() }
             footerCell.configureCell(numOfLikes: oneNew.likes, numOfComments: oneNew.comments)

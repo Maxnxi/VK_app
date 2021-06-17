@@ -250,7 +250,6 @@
 		0581820B26149B9200542167 /* News */ = {
 			isa = PBXGroup;
 			children = (
-				051BE5622668BFE800582590 /* Cells */,
 				0546BA1E2603B27B00CC57DF /* toDelete */,
 				0581821026149D1D00542167 /* Controller */,
 				0581820F26149D0600542167 /* View */,
@@ -291,6 +290,7 @@
 		0581820F26149D0600542167 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				051BE5622668BFE800582590 /* Cells */,
 			);
 			path = View;
 			sourceTree = "<group>";

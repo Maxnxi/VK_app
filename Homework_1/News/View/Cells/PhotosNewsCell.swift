@@ -34,12 +34,12 @@ class PhotosNewsCell: UITableViewCell {
     }
     
     func setupView() {
-        print("Загрузка PhotoCell, photoStatusisHidden -", photoStatusisHidden)
+        //print("Загрузка PhotoCell, photoStatusisHidden -", photoStatusisHidden)
         if photoStatusisHidden == true {
             photoOneView.isHidden = true
             contentView.bounds.size.height = 0
         } else {
-            print("cell - prepare")
+          //  print("cell - prepare")
             photoOneView.isHidden = false
             photoOneView.layer.frame.size.height = 200
             photoOneView.layer.frame.size.width = 200
