@@ -5,6 +5,8 @@
 //  Created by Maksim on 03.06.2021.
 //
 
+// REFACTORING IN PROCCESS !!!!!!!!!!
+
 import UIKit
 
 class PhotosNewsCell: UITableViewCell {
@@ -16,11 +18,8 @@ class PhotosNewsCell: UITableViewCell {
     
     var photoStatusisHidden: Bool? = false
     var viewHeight:CGFloat?
-    //{
-//        didSet{
-//            setNeedsDisplay()
-//        }
-    //}
+    
+    var numberOfPhotos: Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,6 +48,12 @@ class PhotosNewsCell: UITableViewCell {
             //photoOneView.clipsToBounds = true
             photoOneView.backgroundColor = .white
             
+            setPhotoConstraint(imagesCount: self.numberOfPhotos)
+        }
+    }
+    
+    func setPhotoConstraint(imagesCount: Int){
+        if imagesCount == 1 {
             photoOneView.translatesAutoresizingMaskIntoConstraints = false
                     NSLayoutConstraint.activate([
                         photoOneView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
@@ -56,29 +61,50 @@ class PhotosNewsCell: UITableViewCell {
                         photoOneView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
                         photoOneView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0)
                     ])
+        } else if imagesCount == 2 {
+            
+        } else if imagesCount == 3 {
+            
+        } else if imagesCount == 4 {
+            
+        }
+    }
+    
+    func loadPhotos(count: Int) -> [UIImage] {
+        var imagesArr:[UIImage] = []
+        
+        if count == 1 {
+            
+        } else if count == 2 {
+            
         }
         
-        
-        
-                
-//        photoOneView.frame.size.width = 120
-//        photoOneView.frame.size.height = 120
-        
-//        photoOneView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            photoOneView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
-//            photoOneView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0)
-//        ])
-
+        return imagesArr
+    }
+    
+    func setNumberOfPhotos(newsInfo:NewsRealmObject) -> Int {
+        var number = 0
+        if newsInfo.photoOneUrl != nil {
+            number += 1
+        }
+        if newsInfo.photoTwoUrl != nil {
+            number += 1
+        }
+        if newsInfo.photoThreeUrl != nil {
+            number += 1
+        }
+        if newsInfo.photoFourUrl != nil {
+            number += 1
+        }
+        return number
     }
     
     func configureCell(news: NewsRealmObject) {
-        
         self.photoStatusisHidden = false
-        
         //TO DO добавить вариацию 4 фотографий
         guard let urlString = news.photoOneUrl as? String else { return }
         
+        let numberOfPhotos = setNumberOfPhotos(newsInfo: news)
         //ДЗ №2
 //        let dispatchGroup = DispatchGroup()
         var imgView = UIImageView()
