@@ -244,7 +244,7 @@ class ApiVkServices {
             let parameters: Parameters = [
                 "user_id": userId,
                 "access_token": accessToken,
-                "filters": "post",
+                "filters": "post,posted_photo",
                 "count": "20",
                 "v": self.version
             ]
@@ -305,25 +305,25 @@ class ApiVkServices {
     }
 
     
-    func getNewsPhoto(userId: String, accessToken: String, completion: @escaping() -> Void) {
-        
-        let path = "newsfeed.get"
-        
-        let parameters: Parameters = [
-            "user_id": userId,
-            "access_token": accessToken,
-            "filters": "photo",
-            "count": "1",
-            "v": version
-        ]
-        let url = baseUrl + path
-        
-        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-            print("request - is ", response.request!)
-            // TO DO PARSE DATA
-            
-        }
-    }
+//    func getNewsPhoto(userId: String, accessToken: String, completion: @escaping() -> Void) {
+//
+//        let path = "newsfeed.get"
+//
+//        let parameters: Parameters = [
+//            "user_id": userId,
+//            "access_token": accessToken,
+//            "filters": "photo",
+//            "count": "1",
+//            "v": version
+//        ]
+//        let url = baseUrl + path
+//
+//        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+//            print("request - is ", response.request!)
+//            // TO DO PARSE DATA
+//
+//        }
+//    }
     
     
     //MARK: -> для реализации в будущем

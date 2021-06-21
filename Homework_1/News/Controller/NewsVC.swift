@@ -17,8 +17,11 @@ class NewsVC: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var infoUpdateLabel: UILabel!
     
-    let apiVkServices = ApiVkServices()
-    let realmServices = RealMServices()
+    private let apiVkServices = ApiVkServices()
+    private let realmServices = RealMServices()
+    
+    //кэш фото
+    private var imageService: ImageService?
     
     //RealM Notifications
     var token: NotificationToken?
@@ -32,6 +35,7 @@ class NewsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageService = ImageService(container: tableView)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -65,7 +69,7 @@ class NewsVC: UIViewController {
     func registerTableViewCells(){
         tableView.register(UINib(nibName: HeaderNewsCell.nibName, bundle: nil), forCellReuseIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews)
         tableView.register(UINib(nibName: TextNewsCell.nibName, bundle: nil), forCellReuseIdentifier: TextNewsCell.reuseIdentifierOfCellNews)
-        tableView.register(UINib(nibName: PhotosNewsCell.nibName, bundle: nil), forCellReuseIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews)
+        tableView.register(PhotosNewsCell.self, forCellReuseIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews)
         tableView.register(UINib(nibName: FooterNewsCell.nibName, bundle: nil), forCellReuseIdentifier: FooterNewsCell.reuseIdentifierOfCellNews)
     }
     
@@ -113,7 +117,7 @@ class NewsVC: UIViewController {
                 tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             }
         } else {
-            print("")
+           // print("")
         }
     }
     
@@ -161,28 +165,55 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let oneNew = myNews[indexPath.section]
-        
+        //print("oneNew is - ", oneNew)
         switch indexPath.row {
         case 0:
             guard let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? HeaderNewsCell else { return UITableViewCell() }
             headerCell.configureCell(authorName: oneNew.authorName, authorProfileImgUrl: oneNew.avatarImgUrl)
             return headerCell
         case 1:
+            //ячейка -текст новости
             guard let textCell = tableView.dequeueReusableCell(withIdentifier: TextNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? TextNewsCell else { return UITableViewCell() }
             textCell.configureCell(newsText: oneNew.text)
             return textCell
         case 2:
-            guard let photoCell = tableView.dequeueReusableCell(withIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? PhotosNewsCell else { return UITableViewCell() }
+            //ячейка -фото новости
+            guard let photoCell = tableView.dequeueReusableCell(withIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews) as? PhotosNewsCell else {
+                print("Ошибка №320")
+                return UITableViewCell()
+            }
             //проверка на наличие фото в новости
-            if oneNew.photoOneUrl == "NO_PHOTO" || oneNew.photoOneUrl == " " {
-                photoCell.minimizeView()
+            
+            if oneNew.photoOneUrl == "NO_PHOTO" {
+                
                 return photoCell
             } else {
-                photoCell.configureCell(news: oneNew)
+                
+                //guard
+                let imageOneString = oneNew.photoOneUrl
+                let imageTwoString = oneNew.photoTwoUrl
+                      let imageThreeString = oneNew.photoThreeUrl
+                let imageFourString = oneNew.photoFourUrl
+//                else {
+//                    print("Ошибка №321")
+//                    return UITableViewCell()
+//                }
+                
+                let image1 = imageService?.photo(atIndexpath: indexPath, byUrl: imageOneString ?? "")
+                 let image2 = imageService?.photo(atIndexpath: indexPath, byUrl: imageTwoString ?? "")
+                let image3 = imageService?.photo(atIndexpath: indexPath, byUrl: imageThreeString ?? "")
+                 let image4 = imageService?.photo(atIndexpath: indexPath, byUrl: imageFourString ?? "")
+                
+                let imagesArr = [image1, image2, image3, image4]
+                print("cell #\(indexPath.row) has photos:\(imagesArr.count)")
+                photoCell.configureCell(imagesArr: imagesArr)
                 return photoCell
             }
         case 3:
-            guard let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? FooterNewsCell else { return UITableViewCell() }
+            guard let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? FooterNewsCell else {
+                print("Ошибка №322")
+                return UITableViewCell()
+            }
             footerCell.configureCell(numOfLikes: oneNew.likes, numOfComments: oneNew.comments)
             return footerCell
         default:
@@ -207,10 +238,11 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
                 heightOfCell = 100.0
             }
         case 2:
-            if oneNew.photoOneUrl == "NO_PHOTO" || oneNew.photoOneUrl == "" {
+            print("case 2")
+            if oneNew.photoOneUrl == "NO_PHOTO" {
                 heightOfCell = 0.0
             } else {
-                heightOfCell = 200.0
+                heightOfCell = 100.0
             }
         case 3:
             heightOfCell = 40.0

@@ -11,8 +11,8 @@ import UIKit
 
 class PhotosNewsCell: UITableViewCell {
 
-    private var imagesViewArr: [UIImageView] = []
-    private var imagesArr: [UIImage] = []
+    private let imagesViewArr: [UIImageView] = [UIImageView(),UIImageView(),UIImageView(),UIImageView()]
+    //private var imagesArr: [UIImage] = []
     
     static let nibName: String = "PhotosNewsCell"
     static let reuseIdentifierOfCellNews: String = "photosNewsCell"
@@ -23,7 +23,9 @@ class PhotosNewsCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        //fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        settingCell()
     }
     
     override func prepareForReuse() {
@@ -32,53 +34,61 @@ class PhotosNewsCell: UITableViewCell {
     }
     
     //настройка ячейки
-    func configureCell(imagesArr: [UIImage]?) {
-        self.imagesArr = imagesArr ?? []
+    func configureCell(imagesArr: [UIImage?]) {
+        for i in 0..<imagesArr.count {
+            guard let image = imagesArr[i] else {
+                return
+            }
+            //self.imagesArr.append(image)
+            self.imagesViewArr[i].image = image
+        }
+        //self.imagesArr = imagesArr ?? []
+        //print("")
     }
 
     private func settingCell() {
         //to do - to think how optimize
         
+        //print("/n NewsPhotoCell - imagesArr.count - ", imagesArr.count)
+//        for i in 0..<imagesViewArr.count {
+//            if imagesViewArr[i] == nil {
+//                imagesViewArr.remove(at: i)
+//            }
+//        }
         
-        for i in 0..<imagesArr.count {
-            imagesViewArr.append(UIImageView(image: imagesArr[i]))
-        }
+        let imgViewArrTmp = imagesViewArr.filter({$0.image == nil})
+        print("imgViewArrTmp has photos -", imgViewArrTmp.count )
         
-        for number in 0..<imagesViewArr.count{
-            contentView.addSubview(imagesViewArr[number])
-            imagesViewArr[number].translatesAutoresizingMaskIntoConstraints = false
+        for number in 0..<imgViewArrTmp.count{
+            contentView.addSubview(imgViewArrTmp[number])
+            imgViewArrTmp[number].translatesAutoresizingMaskIntoConstraints = false
+           //imagesViewArr[number].contentMode = .scaleAspectFit
             
-            let topConstraint = imagesViewArr[number].topAnchor.constraint(equalTo: contentView.topAnchor)
+            let topConstraint = imgViewArrTmp[number].topAnchor.constraint(equalTo: contentView.topAnchor)
             
-            let leftConstraint = (number == 0 ? imagesViewArr[number].leftAnchor.constraint(equalTo: contentView.leftAnchor) : imagesViewArr[number].leftAnchor.constraint(equalTo: imagesViewArr[number-1].rightAnchor))
+            let leftConstraint = (number == 0 ? imgViewArrTmp[number].leftAnchor.constraint(equalTo: contentView.leftAnchor) : imgViewArrTmp[number].leftAnchor.constraint(equalTo: imgViewArrTmp[number-1].rightAnchor))
             
-            let widthForConstr =  contentView.frame.width / CGFloat(imagesViewArr.count)
-            let widthConstraint = imagesViewArr[number].widthAnchor.constraint(equalToConstant: widthForConstr)
+            let widthForConstr =  contentView.frame.width / CGFloat(imgViewArrTmp.count)
+            let widthConstraint = imgViewArrTmp[number].widthAnchor.constraint(equalToConstant: widthForConstr)
             
-            let heighForConstr = contentView.frame.width / CGFloat(imagesViewArr.count)
-            let heightConstriant = imagesViewArr[number].heightAnchor.constraint(equalToConstant: heighForConstr )
+            let heighForConstr = contentView.frame.width / CGFloat(imgViewArrTmp.count)
+            let heightConstriant = imgViewArrTmp[number].heightAnchor.constraint(equalToConstant: heighForConstr )
+            
+            //let centerConstraint = contentView.centerXAnchor.constraint(equalTo: centerXAnchor)
             
             
             NSLayoutConstraint.activate([topConstraint,
                                          leftConstraint,
                                          widthConstraint,
                                          heightConstriant,
-                                         imagesViewArr[number].bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+                                         imgViewArrTmp[number].bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ])
-            let priorityNumber = 990 - Float(number)
-            topConstraint.priority = .init(priorityNumber)
+            //let priorityNumber = 990 - Float(number)
+            //topConstraint.priority = .init(priorityNumber)
         }
  
     }
     
-    // вынести в extension
-//    private func loadImage(byUrl stringUrl: String) -> UIImage {
-//        guard let readyUrlString = URL(string: stringUrl) else { return UIImage() }
-//        let data = try? Data(contentsOf: readyUrlString)
-//        guard let imageData = data else { return UIImage() }
-//        guard let image = UIImage(data: imageData) else { return UIImage() }
-//        return image
-//    }
     
     //прикрепление UIImageView
 //    private func setImages(forPhotosAmount amount: Int) {

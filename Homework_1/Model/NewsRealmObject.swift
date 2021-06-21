@@ -16,14 +16,9 @@ class NewsRealmObject: Object, Codable {
     @objc dynamic var text: String = "Hello hello hello"
     @objc dynamic var date: Int = 123
     @objc dynamic var photoOneUrl: String? = ""
-    //TO DO
     @objc dynamic var photoTwoUrl: String?
     @objc dynamic var photoThreeUrl: String?
     @objc dynamic var photoFourUrl: String?
-        //= "https://sun1-98.userapi.com//impg//BoXabgn2xQ-nkPH9trvc_GR2FZxDu8P-HnThzA//Qsh6cfp_fFA.jpg?size=130x130&quality=96&sign=c0cddb4aec308bedfbb4b6fa745477ab&c_uniq_tag=uSdnqfN2_kT35MpBuLVNFWl65YAUEj-DnFK2f6qbVJI&type=album"
-//    @objc dynamic var photoTwoUrl: String?
-//    @objc dynamic var photoThreeUrl: String?
-//    @objc dynamic var photoFourUrl: String?
     @objc dynamic var likes: String = "123"
     @objc dynamic var comments: String = "345"
     @objc dynamic var category: String = ""
@@ -50,20 +45,25 @@ class NewsRealmObject: Object, Codable {
         
         // фотография новости
         guard let phUrl = news.attachments?.compactMap({$0.photo?.sizes?.last?.url}) as? [String] else { return }
-        if phUrl.count > 4 {
+        
+        if phUrl.count >= 4 {
             photoOneUrl = phUrl[0]
             photoTwoUrl = phUrl[1]
             photoThreeUrl = phUrl[2]
             photoFourUrl = phUrl[3]
-        } else if phUrl.count < 1 {
-            photoOneUrl = "NO_PHOTO"
-        } else if phUrl.count < 4 && phUrl.count > 1 {
+        } else if phUrl.count == 3 {
             photoOneUrl = phUrl[0]
-            //TO DO next
+            photoTwoUrl = phUrl[1]
+            photoThreeUrl = phUrl[2]
+        } else if phUrl.count == 2 {
+            photoOneUrl = phUrl[0]
+            photoTwoUrl = phUrl[1]
+        } else if phUrl.count == 1 {
+            photoOneUrl = phUrl[0]
+        } else if phUrl.count == 0 {
+            photoOneUrl = "NO_PHOTO"
         }
        
-        
-        
         self.likes = "\(news.likes?.count ?? 0)"
         self.comments = "\(news.comments?.count ?? 0)"
     }
