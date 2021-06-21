@@ -188,17 +188,11 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
                 
                 return photoCell
             } else {
-                
-                //guard
                 let imageOneString = oneNew.photoOneUrl
                 let imageTwoString = oneNew.photoTwoUrl
                       let imageThreeString = oneNew.photoThreeUrl
                 let imageFourString = oneNew.photoFourUrl
-//                else {
-//                    print("Ошибка №321")
-//                    return UITableViewCell()
-//                }
-                
+             
                 let image1 = imageService?.photo(atIndexpath: indexPath, byUrl: imageOneString ?? "")
                  let image2 = imageService?.photo(atIndexpath: indexPath, byUrl: imageTwoString ?? "")
                 let image3 = imageService?.photo(atIndexpath: indexPath, byUrl: imageThreeString ?? "")
