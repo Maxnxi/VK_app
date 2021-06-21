@@ -28,52 +28,69 @@ class PhotosNewsCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        //newsImageView.image = nil
-    }
-
-    private func settingCell() {
-        //скачиваем фото в массив
-        DispatchQueue.global(qos: .utility).async {
-            for i in 0..<self.imagesUrlStringArr.count {
-                self.imagesArr.append(self.loadImage(byUrl: self.imagesUrlStringArr[i]))
-            }
-        }
-        
-    }
-    
-    private func loadImage(byUrl stringUrl: String) -> UIImage {
-        guard let readyUrlString = URL(string: stringUrl) else { return UIImage() }
-        let data = try? Data(contentsOf: readyUrlString)
-        guard let imageData = data else { return UIImage() }
-        guard let image = UIImage(data: imageData) else { return UIImage() }
-        return image
-    }
-    
-    //прикрепление UIImageView
-    private func setImages(forPhotosAmount amount: Int) {
-        if amount > 1 {
-            setImages(forPhotosAmount: amount)
-            imagesArr.removeLast()
-        } else if amount == 1 {
-            let photo = UIImageView(image: imagesArr.last)
-            contentView.addSubview(photo)
-        }
+        imagesViewArr.map({$0.image = nil})
     }
     
     //настройка ячейки
     func configureCell(imagesArr: [UIImage]?) {
-        self.imagesArr = imagesArr
+        self.imagesArr = imagesArr ?? []
     }
+
+    private func settingCell() {
+        //to do - to think how optimize
+        
+        
+        for i in 0..<imagesArr.count {
+            imagesViewArr.append(UIImageView(image: imagesArr[i]))
+        }
+        
+        for number in 0..<imagesViewArr.count{
+            contentView.addSubview(imagesViewArr[number])
+            imagesViewArr[number].translatesAutoresizingMaskIntoConstraints = false
+            
+            let topConstraint = imagesViewArr[number].topAnchor.constraint(equalTo: contentView.topAnchor)
+            
+            let leftConstraint = (number == 0 ? imagesViewArr[number].leftAnchor.constraint(equalTo: contentView.leftAnchor) : imagesViewArr[number].leftAnchor.constraint(equalTo: imagesViewArr[number-1].rightAnchor))
+            
+            let widthForConstr =  contentView.frame.width / CGFloat(imagesViewArr.count)
+            let widthConstraint = imagesViewArr[number].widthAnchor.constraint(equalToConstant: widthForConstr)
+            
+            let heighForConstr = contentView.frame.width / CGFloat(imagesViewArr.count)
+            let heightConstriant = imagesViewArr[number].heightAnchor.constraint(equalToConstant: heighForConstr )
+            
+            
+            NSLayoutConstraint.activate([topConstraint,
+                                         leftConstraint,
+                                         widthConstraint,
+                                         heightConstriant,
+                                         imagesViewArr[number].bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            ])
+            let priorityNumber = 990 - Float(number)
+            topConstraint.priority = .init(priorityNumber)
+        }
+ 
+    }
+    
+    // вынести в extension
+//    private func loadImage(byUrl stringUrl: String) -> UIImage {
+//        guard let readyUrlString = URL(string: stringUrl) else { return UIImage() }
+//        let data = try? Data(contentsOf: readyUrlString)
+//        guard let imageData = data else { return UIImage() }
+//        guard let image = UIImage(data: imageData) else { return UIImage() }
+//        return image
+//    }
+    
+    //прикрепление UIImageView
+//    private func setImages(forPhotosAmount amount: Int) {
+//        if amount > 1 {
+//            setImages(forPhotosAmount: amount)
+//            imagesArr.removeLast()
+//        } else if amount == 1 {
+//            let photo = UIImageView(image: imagesArr.last)
+//            contentView.addSubview(photo)
+//        }
+//    }
+    
+    
 }
 
-
-/*
- //настройка констраинтов
- imgView.translatesAutoresizingMaskIntoConstraints = false
- NSLayoutConstraint.activate([
-     imgView.centerXAnchor.constraint(equalTo: photoOneView.centerXAnchor, constant: 0),
-     imgView.centerYAnchor.constraint(equalTo: self.photoOneView.centerYAnchor, constant: 0),
-     imgView.topAnchor.constraint(equalTo: self.photoOneView.topAnchor, constant: 0),
-     imgView.bottomAnchor.constraint(equalTo: self.photoOneView.bottomAnchor, constant: 0)
- ])
- */
