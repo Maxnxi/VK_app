@@ -244,7 +244,7 @@ class ApiVkServices {
             let parameters: Parameters = [
                 "user_id": userId,
                 "access_token": accessToken,
-                "filters": "post,posted_photo",
+                "filters": "post,photo,posted_photo", //"post,photo,photo_tag, wall_photo"
                 "count": "20",
                 "v": self.version
             ]

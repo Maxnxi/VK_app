@@ -21,6 +21,7 @@
 		051BE5732668C06700582590 /* PhotosNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051BE5712668C06700582590 /* PhotosNewsCell.swift */; };
 		051E738A267738AC009CF3D2 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051E7389267738AC009CF3D2 /* AppError.swift */; };
 		051E82A42678C87E00EF827C /* FirebaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051E82A32678C87E00EF827C /* FirebaseModel.swift */; };
+		052A983C2684C36B00E1189C /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052A983B2684C36B00E1189C /* IntExtension.swift */; };
 		0538E77525E68E8C00FA631D /* GlobalGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0538E77425E68E8C00FA631D /* GlobalGroupCell.swift */; };
 		0538E77A25E7A6AB00FA631D /* ResponseUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0538E77925E7A6AB00FA631D /* ResponseUsers.swift */; };
 		0538E77D25E7CF2D00FA631D /* PhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0538E77C25E7CF2D00FA631D /* PhotosCell.swift */; };
@@ -82,6 +83,7 @@
 		051BE5712668C06700582590 /* PhotosNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosNewsCell.swift; sourceTree = "<group>"; };
 		051E7389267738AC009CF3D2 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		051E82A32678C87E00EF827C /* FirebaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModel.swift; sourceTree = "<group>"; };
+		052A983B2684C36B00E1189C /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		0538E77425E68E8C00FA631D /* GlobalGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalGroupCell.swift; sourceTree = "<group>"; };
 		0538E77925E7A6AB00FA631D /* ResponseUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseUsers.swift; sourceTree = "<group>"; };
 		0538E77C25E7CF2D00FA631D /* PhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCell.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRealmObject.swift; sourceTree = "<group>"; };
 		05C43D74265E344D003338E7 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		05C43D93265E6851003338E7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		05C5035D26839B440021150B /* Homework_1.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = Homework_1.profdata; sourceTree = "<group>"; };
 		05C9D1912624BB66002652BF /* LoginVKwebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVKwebVC.swift; sourceTree = "<group>"; };
 		05D7749F25E678AF00FA5CA5 /* MyGroupsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupsCell.swift; sourceTree = "<group>"; };
 		05D774A225E6798900FA5CA5 /* ResponseGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseGroups.swift; sourceTree = "<group>"; };
@@ -212,6 +215,7 @@
 				057D76F425DC363D00A9E18B /* Products */,
 				479057DA514EC9A452B13A0A /* Pods */,
 				AA9CAA2E5C244EE8C644F939 /* Frameworks */,
+				05C5035C26839B440021150B /* OptimizationProfiles */,
 			);
 			sourceTree = "<group>";
 		};
@@ -399,6 +403,7 @@
 		0597AF5C25E3B7870014BF41 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				052A983B2684C36B00E1189C /* IntExtension.swift */,
 				054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */,
 			);
 			path = Extensions;
@@ -418,6 +423,14 @@
 				05C43D93265E6851003338E7 /* ProfileViewController.swift */,
 			);
 			path = ProfileInfo;
+			sourceTree = "<group>";
+		};
+		05C5035C26839B440021150B /* OptimizationProfiles */ = {
+			isa = PBXGroup;
+			children = (
+				05C5035D26839B440021150B /* Homework_1.profdata */,
+			);
+			path = OptimizationProfiles;
 			sourceTree = "<group>";
 		};
 		05ED4F22261EDAFC00FB097A /* waitingToBeDone */ = {
@@ -563,6 +576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				054AAEA325FBE37500E73DD9 /* LikeControlView.swift in Sources */,
+				052A983C2684C36B00E1189C /* IntExtension.swift in Sources */,
 				0597AF6825E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift in Sources */,
 				051BE56F2668C05300582590 /* FooterNewsCell.swift in Sources */,
 				0538E78B25E8258800FA631D /* PhotoVC.swift in Sources */,
@@ -751,6 +765,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W8PA5V3MFD;
 				INFOPLIST_FILE = Homework_1/Info.plist;
@@ -771,6 +786,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W8PA5V3MFD;
 				INFOPLIST_FILE = Homework_1/Info.plist;

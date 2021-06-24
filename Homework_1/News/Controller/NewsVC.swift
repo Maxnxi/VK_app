@@ -12,7 +12,6 @@ import RealmSwift
 class NewsVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var infoUpdateLabel: UILabel!
@@ -28,35 +27,34 @@ class NewsVC: UIViewController {
     
     var myNews:[NewsRealmObject] = []
     
+    //
     var updateStatus: Bool = true
-    
     var timer: Timer?
     var timeLeft = 60
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageService = ImageService(container: tableView)
+        
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // регистируем cells tableview
-        registerTableViewCells()
-        
+      
         configureNewsTableview()
         
         // настройка кнопки таймера
         setingTimerButton()
+        
+        //realm observer
+        realmServices.startNewsRealmObserver(view: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sleep(2)
         if myNews.count == 0 {
-            fetchDataFromVkServer()
+            configureNewsTableview()
         }
-        //realm observer
-        realmServices.startNewsRealmObserver(view: self)
+        tableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -66,35 +64,41 @@ class NewsVC: UIViewController {
     }
     
     //MARK: -> настройки
-    func registerTableViewCells(){
+    func configureNewsTableview(){
+        DispatchQueue.global().sync {
+            // регистируем cells tableview
+            registerTableViewCells()
+            //загружаем данные с сервера VK и сохраняем в realm
+            fetchDataFromVkServer()
+            //берем данные из realm и выводим в cells
+            myNews = realmServices.loadNewsDataFromRealm()
+            //сортируем по дате ($0>$1)
+            sortNewsByDate()
+            //кэш фотографий
+            imageService = ImageService(container: tableView)
+        }
+    }
+    
+    func registerTableViewCells() {
         tableView.register(UINib(nibName: HeaderNewsCell.nibName, bundle: nil), forCellReuseIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews)
         tableView.register(UINib(nibName: TextNewsCell.nibName, bundle: nil), forCellReuseIdentifier: TextNewsCell.reuseIdentifierOfCellNews)
         tableView.register(PhotosNewsCell.self, forCellReuseIdentifier: PhotosNewsCell.reuseIdentifierOfCellNews)
         tableView.register(UINib(nibName: FooterNewsCell.nibName, bundle: nil), forCellReuseIdentifier: FooterNewsCell.reuseIdentifierOfCellNews)
     }
     
-    func configureNewsTableview(){
-        //загружаем данные с сервера VK и сохраняем в realm
-        fetchDataFromVkServer()
-        //берем данные из realm и выводим в cells
-        myNews = realmServices.loadNewsDataFromRealm()
-        //сортируем по дате ($0>$1)
-        sortNewsByDate()
-    }
-    
     func fetchDataFromVkServer() {
+        //ДЗ #2
+//        DispatchQueue.global(qos: .utility).async {
         guard let userId = Session.shared.userId,
               let accessToken = Session.shared.token else {
             print("error getting userId")
             return
         }
-        //ДЗ #2
-        DispatchQueue.global(qos: .utility).async {
             self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken) { news in
             //сохраняем news в Realm
             self.realmServices.saveNewsData(news)
             }
-        }
+//        }
     }
     
     func sortNewsByDate(){
@@ -168,8 +172,9 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
         //print("oneNew is - ", oneNew)
         switch indexPath.row {
         case 0:
+            //ячейка -заголовок новости
             guard let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? HeaderNewsCell else { return UITableViewCell() }
-            headerCell.configureCell(authorName: oneNew.authorName, authorProfileImgUrl: oneNew.avatarImgUrl)
+            headerCell.configureCell(authorName: oneNew.authorName, authorProfileImgUrl: oneNew.avatarImgUrl, date: oneNew.date)
             return headerCell
         case 1:
             //ячейка -текст новости
@@ -183,27 +188,32 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             //проверка на наличие фото в новости
-            
             if oneNew.photoOneUrl == "NO_PHOTO" {
-                
                 return photoCell
             } else {
-                let imageOneString = oneNew.photoOneUrl
-                let imageTwoString = oneNew.photoTwoUrl
-                      let imageThreeString = oneNew.photoThreeUrl
-                let imageFourString = oneNew.photoFourUrl
-             
-                let image1 = imageService?.photo(atIndexpath: indexPath, byUrl: imageOneString ?? "")
-                 let image2 = imageService?.photo(atIndexpath: indexPath, byUrl: imageTwoString ?? "")
-                let image3 = imageService?.photo(atIndexpath: indexPath, byUrl: imageThreeString ?? "")
-                 let image4 = imageService?.photo(atIndexpath: indexPath, byUrl: imageFourString ?? "")
+                let dispatchGroup = DispatchGroup()
                 
-                let imagesArr = [image1, image2, image3, image4]
-                print("cell #\(indexPath.row) has photos:\(imagesArr.count)")
-                photoCell.configureCell(imagesArr: imagesArr)
+//                DispatchQueue.global(qos: .background).sync {
+                    let imageOneString = oneNew.photoOneUrl
+                    let imageTwoString = oneNew.photoTwoUrl
+                    let imageThreeString = oneNew.photoThreeUrl
+                    let imageFourString = oneNew.photoFourUrl
+                    
+                    let image1 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageOneString ?? "")
+                    let image2 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageTwoString ?? "")
+                    let image3 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageThreeString ?? "")
+                    let image4 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageFourString ?? "")
+                    
+                    let imagesArr = [image1, image2, image3, image4]
+                    
+//                    DispatchQueue.main.async {
+                        photoCell.configureCell(imagesArr: imagesArr)
+//                    }
+//                }
                 return photoCell
             }
         case 3:
+            //ячейка -низ новости
             guard let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? FooterNewsCell else {
                 print("Ошибка №322")
                 return UITableViewCell()

@@ -12,6 +12,7 @@ class HeaderNewsCell: UITableViewCell {
     @IBOutlet weak var newsAuthorName: UILabel!
     @IBOutlet weak var newsAuthorProfileImg: AvatarView!
     
+    @IBOutlet weak var dateNTimeLbl: UILabel!
     static var nibName: String = "HeaderNewsCell"
     static var reuseIdentifierOfCellNews: String = "headerNewsCell"
     
@@ -26,9 +27,9 @@ class HeaderNewsCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(authorName: String, authorProfileImgUrl: String) {
+    func configureCell(authorName: String, authorProfileImgUrl: String, date: Int) {
         self.newsAuthorName.text = authorName
-        
+        self.dateNTimeLbl.text = date.fromIntToDateFormatToCell(date: date)//
         guard let urlString = authorProfileImgUrl as? String else { return }
         let data = try? Data(contentsOf: URL(string: urlString)!)
         guard let image = data else { return }

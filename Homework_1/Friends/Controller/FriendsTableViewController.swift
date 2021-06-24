@@ -31,12 +31,7 @@ class FriendsTableViewController: UIViewController  {
     private let ref = Database.database().reference(withPath: "users")
     
     var myFriends:[UserRealMObject] = []
-//    {
-//        didSet {
-//            tableView.reloadData()
-//            print("myFriend set! ", myFriends.count)
-//        }
-//    }
+
     var filterListOfFriends: [UserRealMObject] = []
     var sections: [String] = []
     var cachedSectionsItems: [String:[UserRealMObject]] = [:]
@@ -61,7 +56,7 @@ class FriendsTableViewController: UIViewController  {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //configureFriendsTableView()
+
         sleep(2)
         if myFriends.count == 0 {
             configureFriendsTableView()
@@ -79,7 +74,7 @@ class FriendsTableViewController: UIViewController  {
         fetchDataFriendsFromVkServer()
         //Загрузка списка друзей из Realm (рефакторинг)
         myFriends = realMServices.loadDataFriendsFromRealm()
-        //loadDataFriendsFromRealm()
+
         realMServices.startRealmObserver(view: self)
         setupDataSource()
     }
@@ -232,24 +227,6 @@ extension FriendsTableViewController: UISearchBarDelegate {
         setupDataSource()
         tableView.reloadData()
     }
-}
-
-//MARK: -> Adding UserInfo to Firebase
-extension FriendsTableViewController {
-    
-    // перенесен в класс FirebaseModel
-//    func addUserInfoToFirebase() {
-//
-//        guard let vkUserId = Session.shared.userId as? String else {
-//            print("\n\n\nError 302")
-//            return
-//        }
-//        let vkUserIdToInt = Int(vkUserId) ?? 0
-//        print("\n\n\n vk user id is - ", vkUserIdToInt)
-//        let user = FirebaseUserInfo(id: vkUserIdToInt)
-//        let userRef = self.ref.child(vkUserId.lowercased())
-//        userRef.setValue(user.toAnyObject())
-//    }
 }
 
 //MARK: -> Добавляем инфу о группах пользователя в Firestore
