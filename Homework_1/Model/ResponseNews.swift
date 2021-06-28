@@ -4,6 +4,7 @@
 //   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 
 import Foundation
+import UIKit
 
 // MARK: - Welcome
 struct ResponseNews: Codable {
@@ -123,6 +124,8 @@ struct SizePhotoNews: Codable {
     let url: String?
     let type: String?
     let width: Int?
+    
+    var aspectRatio: CGFloat{ return CGFloat(height ?? 1) / CGFloat(width ?? 1) }
 }
 
 // MARK: - Comments

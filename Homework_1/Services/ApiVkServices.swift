@@ -5,6 +5,7 @@
 //  Created by Maksim on 22.04.2021.
 //
 
+import UIKit
 import Foundation
 import Alamofire
 import AlamofireImage
@@ -233,43 +234,39 @@ class ApiVkServices {
     }
     
     //MARK: -> Запрос к VK серверу "newsfeed.get" / данные в Realm сохраняем
-    func getNewsPost(userId: String, accessToken: String, startTime: Int, completion: @escaping(_ newsForRealm: [NewsRealmObject]) -> ()) {
-        //https://api.vk.com/method/newsfeed.get?access_token=23f5d9413b77384e80cd010e98d870716da2c4a25a1b70758f3dd345b0bb84600b4cde496a6c1374ce9d9&count=2&filters=post,photo&user_id=200037963&v=5.130
-        
-        //Dispatch Group ДЗ №2
-        let dispatchGroup = DispatchGroup()
+    func getNewsPost(startTime: String = "", startFrom: String = "", completion: @escaping(_ newsRealmObject: [NewsRealmObject], _ startFrm: String) -> ()) {
+        guard let userId = Session.shared.userId,
+              let accessToken = Session.shared.token else {
+            print("Error #310")
+            return
+        }
         var newsForRealm: [NewsRealmObject] = []
 
             let path = "newsfeed.get"
             let parameters: Parameters = [
                 "user_id": userId,
                 "access_token": accessToken,
-                "filters": "post,photo,posted_photo", //"post,photo,photo_tag, wall_photo"
-                //"count": "20",
+                "filters": "post", //"post,photo,photo_tag, wall_photo"
+                "count": "20",
+                "start_from": startFrom,
                 "start_time": startTime,
                 "v": self.version
             ]
             let url = self.baseUrl + path
         
-            AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
-                print("newsfeed request - is ", response.request)
+        AF.request(url, method: .get, parameters: parameters).responseData() { response in
+            print("newsfeed request - is ", response.request as Any)
                 guard let data = response.value else {return}
                 do {
-                    //ДЗ №2
-//                    DispatchQueue.global().async(group: dispatchGroup) {
-                    let response = try JSONDecoder().decode(ResponseNews.self, from: data).response
+                    let response = try? JSONDecoder().decode(ResponseNews.self, from: data).response
                     
-//                    let items = try JSONDecoder().decode( ResponseNews.self, from: data).response?.items
-//                    let groups = try JSONDecoder().decode( ResponseNews.self, from: data).response?.groups
-//                    let profiles = try JSONDecoder().decode( ResponseNews.self, from: data).response?.profiles
-//                    }
-                    guard let itemsArr = response?.items as? [ItemNews],
-                          let groupsArr = response?.groups as? [GroupNews],
-                          let profilesArr = response?.profiles as? [Profile] else {
+                    guard let itemsArr = response?.items,
+                          let groupsArr = response?.groups,
+                          let profilesArr = response?.profiles,
+                          let startFrm = response?.nextFrom else {
                     print("Error #311")
                     return
                 }
-                
                     //подготавливаем данные для модели NewsRealmObject
                 for element in itemsArr {
                     guard let idVk = element.sourceID as? Int else { return }
@@ -283,48 +280,19 @@ class ApiVkServices {
                         newsForRealm.append(oneNew)
                     }
                     if newsForRealm.count == itemsArr.count {
-                        
-                        //записываем данные в RealM
-                        //DispatchQueue.main.async {
-                            //self.realMServices.saveNewsData(newsForRealm)
                         print("news downloaded - ", newsForRealm.count)
-                        completion(newsForRealm)
-                        //}
-                        
+                        completion(newsForRealm, startFrm)
                     }
                 }
             } catch {
                 debugPrint("error #4", error)
             }
-            }
-//        }
-        
-//        dispatchGroup.notify(queue: DispatchQueue.main) {
-//            //записываем данные в RealM
-//            self.realMServices.saveNewsData(newsForRealm)
-//        }
+        }
     }
 
+
     
-//    func getNewsPhoto(userId: String, accessToken: String, completion: @escaping() -> Void) {
-//
-//        let path = "newsfeed.get"
-//
-//        let parameters: Parameters = [
-//            "user_id": userId,
-//            "access_token": accessToken,
-//            "filters": "photo",
-//            "count": "1",
-//            "v": version
-//        ]
-//        let url = baseUrl + path
-//
-//        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-//            print("request - is ", response.request!)
-//            // TO DO PARSE DATA
-//
-//        }
-//    }
+
     
     
     //MARK: -> для реализации в будущем

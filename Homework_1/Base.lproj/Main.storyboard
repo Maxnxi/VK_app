@@ -285,9 +285,10 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="friendPhotoColCell" translatesAutoresizingMaskIntoConstraints="NO" id="HFO-eo-IMJ" customClass="PhotosCell" customModule="Homework_1" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" reuseIdentifier="friendPhotoColCell" translatesAutoresizingMaskIntoConstraints="NO" id="HFO-eo-IMJ" customClass="PhotosCell" customModule="Homework_1" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTa-BY-0Sl">
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vTa-BY-0Sl">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YWn-DT-Smn">
@@ -307,10 +308,6 @@
                                                 <constraint firstAttribute="width" constant="140" id="sg5-RF-CMZ"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <constraints>
-                                            <constraint firstItem="vTa-BY-0Sl" firstAttribute="leading" secondItem="HFO-eo-IMJ" secondAttribute="leadingMargin" constant="-8" id="c4A-mM-JtD"/>
-                                            <constraint firstItem="vTa-BY-0Sl" firstAttribute="top" secondItem="HFO-eo-IMJ" secondAttribute="topMargin" constant="-8" id="uBG-n1-V56"/>
-                                        </constraints>
                                         <size key="customSize" width="100" height="100"/>
                                         <connections>
                                             <outlet property="cellImgView" destination="YWn-DT-Smn" id="Bc8-2r-Uen"/>
@@ -799,6 +796,10 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="jFX-FT-gsg">
+                                <rect key="frame" x="185" y="412" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="czp-3a-Ov4"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -811,6 +812,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="News" id="kha-At-2gH"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="jFX-FT-gsg" id="Hf8-65-CwG"/>
                         <outlet property="infoUpdateLabel" destination="S5i-Vb-Plo" id="Efg-5b-gRd"/>
                         <outlet property="tableView" destination="cR2-ZS-Mkb" id="Uxe-R2-0X5"/>
                         <outlet property="timerLabel" destination="pr7-Ur-sFC" id="1hY-R4-roZ"/>

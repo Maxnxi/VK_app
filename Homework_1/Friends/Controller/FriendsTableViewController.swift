@@ -46,22 +46,26 @@ class FriendsTableViewController: UIViewController  {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        //настройка
         configureFriendsTableView()
         
         //adding user to firebase
         FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
         usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
         
+        //  realm observer
+        realMServices.startFriendsRealmObserver(view: self)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        sleep(2)
-        if myFriends.count == 0 {
-            configureFriendsTableView()
-        }
-        tableView.reloadData()
+//        sleep(2)
+//        if myFriends.count == 0 {
+//            configureFriendsTableView()
+//        }
+//        tableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -71,11 +75,14 @@ class FriendsTableViewController: UIViewController  {
     }
     
     func configureFriendsTableView() {
+        //загрузка друзей с сервера vk.com
         fetchDataFriendsFromVkServer()
+        
         //Загрузка списка друзей из Realm (рефакторинг)
         myFriends = realMServices.loadDataFriendsFromRealm()
 
-        realMServices.startRealmObserver(view: self)
+        
+       
         setupDataSource()
     }
     

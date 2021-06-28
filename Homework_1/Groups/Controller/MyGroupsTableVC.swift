@@ -32,15 +32,18 @@ class MyGroupsTableVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         configureGroupsTableView()
+        
+        //realm observer
+        realMServices.startGroupsRealmObserver(view: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sleep(2)
-        if myGroups.count == 0 {
-            configureGroupsTableView()
-        }
-        tableView.reloadData()
+//        sleep(2)
+//        if myGroups.count == 0 {
+//            configureGroupsTableView()
+//        }
+//        tableView.reloadData()
     }
     
     func configureGroupsTableView() {

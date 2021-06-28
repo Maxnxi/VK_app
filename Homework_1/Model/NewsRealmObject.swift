@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import UIKit
 
 class NewsRealmObject: Object, Codable {
     
@@ -16,6 +17,7 @@ class NewsRealmObject: Object, Codable {
     @objc dynamic var text: String = "Hello hello hello"
     @objc dynamic var date: Int = 123
     @objc dynamic var photoOneUrl: String? = ""
+    dynamic var aspectRatio: Float?
     @objc dynamic var photoTwoUrl: String?
     @objc dynamic var photoThreeUrl: String?
     @objc dynamic var photoFourUrl: String?
@@ -45,6 +47,7 @@ class NewsRealmObject: Object, Codable {
         
         // фотография новости
         guard let phUrl = news.attachments?.compactMap({$0.photo?.sizes?.last?.url}) as? [String] else { return }
+        aspectRatio = Float(news.attachments?.compactMap({$0.photo?.sizes?.last?.aspectRatio }).last ?? 1)
         
         if phUrl.count >= 4 {
             photoOneUrl = phUrl[0]

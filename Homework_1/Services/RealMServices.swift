@@ -47,25 +47,27 @@ class RealMServices {
     }
     
     // observer Realm для FriendsTableViewController
-    func startRealmObserver(view:FriendsTableViewController) {
+    func startFriendsRealmObserver(view:FriendsTableViewController) {
         do {
         let realm = try Realm()
         let friendsFromRealM = realm.objects(UserRealMObject.self)
             view.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
             guard let self = self, let tableView = view.tableView else { return }
                 switch changes {
-                case .initial:
+                case .initial(let friends):
                     print("initial friends - done")
+                    view.myFriends = Array(friends)
                     view.sortAlphabeticFriendsArr()
-                    view.tableView.reloadData()
-                    //tableView.reloadData()
-                    //view.tableViewReloadDataFromObserver()
-                case .update:
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
+                case .update(let friends,_,_,_):
                     print("update friends - done")
+                    view.myFriends = Array(friends)
                     view.sortAlphabeticFriendsArr()
-                    view.tableView.reloadData()
-                    //tableView.reloadData()
-                    //view.tableViewReloadDataFromObserver()
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
                 case .error(let error):
                     print(error)
                 }
@@ -122,6 +124,36 @@ class RealMServices {
 //        return groups
 //    }
     
+    // observer Realm для MyGroupsTableVC
+    func startGroupsRealmObserver(view:MyGroupsTableVC) {
+        do {
+        let realm = try Realm()
+        let groupsFromRealM = realm.objects(GroupsRealMObject.self)
+            view.token = groupsFromRealM.observe({ (changes: RealmCollectionChange) in
+                switch changes {
+                case .initial(let groups):
+                    print("initial friends - done")
+                    view.myGroups = Array(groups)
+                    view.sortGroups()
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
+                case .update(let groups,_,_,_):
+                    print("update friends - done")
+                    view.myGroups = Array(groups)
+                    view.sortGroups()
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
+                case .error(let error):
+                    print(error)
+                }
+            })
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+    
     //MARK: -> запросы к Realm - колонка Новости (News)
     
     func saveNewsData(_ news: [NewsRealmObject]) {
@@ -157,7 +189,8 @@ class RealMServices {
     func startNewsRealmObserver(view:NewsVC) {
         do {
         let realm = try Realm()
-        let newsFromRealM = realm.objects(NewsRealmObject.self)
+            let newsPreCount = realm.objects(NewsRealmObject.self).count
+            let newsFromRealM = realm.objects(NewsRealmObject.self)
             view.token = newsFromRealM.observe({ (changes: RealmCollectionChange) in
             //guard let self = self, let tableView = view.tableView else { return }
                 switch changes {
@@ -173,8 +206,12 @@ class RealMServices {
                     print("update news - done")
                     view.myNews = Array(news)
                     view.sortNewsByDate()
+                    let newsAfterCount = realm.objects(NewsRealmObject.self).count
                     DispatchQueue.main.async {
                         view.tableView.reloadData()
+                        
+                        let indexSet = IndexSet(integersIn: newsPreCount..<newsAfterCount)
+                        view.tableView.insertSections(indexSet, with: .automatic)
                     }
                 case .error(let error):
                     print(error)

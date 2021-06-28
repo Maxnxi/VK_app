@@ -11,6 +11,7 @@ import RealmSwift
 
 class NewsVC: UIViewController {
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var timerLabel: UILabel!
@@ -28,10 +29,12 @@ class NewsVC: UIViewController {
     var myNews:[NewsRealmObject] = []
     
     //batch loading news
-    let refreshControl = UIRefreshControl()
-    var mostFreshNewsDate: Int?
-    var nextFrom = ""
-    var isLoading = false
+    //let refreshControl = UIRefreshControl()
+    private var lastDateString: String?
+    private var mostFreshNewsDate: Int?
+    
+    public var nextFrom = ""
+    private var isLoading = false
     
     //
     var updateStatus: Bool = true
@@ -61,15 +64,10 @@ class NewsVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        activityIndicator.startAnimating()
+        
         configureNewsTableview()
-        
-        
-        
-//        sleep(2)
-//        if myNews.count == 0 {
-//            configureNewsTableview()
-//        }
-//        tableView.reloadData()
         tableView.reloadData()
     }
     
@@ -81,9 +79,6 @@ class NewsVC: UIViewController {
     
     //MARK: -> настройки
     func configureNewsTableview(){
-//        DispatchQueue.global().async {
-            // регистируем cells tableview
-            //self.registerTableViewCells()
             //загружаем данные с сервера VK и сохраняем в realm
             self.fetchDataFromVkServer()
             //берем данные из realm и выводим в cells
@@ -92,7 +87,6 @@ class NewsVC: UIViewController {
             self.sortNewsByDate()
             //кэш фотографий
             self.imageService = ImageService(container: self.tableView)
-//        }
     }
     
     func registerTableViewCells() {
@@ -111,9 +105,15 @@ class NewsVC: UIViewController {
             return
         }
         guard let timeForRequest = mostFreshNewsDate else { return }
-            self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken, startTime: timeForRequest) { news in
-            //сохраняем news в Realm
+        self.apiVkServices.getNewsPost(startFrom:"next_from") { news,timeFrm in
+                
+                
+                //сохраняем news в Realm
             self.realmServices.saveNewsData(news)
+                self.lastDateString = String(Int(news.first?.date ?? Int(Date().timeIntervalSince1970)) - (60 * 60 * 2))
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.isHidden = true
+                self.activityIndicator.stopAnimating()
             }
 //        }
     }
@@ -163,32 +163,28 @@ class NewsVC: UIViewController {
         }
     }
     
-    
     fileprivate func setupRefreshControl() {
-       
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
-        refreshControl.tintColor = .red
-        refreshControl.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Updating...")
+        tableView.refreshControl?.tintColor = .orange
+        tableView.refreshControl?.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
     }
     
     @objc func refreshNews() {
-        self.refreshControl.beginRefreshing()
-        let mostFreshNewsDate = self.myNews.first?.date ?? Date().timeIntervalSince1970.exponent
-        
-        apiVkServices.getNewsPost(userId: Session.shared.userId!, accessToken: Session.shared.token!, startTime: mostFreshNewsDate) { newsRealmObj in
-            //guard let self = self else { return }
-            self.refreshControl.endRefreshing()
-            
-            guard newsRealmObj.count > 0 else { return }
-            self.realmServices.saveNewsData(newsRealmObj)
-            //self.myNews = newsRealmObj + self.myNews
-            //let indexSet = IndexSet(integersIn: 0..<newsRealmObj.count)
-            //self.tableView.insertSections(indexSet, with: .automatic)
+        guard let date = lastDateString else {
+            tableView.refreshControl?.endRefreshing()
+            return
         }
+        apiVkServices.getNewsPost(startTime: date, startFrom: "next_from") { [weak self] news, startFrm in
+            guard let self = self else { return }
+            self.realmServices.saveNewsData(news)
+            self.lastDateString = self.myNews.first?.date.fromIntToDateFormatToCell(date: self.myNews.first?.date ?? Int(Date().timeIntervalSince1970))
+        }
+        self.tableView.refreshControl?.endRefreshing()
     }
     
-    
 }
+
 
 extension NewsVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -230,31 +226,9 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
                 print("Ошибка №320")
                 return UITableViewCell()
             }
-            //проверка на наличие фото в новости
-            if oneNew.photoOneUrl == "NO_PHOTO" {
-                return photoCell
-            } else {
-                let dispatchGroup = DispatchGroup()
-                
-//                DispatchQueue.global(qos: .background).sync {
-                    let imageOneString = oneNew.photoOneUrl
-                    let imageTwoString = oneNew.photoTwoUrl
-                    let imageThreeString = oneNew.photoThreeUrl
-                    let imageFourString = oneNew.photoFourUrl
-                    
-                    let image1 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageOneString ?? "")
-                    let image2 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageTwoString ?? "")
-                    let image3 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageThreeString ?? "")
-                    let image4 = self.imageService?.photo(atIndexpath: indexPath, byUrl: imageFourString ?? "")
-                    
-                    let imagesArr = [image1, image2, image3, image4]
-                    
-//                    DispatchQueue.main.async {
-                        photoCell.configureCell(imagesArr: imagesArr)
-//                    }
-//                }
-                return photoCell
-            }
+            photoCell.configureCell(image: oneNew.photoOneUrl ?? "")
+            return photoCell
+            
         case 3:
             //ячейка -низ новости
             guard let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseIdentifierOfCellNews, for: indexPath) as? FooterNewsCell else {
@@ -277,19 +251,22 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             if oneNew.text.count == 0 {
                 heightOfCell = 0.0
-            } else if oneNew.text.count > 0 && oneNew.text.count < 50 {
-                heightOfCell = 40.0
-            } else if oneNew.text.count > 50 && oneNew.text.count < 150 {
-                heightOfCell = 60.0
-            } else if oneNew.text.count > 150 && oneNew.text.count < 350 {
-                heightOfCell = 100.0
+            } else if oneNew.text.count > 0 && oneNew.text.count <= 150 {
+                heightOfCell = UITableView.automaticDimension
+            } else if oneNew.text.count > 150  {
+                heightOfCell = 200.0
+                
+                
             }
         case 2:
             print("case 2")
-            if oneNew.photoOneUrl == "NO_PHOTO" {
+            if oneNew.photoOneUrl == "NO_PHOTO", oneNew.photoOneUrl == ""  {
                 heightOfCell = 0.0
             } else {
-                heightOfCell = 100.0
+                
+                let width = view.frame.width
+                let cellHeight = width * CGFloat(oneNew.aspectRatio ?? 1)
+                heightOfCell = cellHeight
             }
         case 3:
             heightOfCell = 40.0
@@ -305,20 +282,31 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// паттерн Infinite Scrolling
 extension NewsVC: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         guard let maxSection = indexPaths.map({ $0.section }).max() else { return }
-        if maxSection > myNews.count - 3,
-           !isLoading {
+        
+        if maxSection > myNews.count - 3, !isLoading {
+            print("Prefetch begins - ..., nextFrom is - ", nextFrom)
             isLoading = true
-            guard let timeForRequest = mostFreshNewsDate else { return }
-            apiVkServices.getNewsPost(userId: Session.shared.userId!, accessToken: Session.shared.token!, startTime: timeForRequest) { [weak self] news in
+            //guard let timeForRequest = mostFreshNewsDate else { return }
+            
+            apiVkServices.getNewsPost(startFrom: nextFrom) { [weak self] news, nextFrm in
                 
-                print("News additional downloaded PC3")
-                //self.myNews.append(news)
-                self?.realmServices.saveNewsData(news)
-                self?.isLoading = false
+                self?.nextFrom = nextFrm
+                guard let self = self else { return }
+                let indexSet = IndexSet(integersIn: self.myNews.count ..< self.myNews.count + news.count)
+                
+                self.realmServices.saveNewsData(news)
+                
+                self.tableView.insertSections(indexSet, with: .automatic)
+                self.isLoading = false
             }
+            
+            
+                
+            
         }
     }
 }
@@ -341,7 +329,7 @@ extension NewsVC {
     }
     
     func tableView(_ tableView: UITableView, shouldSpringLoadRowAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
-        tableView.reloadData()
+        //tableView.reloadData()
         return true
     }
 }
