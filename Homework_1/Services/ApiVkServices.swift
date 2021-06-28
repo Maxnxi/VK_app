@@ -233,7 +233,7 @@ class ApiVkServices {
     }
     
     //MARK: -> Запрос к VK серверу "newsfeed.get" / данные в Realm сохраняем
-    func getNewsPost(userId: String, accessToken: String, completion: @escaping(_ newsForRealm: [NewsRealmObject]) -> ()) {
+    func getNewsPost(userId: String, accessToken: String, startTime: Int, completion: @escaping(_ newsForRealm: [NewsRealmObject]) -> ()) {
         //https://api.vk.com/method/newsfeed.get?access_token=23f5d9413b77384e80cd010e98d870716da2c4a25a1b70758f3dd345b0bb84600b4cde496a6c1374ce9d9&count=2&filters=post,photo&user_id=200037963&v=5.130
         
         //Dispatch Group ДЗ №2
@@ -245,7 +245,8 @@ class ApiVkServices {
                 "user_id": userId,
                 "access_token": accessToken,
                 "filters": "post,photo,posted_photo", //"post,photo,photo_tag, wall_photo"
-                "count": "20",
+                //"count": "20",
+                "start_time": startTime,
                 "v": self.version
             ]
             let url = self.baseUrl + path

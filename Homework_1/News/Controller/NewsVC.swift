@@ -27,6 +27,12 @@ class NewsVC: UIViewController {
     
     var myNews:[NewsRealmObject] = []
     
+    //batch loading news
+    let refreshControl = UIRefreshControl()
+    var mostFreshNewsDate: Int?
+    var nextFrom = ""
+    var isLoading = false
+    
     //
     var updateStatus: Bool = true
     var timer: Timer?
@@ -35,11 +41,16 @@ class NewsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+            mostFreshNewsDate = myNews.first?.date ?? Date().timeIntervalSince1970.exponent
+        
+        setupRefreshControl()
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
       
-        configureNewsTableview()
+        registerTableViewCells()
+        //configureNewsTableview()
         
         // настройка кнопки таймера
         setingTimerButton()
@@ -50,10 +61,15 @@ class NewsVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sleep(2)
-        if myNews.count == 0 {
-            configureNewsTableview()
-        }
+        configureNewsTableview()
+        
+        
+        
+//        sleep(2)
+//        if myNews.count == 0 {
+//            configureNewsTableview()
+//        }
+//        tableView.reloadData()
         tableView.reloadData()
     }
     
@@ -65,18 +81,18 @@ class NewsVC: UIViewController {
     
     //MARK: -> настройки
     func configureNewsTableview(){
-        DispatchQueue.global().sync {
+//        DispatchQueue.global().async {
             // регистируем cells tableview
-            registerTableViewCells()
+            //self.registerTableViewCells()
             //загружаем данные с сервера VK и сохраняем в realm
-            fetchDataFromVkServer()
+            self.fetchDataFromVkServer()
             //берем данные из realm и выводим в cells
-            myNews = realmServices.loadNewsDataFromRealm()
+            self.myNews = self.realmServices.loadNewsDataFromRealm()
             //сортируем по дате ($0>$1)
-            sortNewsByDate()
+            self.sortNewsByDate()
             //кэш фотографий
-            imageService = ImageService(container: tableView)
-        }
+            self.imageService = ImageService(container: self.tableView)
+//        }
     }
     
     func registerTableViewCells() {
@@ -94,7 +110,8 @@ class NewsVC: UIViewController {
             print("error getting userId")
             return
         }
-            self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken) { news in
+        guard let timeForRequest = mostFreshNewsDate else { return }
+            self.apiVkServices.getNewsPost(userId: userId, accessToken: accessToken, startTime: timeForRequest) { news in
             //сохраняем news в Realm
             self.realmServices.saveNewsData(news)
             }
@@ -145,6 +162,32 @@ class NewsVC: UIViewController {
             updateButton.setImage(UIImage(systemName: "pause"), for: .normal)
         }
     }
+    
+    
+    fileprivate func setupRefreshControl() {
+       
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.tintColor = .red
+        refreshControl.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
+    }
+    
+    @objc func refreshNews() {
+        self.refreshControl.beginRefreshing()
+        let mostFreshNewsDate = self.myNews.first?.date ?? Date().timeIntervalSince1970.exponent
+        
+        apiVkServices.getNewsPost(userId: Session.shared.userId!, accessToken: Session.shared.token!, startTime: mostFreshNewsDate) { newsRealmObj in
+            //guard let self = self else { return }
+            self.refreshControl.endRefreshing()
+            
+            guard newsRealmObj.count > 0 else { return }
+            self.realmServices.saveNewsData(newsRealmObj)
+            //self.myNews = newsRealmObj + self.myNews
+            //let indexSet = IndexSet(integersIn: 0..<newsRealmObj.count)
+            //self.tableView.insertSections(indexSet, with: .automatic)
+        }
+    }
+    
+    
 }
 
 extension NewsVC: UITableViewDelegate, UITableViewDataSource {
@@ -259,5 +302,46 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+}
+
+extension NewsVC: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let maxSection = indexPaths.map({ $0.section }).max() else { return }
+        if maxSection > myNews.count - 3,
+           !isLoading {
+            isLoading = true
+            guard let timeForRequest = mostFreshNewsDate else { return }
+            apiVkServices.getNewsPost(userId: Session.shared.userId!, accessToken: Session.shared.token!, startTime: timeForRequest) { [weak self] news in
+                
+                print("News additional downloaded PC3")
+                //self.myNews.append(news)
+                self?.realmServices.saveNewsData(news)
+                self?.isLoading = false
+            }
+        }
+    }
+}
+
+
+extension NewsVC {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print("begin draging")
+//        spinner.isHidden = false
+//        spinner.startAnimating()
+        tableView.reloadData()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        print("stop draging")
+//        spinner.isHidden = true
+//        spinner.stopAnimating()
+//        unDeleteView.isHidden = true
+    }
+    
+    func tableView(_ tableView: UITableView, shouldSpringLoadRowAt indexPath: IndexPath, with context: UISpringLoadedInteractionContext) -> Bool {
+        tableView.reloadData()
+        return true
     }
 }

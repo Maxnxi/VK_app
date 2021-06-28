@@ -158,17 +158,24 @@ class RealMServices {
         do {
         let realm = try Realm()
         let newsFromRealM = realm.objects(NewsRealmObject.self)
-            view.token = newsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
-            guard let self = self, let tableView = view.tableView else { return }
+            view.token = newsFromRealM.observe({ (changes: RealmCollectionChange) in
+            //guard let self = self, let tableView = view.tableView else { return }
                 switch changes {
-                case .initial:
+                case .initial(let news):
                     print("initial news - done")
+                    view.myNews = Array(news)
                     view.sortNewsByDate()
-                    view.tableView.reloadData()
-                case .update:
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
+                    
+                case .update(let news,_,_,_):
                     print("update news - done")
+                    view.myNews = Array(news)
                     view.sortNewsByDate()
-                    view.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
                 case .error(let error):
                     print(error)
                 }
