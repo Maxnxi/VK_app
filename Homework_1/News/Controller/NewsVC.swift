@@ -73,6 +73,8 @@ class NewsVC: UIViewController {
         token?.invalidate()
     }
     
+    
+    
     //MARK: -> настройка таблицы
     func configureNewsTableview(){
             //загружаем данные с сервера VK и сохраняем в realm
@@ -136,7 +138,7 @@ class NewsVC: UIViewController {
     
     @IBAction func updatePauseBtnWasPressed(_ sender: Any) {
         
-        UIView.animate(withDuration: 0.18) { // 0.1 - слишком быстро
+        UIView.animate(withDuration: 0.18) {
             self.updateButton.imageView?.layer.contentsScale = 1.8
             self.updateButton.backgroundColor = .darkGray
         } completion: { _ in
@@ -202,7 +204,7 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let oneNew = myNews[indexPath.section]
-        //print("oneNew is - ", oneNew)
+        
         switch indexPath.row {
         case 0:
             //ячейка -заголовок новости
@@ -245,11 +247,14 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             if oneNew.text.count == 0 {
                 heightOfCell = 0.0
-            } else if oneNew.text.count > 0 && oneNew.text.count <= 150 {
+            } else {
                 heightOfCell = UITableView.automaticDimension
-            } else if oneNew.text.count > 150  {
-                heightOfCell = 200.0 
             }
+//            else if oneNew.text.count > 0 && oneNew.text.count <= 150 {
+//                heightOfCell = UITableView.automaticDimension
+//            } else if oneNew.text.count > 150  {
+//                heightOfCell = 200.0
+//            }
         case 2:
             print("case 2")
             if oneNew.photoOneUrl == "NO_PHOTO", oneNew.photoOneUrl == ""  {
@@ -267,9 +272,19 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
         }
         return heightOfCell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        switch indexPath.row {
+        case 1:
+            self.tableView.beginUpdates()
+            
+            self.tableView.endUpdates()
+        default:
+            print("nothing")
+        }
     }
+    
+   
 }
 
 //MARK: -> паттерн Infinite Scrolling
