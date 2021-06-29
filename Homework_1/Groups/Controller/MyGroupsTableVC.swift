@@ -39,11 +39,6 @@ class MyGroupsTableVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        sleep(2)
-//        if myGroups.count == 0 {
-//            configureGroupsTableView()
-//        }
-//        tableView.reloadData()
     }
     
     func configureGroupsTableView() {

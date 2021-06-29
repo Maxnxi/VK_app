@@ -28,8 +28,6 @@
 		0538E78B25E8258800FA631D /* PhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0538E78A25E8258800FA631D /* PhotoVC.swift */; };
 		0542ADBE25EE47CB003557DA /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0542ADBD25EE47CB003557DA /* AvatarView.swift */; };
 		0546BA1626037D7000CC57DF /* NewsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0546BA1526037D7000CC57DF /* NewsVC.swift */; };
-		0546BA1A26037D8F00CC57DF /* NewsCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0546BA1826037D8F00CC57DF /* NewsCellTableViewCell.swift */; };
-		0546BA1B26037D8F00CC57DF /* NewsCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0546BA1926037D8F00CC57DF /* NewsCellTableViewCell.xib */; };
 		054AAEA325FBE37500E73DD9 /* LikeControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AAEA225FBE37500E73DD9 /* LikeControlView.swift */; };
 		054AAEA925FBE53D00E73DD9 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */; };
 		054E82542615FFD6009ABD20 /* CustomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */; };
@@ -90,8 +88,6 @@
 		0538E78A25E8258800FA631D /* PhotoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoVC.swift; sourceTree = "<group>"; };
 		0542ADBD25EE47CB003557DA /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		0546BA1526037D7000CC57DF /* NewsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsVC.swift; sourceTree = "<group>"; };
-		0546BA1826037D8F00CC57DF /* NewsCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellTableViewCell.swift; sourceTree = "<group>"; };
-		0546BA1926037D8F00CC57DF /* NewsCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellTableViewCell.xib; sourceTree = "<group>"; };
 		054AAEA225FBE37500E73DD9 /* LikeControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControlView.swift; sourceTree = "<group>"; };
 		054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
@@ -199,15 +195,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		0546BA1E2603B27B00CC57DF /* toDelete */ = {
-			isa = PBXGroup;
-			children = (
-				0546BA1926037D8F00CC57DF /* NewsCellTableViewCell.xib */,
-				0546BA1826037D8F00CC57DF /* NewsCellTableViewCell.swift */,
-			);
-			path = toDelete;
-			sourceTree = "<group>";
-		};
 		057D76EA25DC363D00A9E18B = {
 			isa = PBXGroup;
 			children = (
@@ -253,7 +240,6 @@
 		0581820B26149B9200542167 /* News */ = {
 			isa = PBXGroup;
 			children = (
-				0546BA1E2603B27B00CC57DF /* toDelete */,
 				0581821026149D1D00542167 /* Controller */,
 				0581820F26149D0600542167 /* View */,
 			);
@@ -521,7 +507,6 @@
 				051BE5662668C01300582590 /* HeaderNewsCell.xib in Resources */,
 				056311AB264D583100A92E0B /* GoogleService-Info.plist in Resources */,
 				051BE5702668C05300582590 /* FooterNewsCell.xib in Resources */,
-				0546BA1B26037D8F00CC57DF /* NewsCellTableViewCell.xib in Resources */,
 				057D76FE25DC363D00A9E18B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -609,7 +594,6 @@
 				05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */,
 				057D76F725DC363D00A9E18B /* AppDelegate.swift in Sources */,
 				0501E9C62672432B00DA361C /* ParseGroupDataFromVKOperation.swift in Sources */,
-				0546BA1A26037D8F00CC57DF /* NewsCellTableViewCell.swift in Sources */,
 				0583B531264E72470049FB58 /* LoginToFirebaseViewController.swift in Sources */,
 				0542ADBE25EE47CB003557DA /* AvatarView.swift in Sources */,
 				0546BA1626037D7000CC57DF /* NewsVC.swift in Sources */,

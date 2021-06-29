@@ -29,7 +29,6 @@ class NewsVC: UIViewController {
     var myNews:[NewsRealmObject] = []
     
     //batch loading news
-    //let refreshControl = UIRefreshControl()
     private var lastDateString: String?
     private var mostFreshNewsDate: Int?
     
@@ -44,7 +43,7 @@ class NewsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-            mostFreshNewsDate = myNews.first?.date ?? Date().timeIntervalSince1970.exponent
+        mostFreshNewsDate = myNews.first?.date ?? Date().timeIntervalSince1970.exponent
         
         setupRefreshControl()
         
@@ -53,7 +52,6 @@ class NewsVC: UIViewController {
         tableView.prefetchDataSource = self
       
         registerTableViewCells()
-        //configureNewsTableview()
         
         // настройка кнопки таймера
         setingTimerButton()
@@ -66,9 +64,7 @@ class NewsVC: UIViewController {
         super.viewDidAppear(animated)
         
         activityIndicator.startAnimating()
-        
         configureNewsTableview()
-        tableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -77,18 +73,20 @@ class NewsVC: UIViewController {
         token?.invalidate()
     }
     
-    //MARK: -> настройки
+    //MARK: -> настройка таблицы
     func configureNewsTableview(){
             //загружаем данные с сервера VK и сохраняем в realm
             self.fetchDataFromVkServer()
             //берем данные из realm и выводим в cells
             self.myNews = self.realmServices.loadNewsDataFromRealm()
             //сортируем по дате ($0>$1)
-            self.sortNewsByDate()
+            
+        myNews = self.sortNewsByDate(news: myNews)
             //кэш фотографий
             self.imageService = ImageService(container: self.tableView)
     }
     
+    //MARK: -> регистрируем ячейки таблицы
     func registerTableViewCells() {
         tableView.register(UINib(nibName: HeaderNewsCell.nibName, bundle: nil), forCellReuseIdentifier: HeaderNewsCell.reuseIdentifierOfCellNews)
         tableView.register(UINib(nibName: TextNewsCell.nibName, bundle: nil), forCellReuseIdentifier: TextNewsCell.reuseIdentifierOfCellNews)
@@ -96,32 +94,26 @@ class NewsVC: UIViewController {
         tableView.register(UINib(nibName: FooterNewsCell.nibName, bundle: nil), forCellReuseIdentifier: FooterNewsCell.reuseIdentifierOfCellNews)
     }
     
+    //MARK: -> запрос данных с сервера VK
     func fetchDataFromVkServer() {
-        //ДЗ #2
-//        DispatchQueue.global(qos: .utility).async {
-        guard let userId = Session.shared.userId,
-              let accessToken = Session.shared.token else {
-            print("error getting userId")
-            return
-        }
+        
         guard let timeForRequest = mostFreshNewsDate else { return }
-        self.apiVkServices.getNewsPost(startFrom:"next_from") { news,timeFrm in
-                
-                
-                //сохраняем news в Realm
+        self.apiVkServices.getNewsPost(startFrom:"next_from") { news,nextFrm in
+            self.nextFrom = nextFrm
+            //сохраняем news в Realm
             self.realmServices.saveNewsData(news)
-                self.lastDateString = String(Int(news.first?.date ?? Int(Date().timeIntervalSince1970)) - (60 * 60 * 2))
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.isHidden = true
-                self.activityIndicator.stopAnimating()
-            }
-//        }
+            self.lastDateString = String(Int(news.first?.date ?? Int(Date().timeIntervalSince1970)) - (60 * 60 * 2))
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
+        }
     }
     
-    func sortNewsByDate(){
-        myNews = myNews.sorted(by: {$0.date > $1.date})
+    func sortNewsByDate(news:[NewsRealmObject]) -> [NewsRealmObject]{
+        return news.sorted(by: {$0.date > $1.date})
     }
     
+    //MARK: -> Дополнительный таймер вверху таблицы (вызов каждые 60 секунд - fetchDataFromVkServer())
     func setingTimerButton(){
         updateButton.isUserInteractionEnabled = true
         updateButton.layer.cornerRadius = updateButton.frame.width/2
@@ -163,6 +155,8 @@ class NewsVC: UIViewController {
         }
     }
     
+    
+    //MARK: -> обновление страницы когда в самом верху тащим сверху-вниз
     fileprivate func setupRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Updating...")
@@ -254,9 +248,7 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
             } else if oneNew.text.count > 0 && oneNew.text.count <= 150 {
                 heightOfCell = UITableView.automaticDimension
             } else if oneNew.text.count > 150  {
-                heightOfCell = 200.0
-                
-                
+                heightOfCell = 200.0 
             }
         case 2:
             print("case 2")
@@ -275,38 +267,26 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
         }
         return heightOfCell
     }
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
 }
 
-// паттерн Infinite Scrolling
+//MARK: -> паттерн Infinite Scrolling
 extension NewsVC: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         guard let maxSection = indexPaths.map({ $0.section }).max() else { return }
         
         if maxSection > myNews.count - 3, !isLoading {
-            print("Prefetch begins - ..., nextFrom is - ", nextFrom)
+            print("Prefetch begins, maxsections is - \(maxSection), nextFrom is - ", nextFrom.description)
             isLoading = true
-            //guard let timeForRequest = mostFreshNewsDate else { return }
             
             apiVkServices.getNewsPost(startFrom: nextFrom) { [weak self] news, nextFrm in
-                
                 self?.nextFrom = nextFrm
                 guard let self = self else { return }
-                let indexSet = IndexSet(integersIn: self.myNews.count ..< self.myNews.count + news.count)
-                
                 self.realmServices.saveNewsData(news)
-                
-                self.tableView.insertSections(indexSet, with: .automatic)
                 self.isLoading = false
             }
-            
-            
-                
-            
         }
     }
 }
@@ -315,14 +295,14 @@ extension NewsVC: UITableViewDataSourcePrefetching {
 extension NewsVC {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print("begin draging")
+        //print("begin draging")
 //        spinner.isHidden = false
 //        spinner.startAnimating()
         tableView.reloadData()
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print("stop draging")
+        //print("stop draging")
 //        spinner.isHidden = true
 //        spinner.stopAnimating()
 //        unDeleteView.isHidden = true

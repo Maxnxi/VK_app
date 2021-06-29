@@ -189,26 +189,30 @@ class RealMServices {
     func startNewsRealmObserver(view:NewsVC) {
         do {
         let realm = try Realm()
-            let newsPreCount = realm.objects(NewsRealmObject.self).count
+            
             let newsFromRealM = realm.objects(NewsRealmObject.self)
             view.token = newsFromRealM.observe({ (changes: RealmCollectionChange) in
             //guard let self = self, let tableView = view.tableView else { return }
                 switch changes {
                 case .initial(let news):
                     print("initial news - done")
-                    view.myNews = Array(news)
-                    view.sortNewsByDate()
+                    let newsTmp = view.sortNewsByDate(news: Array(news))
+                    view.myNews = Array(newsTmp)
+                    
                     DispatchQueue.main.async {
                         view.tableView.reloadData()
                     }
                     
                 case .update(let news,_,_,_):
                     print("update news - done")
-                    view.myNews = Array(news)
-                    view.sortNewsByDate()
-                    let newsAfterCount = realm.objects(NewsRealmObject.self).count
+                    //view.myNews = Array(news)
+                    let newsPreCount = view.myNews.count
+                    let newsTmp = view.sortNewsByDate(news: Array(news))
+                    view.myNews.append(contentsOf: newsTmp)
+                    //view.sortNewsByDate()
+                    let newsAfterCount = view.myNews.count
                     DispatchQueue.main.async {
-                        view.tableView.reloadData()
+                        //view.tableView.reloadData()
                         
                         let indexSet = IndexSet(integersIn: newsPreCount..<newsAfterCount)
                         view.tableView.insertSections(indexSet, with: .automatic)
