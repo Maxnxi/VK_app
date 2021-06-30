@@ -9,6 +9,7 @@ import UIKit
 import Foundation
 import RealmSwift
 
+
 class NewsVC: UIViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -248,6 +249,9 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
             if oneNew.text.count == 0 {
                 heightOfCell = 0.0
             } else {
+                
+                
+                
                 heightOfCell = UITableView.automaticDimension
             }
 //            else if oneNew.text.count > 0 && oneNew.text.count <= 150 {
