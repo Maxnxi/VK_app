@@ -5,8 +5,6 @@
 //  Created by Maksim on 03.06.2021.
 //
 
-// REFACTORING IN PROCCESS !!!!!!!!!!
-
 import UIKit
 
 class PhotosNewsCell: UITableViewCell {

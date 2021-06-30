@@ -5,7 +5,9 @@
 //  Created by Maksim on 25.02.2021.
 //
 
-import UIKit
+import Foundation
+import Swi
+
 
 class PhotosCell: UICollectionViewCell {
     
@@ -35,19 +37,6 @@ class PhotosCell: UICollectionViewCell {
                         cellImgView.image = UIImage(data: imageData)
         
         
-//        let photoSizes = userPhoto.sizes
-//        for element in photoSizes {
-//            if element.type == "x" {
-//                urlString = element.url
-//
-//                print("urlString is - ",urlString)
-//                let data = try? Data(contentsOf: URL(string: urlString)!)
-//                guard let imageData = data else {
-//                    print("Error quit #44")
-//                    return }
-//
-//                cellImgView.image = UIImage(data: imageData)
-//            }
-//        }
+
     }
 }

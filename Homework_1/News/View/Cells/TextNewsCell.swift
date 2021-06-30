@@ -35,27 +35,27 @@ class TextNewsCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        print("number of lines - ", textNewsLbl.numberOfLines)
-//        if showStatusMore == false {
-//        textNewsLbl.numberOfLines = 4
-//        } else {
-//            textNewsLbl.numberOfLines = 0
-//        }
+        print("number of lines - ", textNewsLbl.numberOfLines)
+        if showStatusMore == false {
+        textNewsLbl.numberOfLines = 4
+        } else {
+            textNewsLbl.numberOfLines = 0
+        }
     }
     
     func setCell() {
-        showMoreLessBtn.isHidden = true
+//        showMoreLessBtn.isHidden = true
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-//        
-//        if showStatusMore == false {
-//        textNewsLbl.numberOfLines = 4
-//        } else {
-//            textNewsLbl.numberOfLines = 0
-//        }
-//        textNewsLbl.text = ""
+        
+        if showStatusMore == false {
+        textNewsLbl.numberOfLines = 4
+        } else {
+            textNewsLbl.numberOfLines = 0
+        }
+        textNewsLbl.text = ""
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

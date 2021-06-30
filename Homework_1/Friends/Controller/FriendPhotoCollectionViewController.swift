@@ -46,10 +46,11 @@ class FriendPhotoCollectionViewController: UIViewController {
         setupCollectionView()
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//               
-//    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // отключаем realm observer
+        token?.invalidate()
+    }
     
     func clearRealmDoubleCheck() {
         do {
