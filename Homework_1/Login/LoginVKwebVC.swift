@@ -19,6 +19,10 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //cloud animation
+        startCloudAnimation()
+        
         configureWebView()
     }
     
@@ -44,12 +48,23 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    //cloud animation
+    func startCloudAnimation() {
+        let coverView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        view.addSubview(coverView)
+        coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        coverView.alpha = 0.6
+        UIView.startLoadingCloudAnimation(view: coverView, time: 3)
+    }
+    
 }
 
 
 extension LoginVKwebVC {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        
+        startCloudAnimation()
         
         guard let url = navigationResponse.response.url,
               url.path == "/blank.html",

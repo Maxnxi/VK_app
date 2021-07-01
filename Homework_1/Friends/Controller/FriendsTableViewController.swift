@@ -12,7 +12,8 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseFirestore
 
-class FriendsTableViewController: UIViewController  {
+class FriendsTableViewController: UIViewController {
+    
    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -36,6 +37,8 @@ class FriendsTableViewController: UIViewController  {
     var sections: [String] = []
     var cachedSectionsItems: [String:[UserRealMObject]] = [:]
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let userId = Session.shared.userId as? String else {
@@ -57,6 +60,8 @@ class FriendsTableViewController: UIViewController  {
         FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
         usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
         
+        //cloud animation
+        startCloudAnimation()
         
     }
 
@@ -228,6 +233,17 @@ extension FriendsTableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         setupDataSource()
         tableView.reloadData()
+    }
+}
+
+//MARK: -> cloud animation
+extension FriendsTableViewController {
+    func startCloudAnimation() {
+        let coverView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        view.addSubview(coverView)
+        coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        coverView.alpha = 0.6
+        UIView.startLoadingCloudAnimation(view: coverView, time: 3)
     }
 }
 

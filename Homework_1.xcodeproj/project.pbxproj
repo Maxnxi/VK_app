@@ -48,6 +48,8 @@
 		0597AF6525E3B8AB0014BF41 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */; };
 		0597AF6825E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */; };
 		0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */; };
+		0598BD1C268DC9B000F3CDE9 /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */; };
+		0598BD20268DD32D00F3CDE9 /* extUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0598BD1F268DD32D00F3CDE9 /* extUIView.swift */; };
 		059F65332636E2320062CC36 /* RealMServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65322636E2320062CC36 /* RealMServices.swift */; };
 		059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65352636E2720062CC36 /* UserRealmObject.swift */; };
 		059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65392636E8E80062CC36 /* GroupsRealMObject.swift */; };
@@ -113,6 +115,8 @@
 		0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exFriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
+		0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
+		0598BD1F268DD32D00F3CDE9 /* extUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extUIView.swift; sourceTree = "<group>"; };
 		059F65322636E2320062CC36 /* RealMServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMServices.swift; sourceTree = "<group>"; };
 		059F65352636E2720062CC36 /* UserRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRealmObject.swift; sourceTree = "<group>"; };
 		059F65392636E8E80062CC36 /* GroupsRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealMObject.swift; sourceTree = "<group>"; };
@@ -343,6 +347,7 @@
 				0581821B2614A61B00542167 /* CustomPushAnimate.swift */,
 				0581821E2614A63100542167 /* CustomPopAnimate.swift */,
 				054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */,
+				0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 			children = (
 				052A983B2684C36B00E1189C /* IntExtension.swift */,
 				054AAEA825FBE53D00E73DD9 /* UIImageViewExtension.swift */,
+				0598BD1F268DD32D00F3CDE9 /* extUIView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -597,6 +603,7 @@
 				0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */,
 				051BE5732668C06700582590 /* PhotosNewsCell.swift in Sources */,
 				0501E9C02672306000DA361C /* AsyncOperation.swift in Sources */,
+				0598BD20268DD32D00F3CDE9 /* extUIView.swift in Sources */,
 				0501E9C426723BDB00DA361C /* GetGroupDataFromVKOperation.swift in Sources */,
 				051BE5652668C01300582590 /* HeaderNewsCell.swift in Sources */,
 				0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */,
@@ -606,6 +613,7 @@
 				0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */,
 				0581821926149EC900542167 /* AnimatedNavController.swift in Sources */,
 				0538E77A25E7A6AB00FA631D /* ResponseUsers.swift in Sources */,
+				0598BD1C268DC9B000F3CDE9 /* LoadingAnimationView.swift in Sources */,
 				051E738A267738AC009CF3D2 /* AppError.swift in Sources */,
 				0538E77D25E7CF2D00FA631D /* PhotosCell.swift in Sources */,
 				0597AF6525E3B8AB0014BF41 /* FriendsTableViewController.swift in Sources */,
