@@ -50,6 +50,8 @@
 		0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */; };
 		0598BD1C268DC9B000F3CDE9 /* LoadingAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */; };
 		0598BD20268DD32D00F3CDE9 /* extUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0598BD1F268DD32D00F3CDE9 /* extUIView.swift */; };
+		0598BD22268DD9D200F3CDE9 /* FirstEntryAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0598BD21268DD9D200F3CDE9 /* FirstEntryAnimation.swift */; };
+		0598BD25268DF96A00F3CDE9 /* FirebaseCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0598BD24268DF96A00F3CDE9 /* FirebaseCommunity.swift */; };
 		059F65332636E2320062CC36 /* RealMServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65322636E2320062CC36 /* RealMServices.swift */; };
 		059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65352636E2720062CC36 /* UserRealmObject.swift */; };
 		059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65392636E8E80062CC36 /* GroupsRealMObject.swift */; };
@@ -117,6 +119,8 @@
 		0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
 		0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimationView.swift; sourceTree = "<group>"; };
 		0598BD1F268DD32D00F3CDE9 /* extUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extUIView.swift; sourceTree = "<group>"; };
+		0598BD21268DD9D200F3CDE9 /* FirstEntryAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstEntryAnimation.swift; sourceTree = "<group>"; };
+		0598BD24268DF96A00F3CDE9 /* FirebaseCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCommunity.swift; sourceTree = "<group>"; };
 		059F65322636E2320062CC36 /* RealMServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMServices.swift; sourceTree = "<group>"; };
 		059F65352636E2720062CC36 /* UserRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRealmObject.swift; sourceTree = "<group>"; };
 		059F65392636E8E80062CC36 /* GroupsRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealMObject.swift; sourceTree = "<group>"; };
@@ -348,6 +352,7 @@
 				0581821E2614A63100542167 /* CustomPopAnimate.swift */,
 				054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */,
 				0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */,
+				0598BD21268DD9D200F3CDE9 /* FirstEntryAnimation.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -374,16 +379,10 @@
 		0597AF5A25E3B77A0014BF41 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0598BD27268DF98F00F3CDE9 /* Response */,
+				0598BD26268DF98900F3CDE9 /* RealM */,
+				0598BD23268DF94F00F3CDE9 /* Firebase */,
 				05ED4F23261EDB7800FB097A /* Session.swift */,
-				0538E77925E7A6AB00FA631D /* ResponseUsers.swift */,
-				05D774A225E6798900FA5CA5 /* ResponseGroups.swift */,
-				057E1492263012BB00569460 /* ResponseUserPhotos.swift */,
-				056A99612604EF2A0069E1C5 /* ResponseNews.swift */,
-				05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */,
-				059F65352636E2720062CC36 /* UserRealmObject.swift */,
-				059F65392636E8E80062CC36 /* GroupsRealMObject.swift */,
-				0557F00B263C166000037E4C /* PhotoRealMObject.swift */,
-				0562BFED264E9F170088EE06 /* FirebaseUserInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -406,6 +405,37 @@
 				0598BD1F268DD32D00F3CDE9 /* extUIView.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		0598BD23268DF94F00F3CDE9 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				0562BFED264E9F170088EE06 /* FirebaseUserInfo.swift */,
+				0598BD24268DF96A00F3CDE9 /* FirebaseCommunity.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		0598BD26268DF98900F3CDE9 /* RealM */ = {
+			isa = PBXGroup;
+			children = (
+				05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */,
+				059F65352636E2720062CC36 /* UserRealmObject.swift */,
+				059F65392636E8E80062CC36 /* GroupsRealMObject.swift */,
+				0557F00B263C166000037E4C /* PhotoRealMObject.swift */,
+			);
+			path = RealM;
+			sourceTree = "<group>";
+		};
+		0598BD27268DF98F00F3CDE9 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				0538E77925E7A6AB00FA631D /* ResponseUsers.swift */,
+				05D774A225E6798900FA5CA5 /* ResponseGroups.swift */,
+				057E1492263012BB00569460 /* ResponseUserPhotos.swift */,
+				056A99612604EF2A0069E1C5 /* ResponseNews.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		05B59C4A266E73D700A838D5 /* notWorking */ = {
@@ -597,6 +627,7 @@
 				051BE56F2668C05300582590 /* FooterNewsCell.swift in Sources */,
 				0538E78B25E8258800FA631D /* PhotoVC.swift in Sources */,
 				054E82542615FFD6009ABD20 /* CustomInteractiveTransition.swift in Sources */,
+				0598BD22268DD9D200F3CDE9 /* FirstEntryAnimation.swift in Sources */,
 				05C43D75265E344D003338E7 /* EntryViewController.swift in Sources */,
 				05D774A325E6798900FA5CA5 /* ResponseGroups.swift in Sources */,
 				05C43D94265E6851003338E7 /* ProfileViewController.swift in Sources */,
@@ -609,6 +640,7 @@
 				0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */,
 				057E1493263012BC00569460 /* ResponseUserPhotos.swift in Sources */,
 				05D774A025E678AF00FA5CA5 /* MyGroupsCell.swift in Sources */,
+				0598BD25268DF96A00F3CDE9 /* FirebaseCommunity.swift in Sources */,
 				05C9D1922624BB66002652BF /* LoginVKwebVC.swift in Sources */,
 				0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */,
 				0581821926149EC900542167 /* AnimatedNavController.swift in Sources */,

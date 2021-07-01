@@ -19,7 +19,7 @@ extension UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time)) {
                         UIView.animate(withDuration: 0.9) {
                             
-                            view.addSubview(loadingView)
+                            //view.addSubview(loadingView)
                             loadingView.alpha = 0
                         } completion: { (finished) in
                             loadingView.isHidden = true
@@ -29,4 +29,27 @@ extension UIView {
             view.isHidden = true
                 }
     }
+    
+    static func startLoadingFirstEntryAnimation(view: UIView, time: Int) {
+        let loadingView = FirstEntryAnimationView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        loadingView.isHidden = false
+        loadingView.backgroundColor = .white
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time)) {
+            UIView.animate(withDuration: 0.9) {
+                loadingView.alpha = 1
+            } completion: { (finished) in
+            print("Loading completed")
+            view.willRemoveSubview(loadingView)
+            view.isHidden = true
+            }
+        }
+    }
 }
+
+    
+
+

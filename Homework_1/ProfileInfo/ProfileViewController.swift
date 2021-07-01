@@ -39,7 +39,8 @@ class ProfileViewController: UIViewController {
     @IBAction func logoutFromFirebaseBtnWasPrssd(_ sender: Any) {
         do {
             try Auth.auth().signOut()
-            self.dismiss(animated: true, completion: nil)
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            
         } catch (let error)
         {
             print("Auth sign out failed: \(error)")
@@ -48,11 +49,11 @@ class ProfileViewController: UIViewController {
     
     @IBAction func logoutFromVkServerBtnWasPrssd(_ sender: Any) {
         apiVkServices.logOutFromVkServer()
+        Session.shared.authorized = false
+        Session.shared.token = ""
+        Session.shared.userId = ""
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let view = storyboard.instantiateViewController(withIdentifier: "vkLogin")
-        view.modalPresentationStyle = .fullScreen
-        present(view, animated: true, completion: nil)
     }
     
 }

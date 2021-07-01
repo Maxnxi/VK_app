@@ -15,14 +15,10 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
             wkWebView.navigationDelegate = self
         }
     }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //cloud animation
-        startCloudAnimation()
-        
+        startCloudAnimation()       //cloud animation
         configureWebView()
     }
     
@@ -54,14 +50,12 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         view.addSubview(coverView)
         coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         coverView.alpha = 0.6
-        UIView.startLoadingCloudAnimation(view: coverView, time: 3)
+        UIView.startLoadingCloudAnimation(view: coverView, time: 2)
     }
-    
 }
 
 
 extension LoginVKwebVC {
-    
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
         startCloudAnimation()
@@ -92,7 +86,7 @@ extension LoginVKwebVC {
         guard let userId = params["user_id"] else {return}
         Session.shared.userId = userId
         print("\n UserId saved to singleton - done : \(String(describing: Session.shared.userId)) \n")
-        
+        Session.shared.authorized = true
         
         //loading UI
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

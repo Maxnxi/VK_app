@@ -8,33 +8,31 @@
 import UIKit
 import Foundation
 import RealmSwift
+import Firebase
 
 class MyGroupsTableVC: UIViewController {
 
     
     @IBOutlet weak var tableView: UITableView!
     
-    let apiVkService = ApiVkServices()
-    let realMServices = RealMServices()
+    private var communitesFirebase = [FirebaseCommunity]()
+    private let ref = Database.database().reference(withPath: "Users") //.child( String(Session.shared.userID!))
+    
+    private let apiVkService = ApiVkServices()
+    private let realMServices = RealMServices()
+    
+    public var myGroups = [GroupsRealMObject]()
     
     //RealM Notifications
-    var token: NotificationToken?
-    
-    var myGroups:[GroupsRealMObject] = [] {
-        didSet {
-            print("\nУстановлено значение myGroups - !", myGroups.count)
-            tableView.reloadData()
-        }
-    }
-    
+    public var token: NotificationToken?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        realMServices.startGroupsRealmObserver(view: self)  //realm observer
+        startCloudAnimation(time: 3) //cloud animation
         configureGroupsTableView()
-        
-        //realm observer
-        realMServices.startGroupsRealmObserver(view: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,7 +41,7 @@ class MyGroupsTableVC: UIViewController {
     
     func configureGroupsTableView() {
         fetchDataGroupsFromVkServer()
-        loadDataGroupsFromRealm()
+        refObserve()
     }
     
     // Загрузка данных с сервера (в RealM)
@@ -54,38 +52,7 @@ class MyGroupsTableVC: UIViewController {
             return
         }
         apiVkService.getUserGroups(userId: userId, accessToken: accessToken)
-        //{
             print("fetchDataGroupsFromServer - done")
-        //}
-    }
-    
-    // загружаем из RealM
-    func loadDataGroupsFromRealm() {
-        do {
-            guard let realm = try? Realm() else { return }
-            let groupsFromRealm = realm.objects(GroupsRealMObject.self)
-            
-            self.token = groupsFromRealm.observe({ [weak self] (changes: RealmCollectionChange) in
-                guard let self = self, let tableView = self.tableView else { return }
-
-                print("Данные изменились!")
-                switch changes {
-                case .initial:
-                    print("initial - done")
-                    tableView.reloadData()
-                case .update:
-                    print("update - done")
-                    self.myGroups = Array(groupsFromRealm)
-                    self.sortGroups()
-                    tableView.reloadData()
-                case .error(let error): print(error)
-                }
-            })
-            myGroups = Array(groupsFromRealm)
-            sortGroups()
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
     }
     
     //сортировка
@@ -103,6 +70,23 @@ class MyGroupsTableVC: UIViewController {
             myGroups.remove(at: indexPath.row)
             //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    
+    func refObserve() {
+        ref.observe(.value, with: { snapshot in
+            var communities: [FirebaseCommunity] = []
+           
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                    let city = FirebaseCommunity(snapshot: snapshot) {
+                    communities.append(city)
+                }
+            }
+            print("Обновлен список добавленных групп")
+            communities.forEach{ print($0.name) }
+            print(communities.count)
+        })
     }
     
 
@@ -134,4 +118,15 @@ extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
+}
+
+//MARK: -> cloud animation
+extension MyGroupsTableVC {
+    func startCloudAnimation(time: Int) {
+        let coverView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        view.addSubview(coverView)
+        coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        coverView.alpha = 0.6
+        UIView.startLoadingCloudAnimation(view: coverView, time: time)
+    }
 }

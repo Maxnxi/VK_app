@@ -42,6 +42,7 @@ class NewsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.prefetchDataSource = self
+        startCloudAnimation(time: 2)       //cloud animation
         setupRefreshControl()       //паттерн pull to request
         setingTimerButton()     // настройка кнопки таймера (авто апдейт)
     }
@@ -89,7 +90,7 @@ class NewsVC: UIViewController {
         }
         //self.lastDateString = String(Int(myNews.first?.date ?? Int(Date().timeIntervalSince1970))) //- (60 * 60 * 2))
         guard let lastDate = self.myNews.first?.date else { return }
-        self.lastDateString = String(describing: lastDate)
+        self.lastDateString = String(describing: Int(lastDate))
         print("lastDateString is - ", lastDateString )
             //.fromDoubleToStringDateFormatToCell(date: self.myNews.first?.date ?? Double(Date().timeIntervalSince1970))
     }
@@ -237,7 +238,7 @@ extension NewsVC {
             print("refresh control ended")
             return
         }
-        print("start_time is ", date )
+        print("start_time is ", date)
         apiVkServices.getNewsPost(startTime: date, startFrom: "next_from") { news, startFrm in
             //guard let self = self else { return }
             self.realmServices.saveNewsData(news)
@@ -245,7 +246,7 @@ extension NewsVC {
             guard let dateToConvert = self.myNews.first?.date else { return }
             
             
-            self.lastDateString = String(describing: dateToConvert) //self.convertDatetoVK(timeIntervalSince1970: dateToConvert ?? 0)
+            self.lastDateString = String(describing: Int(dateToConvert)) //self.convertDatetoVK(timeIntervalSince1970: dateToConvert ?? 0)
             
             // self.myNews.first?.date.fromIntToDateFormatToCell(date: self.myNews.first?.date ?? Int(Date().timeIntervalSince1970))
         }
@@ -290,6 +291,7 @@ extension NewsVC {
             timeLeft -= 1
             timerLabel.text = "\(timeLeft)"
             if timeLeft == 0 {
+                startCloudAnimation(time: 2)       //cloud animation
                 fetchDataFromVkServer()
                 timeLeft = 60
                 tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
@@ -319,4 +321,15 @@ extension NewsVC {
         }
     }
 
+}
+
+//MARK: -> cloud animation
+extension NewsVC {
+    func startCloudAnimation(time: Int) {
+        let coverView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        view.addSubview(coverView)
+        coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        coverView.alpha = 0.6
+        UIView.startLoadingCloudAnimation(view: coverView, time: time)
+    }
 }

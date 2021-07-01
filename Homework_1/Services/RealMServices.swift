@@ -9,23 +9,11 @@ import RealmSwift
 
 class RealMServices {
     
-    //MARK: -> Сохряняем друзей в бд
+    //MARK: -> колонка Дркзья (Friends)
+    //Сохряняем друзей в бд
     func saveFriendsData(_ users: [UserRealMObject]) {
         do {
-            //let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(/*configuration: config*/)
-                
-            // очистка бд
-            
-//            if realm.objects(UserRealMObject.self).count != 0 {
-//                _ = try Realm.deleteFiles(for: Realm.Configuration.defaultConfiguration)
-//                let oldUsersRequest = realm.objects(UserRealMObject.self)
-//                realm.beginWrite()
-//                realm.delete(oldUsersRequest)
-//                try realm.commitWrite()
-//            }
-            
-            // запись новых данных в бд
+            let realm = try Realm()
             realm.beginWrite()
             realm.add(users, update: .all)
             try realm.commitWrite()
@@ -77,21 +65,10 @@ class RealMServices {
         }
     }
     
-    //MARK: -> сохряняем Группы в бд
+    //MARK: -> колонка Группы (Groups)
     func saveGroupsData(_ groups: [GroupsRealMObject]) {
         do {
-            //let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            //let realm = try Realm(configuration: config)
               let realm = try Realm()
-            // очистка бд
-//            if realm.objects(GroupsRealMObject.self).count != 0 {
-//                let oldGroupsRequest = realm.objects(GroupsRealMObject.self)
-//                realm.beginWrite()
-//                realm.delete(oldGroupsRequest)
-//                try realm.commitWrite()
-//            }
-
-            // запись новых данных в бд
             realm.beginWrite()
             realm.add(groups, update: .all)
             try realm.commitWrite()
@@ -100,29 +77,18 @@ class RealMServices {
         }
     }
     
-//    func loadGroupsData(completion: @escaping(_ groups: [GroupsRealMObject]) ->()) {
-//        do {
-//            let realm = try Realm()
-//            let groupsResult = realm.objects(GroupsRealMObject.self)
-//            let groupsArray = Array(groupsResult)
-//            debugPrint("\n\n\n loadGroupssData - done")
-//            completion(groupsArray)
-//        } catch {
-//            debugPrint(error.localizedDescription)
-//        }
-//    }
-    
-//    func loadGroupsDataFromRealm() -> [GroupsRealMObject] {
-//        var groups:[GroupsRealMObject] = []
-//        do {
-//            let realm = try Realm()
-//            let groupsFromRealm = realm.objects(GroupsRealMObject.self)
-//            groups = Array(groupsFromRealm)
-//        } catch {
-//            debugPrint(error.localizedDescription)
-//        }
-//        return groups
-//    }
+    // получаем Groups из Realm
+    func loadGroupsDataFromRealm() -> [GroupsRealMObject] {
+        var groups:[GroupsRealMObject] = []
+        do {
+            let realm = try Realm()
+            let groupsFromRealm = realm.objects(GroupsRealMObject.self)
+            groups = Array(groupsFromRealm)
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+        return groups
+    }
     
     // observer Realm для MyGroupsTableVC
     func startGroupsRealmObserver(view:MyGroupsTableVC) {
@@ -138,13 +104,23 @@ class RealMServices {
                     DispatchQueue.main.async {
                         view.tableView.reloadData()
                     }
-                case .update(let groups,_,_,_):
-                    print("update friends - done")
-                    view.myGroups = Array(groups)
-                    view.sortGroups()
+                case .update(let groups, let deletions, let insertions, let modifications):
                     DispatchQueue.main.async {
-                        view.tableView.reloadData()
+                        view.tableView.beginUpdates()
+                        view.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+                                             with: .automatic)
+                        view.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                                             with: .automatic)
+                        view.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                             with: .automatic)
+                        view.tableView.endUpdates()
                     }
+                    print("update friends - done")
+//                    view.myGroups = Array(groups)
+//                    view.sortGroups()
+//                    DispatchQueue.main.async {
+//                        view.tableView.reloadData()
+//                    }
                 case .error(let error):
                     print(error)
                 }
@@ -153,20 +129,16 @@ class RealMServices {
             debugPrint(error.localizedDescription)
         }
     }
+
     
-    //MARK: -> запросы к Realm - колонка Новости (News)
-    
+    //MARK: -> колонка Новости (News)
+    //сохраняем News в Realm
     func saveNewsData(_ news: [NewsRealmObject]) {
         do {
-            //let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(/*configuration: config*/)
-            //let oldValues = realm.objects(NewsRealmObject.self)
-
+            let realm = try Realm()
             realm.beginWrite()
-            //realm.delete(oldValues)
             realm.add(news, update: .all)
             try realm.commitWrite()
-            print("News save in realm.")
         } catch {
             debugPrint(error.localizedDescription)
         }
@@ -189,21 +161,16 @@ class RealMServices {
     func startNewsRealmObserver(view:NewsVC) {
         do {
         let realm = try Realm()
-            
             let newsFromRealM = realm.objects(NewsRealmObject.self)
             view.token = newsFromRealM.observe({ (changes: RealmCollectionChange) in
-            //guard let self = self, let tableView = view.tableView else { return }
                 switch changes {
                 case .initial(let news):
                     print("initial news - done")
-                    
                     let newsTmp = view.sortNewsByDate(news: Array(news))
                     view.myNews = Array(newsTmp)
-                    
                     DispatchQueue.main.async {
                         view.tableView.reloadData()
                     }
-                    
                 case .update(let news,_,_,_):
                     print("update news - done")
                     // в зависимости от паттерна infinite scrolling или pull-request
@@ -233,13 +200,11 @@ class RealMServices {
         }
     }
     
-    //MARK: -> сохраняем url фото в бд
+    //MARK: -> Фотографии - колонка Друзья сохраняем url фото в бд
     func saveUrlPhotosToRealm(_ photos: [PhotoRealMObject]) {
         do {
             let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
             let realm = try Realm(configuration: config)
-
-//             очистка бд
                         if realm.objects(PhotoRealMObject.self).count != 0 {
                             _ = try Realm.deleteFiles(for: Realm.Configuration.defaultConfiguration)
                             let oldPhotosRequest = realm.objects(PhotoRealMObject.self)
@@ -248,9 +213,6 @@ class RealMServices {
                             try realm.commitWrite()
                             print("/n/n/n oldPhotosRequest - deleted")
                         }
-            
-            
-            // запись новых данных в бд
             realm.beginWrite()
             realm.add(photos, update: .all)
             try realm.commitWrite()

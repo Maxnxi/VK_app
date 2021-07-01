@@ -17,6 +17,13 @@ class LoadingAnimationView: UIView {
             super.init(coder: coder)
             //fatalError("init(coder:) has not been implemented")
         }
+    
+    func setRandomColor() -> UIColor {
+        let randomRedColor =  Double.random(in: 0...1)
+        let randomGreenColor =  Double.random(in: 0...1)
+        let randomBlueColor =  Double.random(in: 0...1)
+        return UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
+        }
         
         override func draw(_ rect: CGRect) {
             // Drawing code
@@ -27,7 +34,8 @@ class LoadingAnimationView: UIView {
             let cloudLayer = CAShapeLayer()
             
             //cloudLayer.borderColor = UIColor.red.cgColor
-            cloudLayer.fillColor = UIColor.blue.cgColor
+            
+            cloudLayer.fillColor = setRandomColor().cgColor
             let cloudPath = UIBezierPath()
             cloudPath.move(to: CGPoint(x: 7.53, y: 25.5))
             //cloudPath.addLine(to: CGPoint(x: 40.74, y: 25.5))
@@ -56,7 +64,7 @@ class LoadingAnimationView: UIView {
                                controlPoint2: CGPoint(x: -0.1, y: 25.11))
             cloudPath.close()
             cloudLayer.path = cloudPath.cgPath
-            cloudLayer.strokeColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1).cgColor
+            cloudLayer.strokeColor = setRandomColor().cgColor
             //cloudLayer.
             cloudLayer.lineWidth = 2.0
             cloudLayer.lineCap = .round

@@ -41,7 +41,7 @@ class FriendsTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let userId = Session.shared.userId as? String else {
+        guard let userId = Session.shared.userId else {
                     print("Failed to get vkUserId")
                     return
                 }

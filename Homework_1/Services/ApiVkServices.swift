@@ -262,14 +262,15 @@ class ApiVkServices {
                     
                     guard let itemsArr = response?.items,
                           let groupsArr = response?.groups,
-                          let profilesArr = response?.profiles,
-                          let startFrm = response?.nextFrom else {
+                          let profilesArr = response?.profiles else {
                     print("Error #311")
                     return
                 }
+                    let startFrm: String = response?.nextFrom ?? "next_from"
+                    
                     //подготавливаем данные для модели NewsRealmObject
                 for element in itemsArr {
-                    guard let idVk = element.sourceID as? Int else { return }
+                    guard let idVk = element.sourceID else { return }
                     if idVk < 0 {
                         let additionalData = groupsArr.first(where: { $0.id == -idVk})
                         let oneNew = NewsRealmObject(news: element, additionalGroupData: additionalData)
@@ -295,14 +296,35 @@ class ApiVkServices {
 
     
     
-    //MARK: -> для реализации в будущем
-    func downloadImageByUrl(urlString: String, completion: @escaping(_ image: UIImage) -> ()) {
-            AF.request(urlString).responseImage { (imageResponse) in
-                guard let image = imageResponse.value else {
-                        print("Error quit #001 - downloadImageByUrl - common func")
-                        return}
-                completion(image)
-                }
-            }
+    //MARK: -> поиск группы
+    
+//    func getSearchCommunity(text: String?, onComplete: @escaping ([Community]) -> Void, onError: @escaping (Error) -> Void) {
+//        urlConstructor.path = "/method/groups.search"
+//        
+//        urlConstructor.queryItems = [
+//            URLQueryItem(name: "q", value: text),
+//            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
+//            URLQueryItem(name: "v", value: constants.versionAPI),
+//        ]
+//        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
+//            
+//            if error != nil {
+//                onError(ServerError.errorTask)
+//            }
+//            
+//            guard let data = data else {
+//                onError(ServerError.noDataProvided)
+//                return
+//            }
+//            guard let communities = try? JSONDecoder().decode(Response<Community>.self, from: data).response.items else {
+//                onError(ServerError.failedToDecode)
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                onComplete(communities)
+//            }
+//        }
+//        task.resume()
+//    }
     
 }
