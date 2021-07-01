@@ -12,7 +12,7 @@ class PhotoNode: ASCellNode {
     private let resource: ImageNodeRepresentable
     private let photoImageNode = ASNetworkImageNode()
     
-    init(resource: ImageNodeRepresentable ) {
+    init(resource: ImageNodeRepresentable) {
         self.resource = resource
         super.init()
         setupSubnodes()

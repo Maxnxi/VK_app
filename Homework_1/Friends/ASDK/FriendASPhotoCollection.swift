@@ -80,15 +80,17 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         return cellNodeBlock
     }
     
-//    func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
-//        let width = (collectionNode.frame.width / 2) - 10
-//        //return ASSizeRange( (width: width, height: width)
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let width = (collectionView.frame.width / 2) - 10
-//        return CGSize(width: width, height: width)
-//    }
+    func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
+        let width = CGFloat(UIScreen.main.bounds.size.width/2.5) //)(collectionNode.frame.width / 2) - 10
+        let min = CGSize(width: width, height: width)
+        let max = CGSize(width: width, height: CGFloat(totalPhotos[indexPath.row].aspectRatio*width))
+        return ASSizeRange(min: min, max: max)
+    }
+     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (collectionView.frame.width / 2) - 10
+        return CGSize(width: width, height: width)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0

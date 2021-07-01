@@ -22,7 +22,7 @@ class PhotoVC: UIViewController {
     }
     
     // для анимации перелистывания
-    var animator:UIViewPropertyAnimator!
+    var animator: UIViewPropertyAnimator!
     var inChangeImageProcess: Bool = false
     
     lazy var nextImageView: UIImageView = {
@@ -47,7 +47,6 @@ class PhotoVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
     
     func configureViewNew(userPhotos: [PhotoModel], photoAtIndexPath: Int){
@@ -64,7 +63,7 @@ class PhotoVC: UIViewController {
     
     func setupView(){
         if imageIndex >= 0 && imageIndex < userPhotos.count {
-            imagePresView.image = self.getUrlAndShowImage(indexOfPhoto: imageIndex)
+            imagePresView.image = self.getUrlAndShowImage(url: userPhotos[imageIndex].url)
         }
         title = "Фото \(imageIndex + 1) из \(userPhotos.count)"
         let pan = UIPanGestureRecognizer(target: self, action: #selector(pannedImage(_:)))
@@ -95,11 +94,11 @@ class PhotoVC: UIViewController {
     }
     
     // функция вытаскивает url из UserPhoto формата тип "х"
-    func getUrlAndShowImage(indexOfPhoto: Int) -> UIImage? {
+    func getUrlAndShowImage(url: URL) -> UIImage? {
         
-        guard let stringUrl = userPhotos[indexOfPhoto].url as? String else { return UIImage() }
+       // guard let stringUrl = userPhotos[indexOfPhoto].url as? String else { return UIImage() }
         
-        let data = try? Data(contentsOf: URL(string: stringUrl)!)
+        let data = try? Data(contentsOf: url)
         
         guard let imageData = data else {
             print("Error quit #39")
@@ -150,7 +149,8 @@ class PhotoVC: UIViewController {
             
             if canSlideIt(direction) {
                 let nextIndex =  direction == .left ? imageIndex + 1 : imageIndex - 1
-                nextImageView.image = getUrlAndShowImage(indexOfPhoto: nextIndex)
+                let url = userPhotos[nextIndex].url
+                nextImageView.image = getUrlAndShowImage(url: url)
                 view.addSubview(nextImageView)
                 
                 let offsetX = direction == .left ? view.bounds.width : -view.bounds.width
@@ -166,7 +166,7 @@ class PhotoVC: UIViewController {
                     self.imageIndex = direction == .left ? self.imageIndex + 1 : self.imageIndex - 1
                     self.imagePresView.alpha = 1
                     self.imagePresView.transform = .identity
-                    self.imagePresView.image = self.getUrlAndShowImage(indexOfPhoto: self.imageIndex)
+                    self.imagePresView.image = self.getUrlAndShowImage(url: self.userPhotos[self.imageIndex].url)
                         //self.images[self.imageIndex]
                     self.nextImageView.removeFromSuperview()
                 }
