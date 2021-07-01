@@ -47,6 +47,9 @@ class FriendsTableViewController: UIViewController  {
         tableView.delegate = self
         tableView.dataSource = self
         
+        //  realm observer
+        realMServices.startFriendsRealmObserver(view: self)
+        
         //настройка
         configureFriendsTableView()
         
@@ -54,18 +57,11 @@ class FriendsTableViewController: UIViewController  {
         FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
         usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
         
-        //  realm observer
-        realMServices.startFriendsRealmObserver(view: self)
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-//        sleep(2)
-//        if myFriends.count == 0 {
-//            configureFriendsTableView()
-//        }
-//        tableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -81,8 +77,6 @@ class FriendsTableViewController: UIViewController  {
         //Загрузка списка друзей из Realm (рефакторинг)
         myFriends = realMServices.loadDataFriendsFromRealm()
 
-        
-       
         setupDataSource()
     }
     
@@ -211,14 +205,15 @@ extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let view = storyboard.instantiateViewController(withIdentifier: "friendPhotoCollectionVC") as? FriendPhotoCollectionViewController else {return}
+        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //guard let view = storyboard.instantiateViewController(withIdentifier: FriendASPhotoCollectionVC.identifier) as? FriendASPhotoCollectionVC else {return}
+        let newView = FriendASPhotoCollectionVC()
         
-        view.friend = getFriend(for: indexPath)
-        print(view.friend?.firstName)
-        view.modalPresentationStyle = .fullScreen
+        newView.friend = getFriend(for: indexPath)
+        //print(view.friend?.firstName)
+        newView.modalPresentationStyle = .fullScreen
         
-        self.navigationController?.pushViewController(view, animated: true)
+        self.navigationController?.pushViewController(newView, animated: true)
     }
 }
 

@@ -7,9 +7,9 @@
 
 import Foundation
 
-extension Int {
+extension Double {
     
-    func fromIntToDateFormatToCell(date:Int) -> String {
+    func fromDoubleToStringDateFormatToCell(date:Double) -> String {
         let myDate = Date(timeIntervalSince1970: TimeInterval(date))
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = .current

@@ -196,6 +196,7 @@ class RealMServices {
                 switch changes {
                 case .initial(let news):
                     print("initial news - done")
+                    
                     let newsTmp = view.sortNewsByDate(news: Array(news))
                     view.myNews = Array(newsTmp)
                     
@@ -205,17 +206,23 @@ class RealMServices {
                     
                 case .update(let news,_,_,_):
                     print("update news - done")
-                    //view.myNews = Array(news)
-                    let newsPreCount = view.myNews.count
-                    let newsTmp = view.sortNewsByDate(news: Array(news))
-                    view.myNews.append(contentsOf: newsTmp)
-                    //view.sortNewsByDate()
-                    let newsAfterCount = view.myNews.count
-                    DispatchQueue.main.async {
-                        //view.tableView.reloadData()
-                        
-                        let indexSet = IndexSet(integersIn: newsPreCount..<newsAfterCount)
-                        view.tableView.insertSections(indexSet, with: .automatic)
+                    // в зависимости от паттерна infinite scrolling или pull-request
+                    if view.isTableViewScrolling == false {
+                        let newsTmp = view.sortNewsByDate(news: Array(news))
+                        view.myNews = Array(newsTmp)
+                        DispatchQueue.main.async {
+                            view.tableView.reloadData()
+                        }
+                    } else if view.isTableViewScrolling == true {
+                        let newsPreCount = view.myNews.count
+                        let newsTmp = view.sortNewsByDate(news: Array(news))
+                        view.myNews.append(contentsOf: newsTmp)
+                        let newsAfterCount = view.myNews.count
+                        view.isTableViewScrolling = false
+                        DispatchQueue.main.async {
+                            let indexSet = IndexSet(integersIn: newsPreCount..<newsAfterCount)
+                            view.tableView.insertSections(indexSet, with: .automatic)
+                        }
                     }
                 case .error(let error):
                     print(error)

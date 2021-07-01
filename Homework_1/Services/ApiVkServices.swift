@@ -189,7 +189,7 @@ class ApiVkServices {
 //    }
     
     //MARK: -> Запрос к VK серверу "photos.getAll"
-    func getUserPhotos(userId: Int, accessToken: String, completion: @escaping() ->()) {
+    func getUserPhotos(userId: Int, accessToken: String, completion: @escaping(_ photos: [PhotoModel]) ->()) {
         let path = "photos.getAll"
         let parameters: Parameters = [
             "owner_id": userId,
@@ -204,18 +204,18 @@ class ApiVkServices {
         
         AF.request(url, method: .get, parameters: parameters).responseData { (response) in
             guard let data = response.value else {return}
+                                   
             do {
                 let photos = try JSONDecoder().decode( ResponseUserPhotos.self, from: data).response.items
-                var photosForRealm: [PhotoRealMObject] = []
+                
+                var photosForNode: [PhotoModel] = []
+                
                 for element in photos {
-                    let photo = PhotoRealMObject(userPhoto: element)
-                    photosForRealm.append(photo)
-                    if photosForRealm.count == photos.count {
-                        
-                        //to do save photos to realM
-                        self.realMServices.saveUrlPhotosToRealm(photosForRealm)
-                        completion()
-                    }
+                    guard let photo = PhotoModel(object: element) else { return }
+                    photosForNode.append(photo)
+                }
+                if photosForNode.count == photos.count {
+                    completion(photosForNode)
                 }
             } catch {
                 debugPrint("error #3", error)

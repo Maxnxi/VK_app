@@ -12,7 +12,7 @@ class PhotoVC: UIViewController {
 
     @IBOutlet weak var imagePresView: UIImageView!
         
-    var userPhotos : [PhotoRealMObject] = []
+    var userPhotos : [PhotoModel] = []
     var imageIndex: Int = 0 {
         didSet{
             if userPhotos.count != 0 {
@@ -50,10 +50,15 @@ class PhotoVC: UIViewController {
         
     }
     
-    func configureView(userPhotos: [PhotoRealMObject], photoAtIndexPath: Int){
+    func configureViewNew(userPhotos: [PhotoModel], photoAtIndexPath: Int){
         self.imageIndex = photoAtIndexPath
         self.userPhotos = userPhotos
     }
+    
+//    func configureView(userPhotos: [PhotoRealMObject], photoAtIndexPath: Int){
+//        self.imageIndex = photoAtIndexPath
+//        self.userPhotos = userPhotos
+//    }
     
     
     

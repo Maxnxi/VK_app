@@ -27,9 +27,9 @@ class HeaderNewsCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(authorName: String, authorProfileImgUrl: String, date: Int) {
+    func configureCell(authorName: String, authorProfileImgUrl: String, date: Double) {
         self.newsAuthorName.text = authorName
-        self.dateNTimeLbl.text = date.fromIntToDateFormatToCell(date: date)//
+        self.dateNTimeLbl.text = date.fromDoubleToStringDateFormatToCell(date: date)//
         guard let urlString = authorProfileImgUrl as? String else { return }
         let data = try? Data(contentsOf: URL(string: urlString)!)
         guard let image = data else { return }

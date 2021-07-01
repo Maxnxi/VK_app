@@ -50,7 +50,8 @@ struct GroupNews: Codable {
 
 // MARK: - Item
 struct ItemNews: Codable {
-    let sourceID, date: Int?
+    let sourceID: Int?
+    let date: Double?
     let canDoubtCategory, canSetCategory: Bool?
     let topicID: Int?
     let postType, text: String?

@@ -46,13 +46,16 @@
 		0583B531264E72470049FB58 /* LoginToFirebaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */; };
 		05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05920FB426311E2E00B54031 /* ApiVkServices.swift */; };
 		0597AF6525E3B8AB0014BF41 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */; };
-		0597AF6825E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6725E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift */; };
+		0597AF6825E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */; };
 		0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */; };
 		059F65332636E2320062CC36 /* RealMServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65322636E2320062CC36 /* RealMServices.swift */; };
 		059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65352636E2720062CC36 /* UserRealmObject.swift */; };
 		059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059F65392636E8E80062CC36 /* GroupsRealMObject.swift */; };
 		05B59C47266E199F00A838D5 /* HeaderNewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B59C46266E199F00A838D5 /* HeaderNewsView.swift */; };
 		05B59C49266E1BBA00A838D5 /* NewsRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */; };
+		05C32A6D268C6D74007FD72E /* FriendASPhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C32A6C268C6D74007FD72E /* FriendASPhotoCollection.swift */; };
+		05C32A6F268C7EDB007FD72E /* PhotoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C32A6E268C7EDB007FD72E /* PhotoNode.swift */; };
+		05C32A71268C7F61007FD72E /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C32A70268C7F61007FD72E /* PhotoModel.swift */; };
 		05C43D75265E344D003338E7 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C43D74265E344D003338E7 /* EntryViewController.swift */; };
 		05C43D94265E6851003338E7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C43D93265E6851003338E7 /* ProfileViewController.swift */; };
 		05C9D1922624BB66002652BF /* LoginVKwebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C9D1912624BB66002652BF /* LoginVKwebVC.swift */; };
@@ -108,13 +111,16 @@
 		0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToFirebaseViewController.swift; sourceTree = "<group>"; };
 		05920FB426311E2E00B54031 /* ApiVkServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiVkServices.swift; sourceTree = "<group>"; };
 		0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
-		0597AF6725E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exFriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableCell.swift; sourceTree = "<group>"; };
 		059F65322636E2320062CC36 /* RealMServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMServices.swift; sourceTree = "<group>"; };
 		059F65352636E2720062CC36 /* UserRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRealmObject.swift; sourceTree = "<group>"; };
 		059F65392636E8E80062CC36 /* GroupsRealMObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRealMObject.swift; sourceTree = "<group>"; };
 		05B59C46266E199F00A838D5 /* HeaderNewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderNewsView.swift; sourceTree = "<group>"; };
 		05B59C48266E1BBA00A838D5 /* NewsRealmObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRealmObject.swift; sourceTree = "<group>"; };
+		05C32A6C268C6D74007FD72E /* FriendASPhotoCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendASPhotoCollection.swift; sourceTree = "<group>"; };
+		05C32A6E268C7EDB007FD72E /* PhotoNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNode.swift; sourceTree = "<group>"; };
+		05C32A70268C7F61007FD72E /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		05C43D74265E344D003338E7 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		05C43D93265E6851003338E7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		05C5035D26839B440021150B /* Homework_1.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = Homework_1.profdata; sourceTree = "<group>"; };
@@ -249,6 +255,8 @@
 		0581820C26149B9A00542167 /* Friends */ = {
 			isa = PBXGroup;
 			children = (
+				05C32A73268C91D7007FD72E /* toDelete */,
+				05C32A72268C839A007FD72E /* ASDK */,
 				051E82A22678C85800EF827C /* Model */,
 				0581821126149D3400542167 /* View */,
 				0581821226149D3B00542167 /* Controller */,
@@ -305,7 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */,
-				0597AF6725E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift */,
 				0538E78A25E8258800FA631D /* PhotoVC.swift */,
 			);
 			path = Controller;
@@ -401,6 +408,24 @@
 				05B59C46266E199F00A838D5 /* HeaderNewsView.swift */,
 			);
 			path = notWorking;
+			sourceTree = "<group>";
+		};
+		05C32A72268C839A007FD72E /* ASDK */ = {
+			isa = PBXGroup;
+			children = (
+				05C32A6E268C7EDB007FD72E /* PhotoNode.swift */,
+				05C32A70268C7F61007FD72E /* PhotoModel.swift */,
+				05C32A6C268C6D74007FD72E /* FriendASPhotoCollection.swift */,
+			);
+			path = ASDK;
+			sourceTree = "<group>";
+		};
+		05C32A73268C91D7007FD72E /* toDelete */ = {
+			isa = PBXGroup;
+			children = (
+				0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */,
+			);
+			path = toDelete;
 			sourceTree = "<group>";
 		};
 		05C43D96265E6863003338E7 /* ProfileInfo */ = {
@@ -562,7 +587,7 @@
 			files = (
 				054AAEA325FBE37500E73DD9 /* LikeControlView.swift in Sources */,
 				052A983C2684C36B00E1189C /* IntExtension.swift in Sources */,
-				0597AF6825E3B8DE0014BF41 /* FriendPhotoCollectionViewController.swift in Sources */,
+				0597AF6825E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift in Sources */,
 				051BE56F2668C05300582590 /* FooterNewsCell.swift in Sources */,
 				0538E78B25E8258800FA631D /* PhotoVC.swift in Sources */,
 				054E82542615FFD6009ABD20 /* CustomInteractiveTransition.swift in Sources */,
@@ -591,6 +616,7 @@
 				054AAEA925FBE53D00E73DD9 /* UIImageViewExtension.swift in Sources */,
 				05B59C47266E199F00A838D5 /* HeaderNewsView.swift in Sources */,
 				05B59C49266E1BBA00A838D5 /* NewsRealmObject.swift in Sources */,
+				05C32A6D268C6D74007FD72E /* FriendASPhotoCollection.swift in Sources */,
 				05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */,
 				057D76F725DC363D00A9E18B /* AppDelegate.swift in Sources */,
 				0501E9C62672432B00DA361C /* ParseGroupDataFromVKOperation.swift in Sources */,
@@ -601,12 +627,14 @@
 				056A99622604EF2A0069E1C5 /* ResponseNews.swift in Sources */,
 				059F653A2636E8E80062CC36 /* GroupsRealMObject.swift in Sources */,
 				0562BFEE264E9F170088EE06 /* FirebaseUserInfo.swift in Sources */,
+				05C32A6F268C7EDB007FD72E /* PhotoNode.swift in Sources */,
 				059F65332636E2320062CC36 /* RealMServices.swift in Sources */,
 				051E82A42678C87E00EF827C /* FirebaseModel.swift in Sources */,
 				0501E9CA26724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift in Sources */,
 				05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */,
 				0557F00C263C166000037E4C /* PhotoRealMObject.swift in Sources */,
 				05D774A625E67D1900FA5CA5 /* MyGroupsTableVC.swift in Sources */,
+				05C32A71268C7F61007FD72E /* PhotoModel.swift in Sources */,
 				0538E77525E68E8C00FA631D /* GlobalGroupCell.swift in Sources */,
 				057D76F925DC363D00A9E18B /* SceneDelegate.swift in Sources */,
 				0501E9C8267247E100DA361C /* ConvertGroupFromVKParseToRealmObjectOperation.swift in Sources */,

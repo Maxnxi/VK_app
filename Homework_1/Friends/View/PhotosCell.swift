@@ -5,9 +5,11 @@
 //  Created by Maksim on 25.02.2021.
 //
 
-import Foundation
-import Swi
 
+import UIKit
+
+
+//MARK: -> старое ->>>
 
 class PhotosCell: UICollectionViewCell {
     
@@ -35,8 +37,5 @@ class PhotosCell: UICollectionViewCell {
                             return }
         
                         cellImgView.image = UIImage(data: imageData)
-        
-        
-
     }
 }

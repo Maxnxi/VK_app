@@ -90,7 +90,8 @@ class FriendPhotoCollectionViewController: UIViewController {
             print("Error while getting friendId in - FriendPhotoCollectionViewController ")
             return
         }
-            apiVkServices.getUserPhotos(userId: userId, accessToken: accessToken) { () in
+            apiVkServices.getUserPhotos(userId: userId, accessToken: accessToken) { photos in
+                
                 print("Downloaded photos - done")
             }
         }
@@ -174,7 +175,7 @@ extension FriendPhotoCollectionViewController: UICollectionViewDelegate, UIColle
        
         guard let viewPhoto = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "photoVC") as? PhotoVC else {return}
         
-        viewPhoto.configureView(userPhotos: photos, photoAtIndexPath: indexPath.row)
+//        viewPhoto.configureView(userPhotos: photos, photoAtIndexPath: indexPath.row)
         
         
         viewPhoto.modalPresentationStyle = .fullScreen

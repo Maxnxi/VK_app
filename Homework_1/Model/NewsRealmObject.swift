@@ -15,7 +15,7 @@ class NewsRealmObject: Object, Codable {
     @objc dynamic var authorName: String = ""
     @objc dynamic var avatarImgUrl: String = "https://sun1-98.userapi.com//impg//BoXabgn2xQ-nkPH9trvc_GR2FZxDu8P-HnThzA//Qsh6cfp_fFA.jpg?size=130x130&quality=96&sign=c0cddb4aec308bedfbb4b6fa745477ab&c_uniq_tag=uSdnqfN2_kT35MpBuLVNFWl65YAUEj-DnFK2f6qbVJI&type=album"
     @objc dynamic var text: String = "Hello hello hello"
-    @objc dynamic var date: Int = 123
+    @objc dynamic var date: Double = 123
     @objc dynamic var photoOneUrl: String? = ""
     dynamic var aspectRatio: Float?
     @objc dynamic var photoTwoUrl: String?
