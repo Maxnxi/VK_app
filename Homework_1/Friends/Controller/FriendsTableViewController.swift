@@ -17,25 +17,38 @@ class FriendsTableViewController: UIViewController {
    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    
+    //
+    private var letterControl: LetterControl?
 
-    let apiVkServices = ApiVkServices()
-    let realMServices = RealMServices()
+    private let apiVkServices = ApiVkServices()
+    private let realMServices = RealMServices()
     
     //vkUserId
     private var vkUserId: String = "0"
 
     //RealM Notifications
-    var token: NotificationToken?
+    public var token: NotificationToken?
     
     //Firebase
     private var usersFirebaceInfo = [FirebaseUserInfo]()
     private let ref = Database.database().reference(withPath: "users")
     
-    var myFriends:[UserRealMObject] = []
+    public var myFriends:[UserRealMObject] = []
 
-    var filterListOfFriends: [UserRealMObject] = []
-    var sections: [String] = []
-    var cachedSectionsItems: [String:[UserRealMObject]] = [:]
+    private var filterListOfFriends: [UserRealMObject] = []
+    private var sections: [String] = []
+    private var cachedSectionsItems: [String:[UserRealMObject]] = [:]
+    
+    private var firstLetters: [Character] {
+        get {
+//            friendsDict.keys.sorted()
+            var firstLetters:[Character] = []
+            let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
+            firstLetters = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
+            return firstLetters
+        }
+    }
     
     
     
@@ -63,6 +76,8 @@ class FriendsTableViewController: UIViewController {
         //cloud animation
         startCloudAnimation()
         
+        //настройка панели кнопок алфавита
+        setLettersControl()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +89,39 @@ class FriendsTableViewController: UIViewController {
         super.viewDidDisappear(animated)
         token?.invalidate()
     }
+    
+    private func setLettersControl(){
+        letterControl = LetterControl()
+        guard let letterControl = letterControl else { return }
+        view.addSubview(letterControl)
+       
+        letterControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
+        letterControl.arrChar = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
+        
+        letterControl.backgroundColor = .clear
+        letterControl.addTarget(self, action: #selector(scrollToSelectedLetter), for: [.touchUpInside])
+        
+        NSLayoutConstraint.activate([
+            letterControl.heightAnchor.constraint(equalToConstant: CGFloat(15*letterControl.arrChar.count)),
+            letterControl.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            letterControl.widthAnchor.constraint(equalToConstant: 20),
+            letterControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    @objc func scrollToSelectedLetter(){
+        guard let letterControl = letterControl else { return }
+        let selectLetter = letterControl.selectedLetter
+        for indexSextion in 0..<firstLetters.count{
+            if selectLetter == firstLetters[indexSextion]{
+                tableView.scrollToRow(at: IndexPath(row: 0, section: indexSextion), at: .top, animated: true)
+                break
+            }
+        }
+    }
+    
     
     func configureFriendsTableView() {
         //загрузка друзей с сервера vk.com

@@ -70,6 +70,7 @@
 		05D774AF25E6842A00FA5CA5 /* RoundedImgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */; };
 		05DEF3B226807D280066D10C /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DEF3B126807D280066D10C /* ImageService.swift */; };
 		05ED4F24261EDB7800FB097A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ED4F23261EDB7800FB097A /* Session.swift */; };
+		05F3EADF268F076D00FB7FAF /* LetterControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F3EADE268F076D00FB7FAF /* LetterControl.swift */; };
 		DBCA1B9668CEE3D65FE8DD99 /* Pods_Homework_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46A77B7B13E0F3FE10539A7 /* Pods_Homework_1.framework */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +141,7 @@
 		05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImgView.swift; sourceTree = "<group>"; };
 		05DEF3B126807D280066D10C /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		05ED4F23261EDB7800FB097A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		05F3EADE268F076D00FB7FAF /* LetterControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterControl.swift; sourceTree = "<group>"; };
 		51A7E74BB988C75AC851BB5F /* Pods-Homework_1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Homework_1.debug.xcconfig"; path = "Target Support Files/Pods-Homework_1/Pods-Homework_1.debug.xcconfig"; sourceTree = "<group>"; };
 		A46A77B7B13E0F3FE10539A7 /* Pods_Homework_1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Homework_1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC04999DCFC697A2628C69C /* Pods-Homework_1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Homework_1.release.xcconfig"; path = "Target Support Files/Pods-Homework_1/Pods-Homework_1.release.xcconfig"; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 		0581821126149D3400542167 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				05F3EADD268F075100FB7FAF /* Controls */,
 				0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */,
 			);
 			path = View;
@@ -485,6 +488,14 @@
 			children = (
 			);
 			path = waitingToBeDone;
+			sourceTree = "<group>";
+		};
+		05F3EADD268F075100FB7FAF /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				05F3EADE268F076D00FB7FAF /* LetterControl.swift */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		479057DA514EC9A452B13A0A /* Pods */ = {
@@ -676,6 +687,7 @@
 				05D774A625E67D1900FA5CA5 /* MyGroupsTableVC.swift in Sources */,
 				05C32A71268C7F61007FD72E /* PhotoModel.swift in Sources */,
 				0538E77525E68E8C00FA631D /* GlobalGroupCell.swift in Sources */,
+				05F3EADF268F076D00FB7FAF /* LetterControl.swift in Sources */,
 				057D76F925DC363D00A9E18B /* SceneDelegate.swift in Sources */,
 				0501E9C8267247E100DA361C /* ConvertGroupFromVKParseToRealmObjectOperation.swift in Sources */,
 			);
