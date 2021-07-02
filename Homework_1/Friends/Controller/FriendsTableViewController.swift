@@ -37,18 +37,28 @@ class FriendsTableViewController: UIViewController {
     public var myFriends:[UserRealMObject] = []
 
     private var filterListOfFriends: [UserRealMObject] = []
-    private var sections: [String] = []
-    private var cachedSectionsItems: [String:[UserRealMObject]] = [:]
-    
-    private var firstLetters: [Character] {
-        get {
-//            friendsDict.keys.sorted()
-            var firstLetters:[Character] = []
+    private var sections: [String] = [] {
+        willSet {
+            if newValue.count > 0 {
+            //var firstLetters:[Character] = []
             let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
             firstLetters = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
-            return firstLetters
+            //return firstLetters
+            }
         }
     }
+    private var cachedSectionsItems: [String:[UserRealMObject]] = [:]
+    
+    private var firstLetters = [Character]()
+//        = {
+//
+////            friendsDict.keys.sorted()
+//
+//                var firstLetters:[Character] = []
+//                let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
+//                firstLetters = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
+//                return firstLetters
+//    }()
     
     
     
@@ -76,12 +86,13 @@ class FriendsTableViewController: UIViewController {
         //cloud animation
         startCloudAnimation()
         
-        //настройка панели кнопок алфавита
-        setLettersControl()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        //настройка панели кнопок алфавита
+        //setLettersControl()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -89,39 +100,6 @@ class FriendsTableViewController: UIViewController {
         super.viewDidDisappear(animated)
         token?.invalidate()
     }
-    
-    private func setLettersControl(){
-        letterControl = LetterControl()
-        guard let letterControl = letterControl else { return }
-        view.addSubview(letterControl)
-       
-        letterControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-        letterControl.arrChar = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
-        
-        letterControl.backgroundColor = .clear
-        letterControl.addTarget(self, action: #selector(scrollToSelectedLetter), for: [.touchUpInside])
-        
-        NSLayoutConstraint.activate([
-            letterControl.heightAnchor.constraint(equalToConstant: CGFloat(15*letterControl.arrChar.count)),
-            letterControl.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            letterControl.widthAnchor.constraint(equalToConstant: 20),
-            letterControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-    
-    @objc func scrollToSelectedLetter(){
-        guard let letterControl = letterControl else { return }
-        let selectLetter = letterControl.selectedLetter
-        for indexSextion in 0..<firstLetters.count{
-            if selectLetter == firstLetters[indexSextion]{
-                tableView.scrollToRow(at: IndexPath(row: 0, section: indexSextion), at: .top, animated: true)
-                break
-            }
-        }
-    }
-    
     
     func configureFriendsTableView() {
         //загрузка друзей с сервера vk.com
@@ -195,6 +173,7 @@ class FriendsTableViewController: UIViewController {
         //2 create sections of first letters
         let firstLetters = filterListOfFriends.map { String($0.lastName.uppercased().prefix(1)) }
         sections = Array(Set(firstLetters)).sorted()
+        //setLettersControl()
         
         //3 created cached items for sections
         cachedSectionsItems = [:]
@@ -292,6 +271,41 @@ extension FriendsTableViewController {
         coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         coverView.alpha = 0.6
         UIView.startLoadingCloudAnimation(view: coverView, time: 3)
+    }
+}
+
+//MARK: -> Letter Control
+extension FriendsTableViewController {
+    private func setLettersControl(){
+        letterControl = LetterControl()
+        guard let letterControl = letterControl else { return }
+        view.addSubview(letterControl)
+        
+        letterControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
+        letterControl.arrChar = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
+        
+        letterControl.backgroundColor = .clear
+        letterControl.addTarget(self, action: #selector(scrollToSelectedLetter), for: [.touchUpInside])
+        
+        NSLayoutConstraint.activate([
+            letterControl.heightAnchor.constraint(equalToConstant: CGFloat(15*letterControl.arrChar.count)),
+            letterControl.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            letterControl.widthAnchor.constraint(equalToConstant: 20),
+            letterControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+
+    @objc func scrollToSelectedLetter(){
+        guard let letterControl = letterControl else { return }
+        let selectLetter = letterControl.selectedLetter
+        for indexSextion in 0..<firstLetters.count{
+            if selectLetter == firstLetters[indexSextion]{
+                tableView.scrollToRow(at: IndexPath(row: 0, section: indexSextion), at: .top, animated: true)
+                break
+            }
+        }
     }
 }
 
