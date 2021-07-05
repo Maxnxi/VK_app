@@ -48,6 +48,7 @@ class FriendsTableViewController: UIViewController {
         //cloud animation
         startCloudAnimation()
         myFriends = realMServices.loadDataFriendsFromRealm()
+        sortAlphabeticFriendsArr()
         setupDataSource()
         tableView.reloadData()
     }

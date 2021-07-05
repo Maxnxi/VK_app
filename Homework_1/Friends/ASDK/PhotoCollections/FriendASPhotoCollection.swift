@@ -40,7 +40,8 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.minimumLineSpacing = 1
-        flowLayout.estimatedItemSize = CGSize(width: collectionNode.frame.size.width / 2, height: collectionNode.frame.size.width/2)
+        flowLayout.estimatedItemSize = CGSize(width: collectionNode.frame.size.width/3 - 3, height: collectionNode.frame.size.width/3 - 3)
+        //flowLayout.estimatedItemSize = CGSize(width: collectionNode.frame.size.width / 3 - 3, height: collectionNode.frame.size.width/3 - 3)
     }
     
     required init?(coder: NSCoder) {
@@ -77,9 +78,14 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
-        let width = CGFloat(UIScreen.main.bounds.size.width/3 - 3) //)(collectionNode.frame.width / 2) - 10
+        let widthRounded = (collectionNode.frame.size.width/3).rounded()
+        let width = CGFloat(widthRounded - 3)
+        //(UIScreen.main.bounds.size.width/3 - 3) //)(collectionNode.frame.width / 2) - 10
+        //let width = CGFloat(50)
+        
         let min = CGSize(width: width, height: width)
-        let max = CGSize(width: width, height: CGFloat(totalPhotos[indexPath.row].aspectRatio*width))
+        let heightWithAspectRatio = width * (totalPhotos[indexPath.row].aspectRatio).rounded()
+        let max = CGSize(width: width, height: heightWithAspectRatio)
         return ASSizeRange(min: min, max: max)
     }
     
