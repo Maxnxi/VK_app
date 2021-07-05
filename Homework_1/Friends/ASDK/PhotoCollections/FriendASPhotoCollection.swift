@@ -29,11 +29,12 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
 //        return phtLbl
 //    }()
     //массив хранящий данные
-    var totalPhotos: [PhotoModel] = [] {
-        didSet {
-            collectionNode.reloadData()
-        }
-    }
+    var totalPhotos: [PhotoModel] = []
+//    {
+//        didSet {
+//            collectionNode.reloadData()
+//        }
+//    }
     //дозагрузка данных - infinite scrolling
     var offSet = 0
     
@@ -49,7 +50,7 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         //self.noPhotoLbl.text = ""
         
         flowLayout.minimumInteritemSpacing = 1
-          flowLayout.minimumLineSpacing = 1
+        flowLayout.minimumLineSpacing = 1
         flowLayout.estimatedItemSize = CGSize(width: collectionNode.frame.size.width / 2, height: collectionNode.frame.size.width/2)
     }
     
@@ -77,16 +78,14 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
       collectionNode.view.allowsSelection = true
       collectionNode.view.backgroundColor = .white
         
-    let dataFromServer = fetchDataPhotosFromVkServer(offSetIs: offSet)
-        guard let photos = dataFromServer.photos else {
-            return
-        }
-//        if photos.count == 0 {
-//            setNoPhotoLbl()
-//        }
-        self.totalPhotos = photos
+        let dataFromServer = self.fetchDataPhotosFromVkServer(offSetIs: self.offSet)
+
+        print("dataFromServer.photos", dataFromServer.photos.count)
+        self.totalPhotos = dataFromServer.photos
+        print("totalPhotos is - ", self.totalPhotos.count)
         self.offSet = dataFromServer.offSet
         self.collectionNode.reloadData()
+        
     }
 
     //настройка коллекции
@@ -105,7 +104,7 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
-        let width = CGFloat(UIScreen.main.bounds.size.width/3.5) //)(collectionNode.frame.width / 2) - 10
+        let width = CGFloat(UIScreen.main.bounds.size.width/3) //)(collectionNode.frame.width / 2) - 10
         let min = CGSize(width: width, height: width)
         let max = CGSize(width: width, height: CGFloat(totalPhotos[indexPath.row].aspectRatio*width))
         return ASSizeRange(min: min, max: max)
@@ -133,7 +132,7 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
 //        self.totalPhotos.append(contentsOf: photos)
 //        self.collectionNode.insertItems(at: indexPathArr)
 //
-////        collectionNode.insertSubnode(<#T##subnode: ASDisplayNode##ASDisplayNode#>, aboveSubnode: <#T##ASDisplayNode#>)
+//
 //    }
     
     
@@ -147,19 +146,23 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     }
     
     // Загрузка данных с сервера
-    func fetchDataPhotosFromVkServer(offSetIs: Int) -> (photos:[PhotoModel]?, offSet: Int) {
+    private func fetchDataPhotosFromVkServer(offSetIs: Int) -> (photos:[PhotoModel], offSet: Int) {
         guard let userId = friend?.id,
               let accessToken = Session.shared.token else {
             print("Error while getting friendId in - FriendPhotoCollectionViewController ")
-            return (nil, 0)
+            return ([], 0)
         }
         var photosTmp = [PhotoModel]()
         var newOffSet = 0
             apiVkServices.getUserPhotos(userId: userId, accessToken: accessToken, offSet: offSet) { photos, newOffset in
                 print("Downloaded photos - done", photos.count)
-                photosTmp = photos
+                photosTmp = Array(photos)
+                self.totalPhotos = photos
                 newOffSet = newOffset
+                self.offSet = newOffset
+                self.collectionNode.reloadData()
             }
+        
     return (photosTmp, newOffSet)
     }
     

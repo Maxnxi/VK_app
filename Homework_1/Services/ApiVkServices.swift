@@ -303,7 +303,7 @@ class ApiVkServices {
         let parameters: Parameters = [
             "owner_id": userId,
             "access_token": accessToken,
-            "no_service_albums": 0,
+            "no_service_albums": 1,
             "count": 20,
             "offset": offSet,
             "v": version,

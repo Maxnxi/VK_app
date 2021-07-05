@@ -22,7 +22,6 @@ class PhotoNode: ASCellNode {
         photoImageNode.url = resource.url
         photoImageNode.contentMode = .scaleAspectFill
         photoImageNode.shouldRenderProgressImages = true
-        
         addSubnode(photoImageNode)
     }
     

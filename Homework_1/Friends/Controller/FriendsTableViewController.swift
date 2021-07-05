@@ -13,13 +13,12 @@ import FirebaseDatabase
 import FirebaseFirestore
 
 class FriendsTableViewController: UIViewController {
-    
    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
     //
-    private var letterControl: LetterControl?
+    //private var letterControl: LetterControl?
 
     private let apiVkServices = ApiVkServices()
     private let realMServices = RealMServices()
@@ -37,16 +36,17 @@ class FriendsTableViewController: UIViewController {
     public var myFriends:[UserRealMObject] = []
 
     private var filterListOfFriends: [UserRealMObject] = []
-    private var sections: [String] = [] {
-        willSet {
-            if newValue.count > 0 {
-            let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-            firstLetters = Array(Set(prepareToarrChar)).sorted()
-            }
-        }
-    }
+    private var sections: [String] = []
+//    {
+//        willSet {
+//            if newValue.count > 0 {
+//            let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
+//            firstLetters = Array(Set(prepareToarrChar)).sorted()
+//            }
+//        }
+//    }
     private var cachedSectionsItems: [String:[UserRealMObject]] = [:]
-    private var firstLetters = [Character]()
+    //private var firstLetters = [Character]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +56,17 @@ class FriendsTableViewController: UIViewController {
                 }
         self.vkUserId = userId
         
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
         
+        //cloud animation
+        startCloudAnimation()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         //  realm observer
         realMServices.startFriendsRealmObserver(view: self)
         
@@ -68,13 +76,6 @@ class FriendsTableViewController: UIViewController {
         //adding user to firebase
         FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
         usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
-        
-        //cloud animation
-        startCloudAnimation()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
         //настройка панели кнопок алфавита
         //setLettersControl()
@@ -91,7 +92,7 @@ class FriendsTableViewController: UIViewController {
         fetchDataFriendsFromVkServer()
         
         //Загрузка списка друзей из Realm (рефакторинг)
-        myFriends = realMServices.loadDataFriendsFromRealm()
+        //myFriends = realMServices.loadDataFriendsFromRealm()
 
         setupDataSource()
     }
@@ -136,20 +137,8 @@ class FriendsTableViewController: UIViewController {
 //        }
     }
     
-    // фильтрация списка Друзей
-    private func filterFriends(text: String?) {
-        guard let text = text, !text.isEmpty else {
-            filterListOfFriends = myFriends
-            return
-        }
-        filterListOfFriends = myFriends.filter {
-            $0.lastName.lowercased().contains(text.lowercased())
-        }
-        print("\n Фильтрация выполнена!")
-    }
-    
     //сортировка списка Друзей
-    func setupDataSource() {
+    private func setupDataSource() {
         //1 filter friends
         filterFriends(text: searchBar?.text)
         
@@ -165,6 +154,18 @@ class FriendsTableViewController: UIViewController {
                 $0.lastName.uppercased().prefix(1) == section
             }
         }
+    }
+    
+    // фильтрация списка Друзей
+    private func filterFriends(text: String?) {
+        guard let text = text, !text.isEmpty else {
+            filterListOfFriends = myFriends
+            return
+        }
+        filterListOfFriends = myFriends.filter {
+            $0.lastName.lowercased().contains(text.lowercased())
+        }
+        print("\n Фильтрация выполнена!")
     }
     
     private func getFriend(for indexPath: IndexPath) -> UserRealMObject {
@@ -260,40 +261,40 @@ extension FriendsTableViewController {
     }
 }
 
-//MARK: -> Letter Control
-extension FriendsTableViewController {
-    private func setLettersControl(){
-        letterControl = LetterControl()
-        guard let letterControl = letterControl else { return }
-        view.addSubview(letterControl)
-        
-        letterControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-        letterControl.arrChar = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
-        
-        letterControl.backgroundColor = .clear
-        letterControl.addTarget(self, action: #selector(scrollToSelectedLetter), for: [.touchUpInside])
-        
-        NSLayoutConstraint.activate([
-            letterControl.heightAnchor.constraint(equalToConstant: CGFloat(15*letterControl.arrChar.count)),
-            letterControl.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            letterControl.widthAnchor.constraint(equalToConstant: 20),
-            letterControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-
-    @objc func scrollToSelectedLetter(){
-        guard let letterControl = letterControl else { return }
-        let selectLetter = letterControl.selectedLetter
-        for indexSextion in 0..<firstLetters.count{
-            if selectLetter == firstLetters[indexSextion]{
-                tableView.scrollToRow(at: IndexPath(row: 0, section: indexSextion), at: .top, animated: true)
-                break
-            }
-        }
-    }
-}
+////MARK: -> Letter Control
+//extension FriendsTableViewController {
+//    private func setLettersControl(){
+//        letterControl = LetterControl()
+//        guard let letterControl = letterControl else { return }
+//        view.addSubview(letterControl)
+//        
+//        letterControl.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
+//        letterControl.arrChar = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
+//        
+//        letterControl.backgroundColor = .clear
+//        letterControl.addTarget(self, action: #selector(scrollToSelectedLetter), for: [.touchUpInside])
+//        
+//        NSLayoutConstraint.activate([
+//            letterControl.heightAnchor.constraint(equalToConstant: CGFloat(15*letterControl.arrChar.count)),
+//            letterControl.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            letterControl.widthAnchor.constraint(equalToConstant: 20),
+//            letterControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+//        ])
+//    }
+//
+//    @objc func scrollToSelectedLetter(){
+//        guard let letterControl = letterControl else { return }
+//        let selectLetter = letterControl.selectedLetter
+//        for indexSextion in 0..<firstLetters.count{
+//            if selectLetter == firstLetters[indexSextion]{
+//                tableView.scrollToRow(at: IndexPath(row: 0, section: indexSextion), at: .top, animated: true)
+//                break
+//            }
+//        }
+//    }
+//}
 
 //MARK: -> Добавляем инфу о группах пользователя в Firestore
 extension FriendsTableViewController {

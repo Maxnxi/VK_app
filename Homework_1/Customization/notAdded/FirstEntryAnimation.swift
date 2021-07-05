@@ -20,7 +20,6 @@ class FirstEntryAnimationView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-//        let backgroundView = UIView(frame: frame)
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 800))
 
         let rect = CGRect(x: 0, y: 0, width: 20, height: 20)
