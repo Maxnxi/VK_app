@@ -64,8 +64,6 @@ class NewsVC: UIViewController {
         realmServices.startNewsRealmObserver(view: self)    //realm observer
         registerTableViewCells()    //регистрируем cells tableview
         self.fetchDataFromVkServer()    //загружаем данные с сервера VK и сохраняем в realm
-        //берем данные из realm и выводим в cells
-        //self.myNews = self.realmServices.loadNewsDataFromRealm()
         myNews = self.sortNewsByDate(news: myNews)  //сортируем по дате ($0>$1)
         self.imageService = ImageService(container: self.tableView) //кэш фотографий
     }
@@ -88,11 +86,9 @@ class NewsVC: UIViewController {
             self.activityIndicator.isHidden = true
             self.activityIndicator.stopAnimating()
         }
-        //self.lastDateString = String(Int(myNews.first?.date ?? Int(Date().timeIntervalSince1970))) //- (60 * 60 * 2))
         guard let lastDate = self.myNews.first?.date else { return }
         self.lastDateString = String(describing: Int(lastDate))
         print("lastDateString is - ", lastDateString )
-            //.fromDoubleToStringDateFormatToCell(date: self.myNews.first?.date ?? Double(Date().timeIntervalSince1970))
     }
     
     func sortNewsByDate(news:[NewsRealmObject]) -> [NewsRealmObject]{
@@ -168,11 +164,6 @@ extension NewsVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 heightOfCell = UITableView.automaticDimension
             }
-//            else if oneNew.text.count > 0 && oneNew.text.count <= 150 {
-//                heightOfCell = UITableView.automaticDimension
-//            } else if oneNew.text.count > 150  {
-//                heightOfCell = 200.0
-//            }
         case 2:
             print("case 2")
             if oneNew.photoOneUrl == "NO_PHOTO", oneNew.photoOneUrl == ""  {
@@ -240,31 +231,13 @@ extension NewsVC {
         }
         print("start_time is ", date)
         apiVkServices.getNewsPost(startTime: date, startFrom: "next_from") { news, startFrm in
-            //guard let self = self else { return }
             self.realmServices.saveNewsData(news)
-            
             guard let dateToConvert = self.myNews.first?.date else { return }
-            
-            
-            self.lastDateString = String(describing: Int(dateToConvert)) //self.convertDatetoVK(timeIntervalSince1970: dateToConvert ?? 0)
-            
-            // self.myNews.first?.date.fromIntToDateFormatToCell(date: self.myNews.first?.date ?? Int(Date().timeIntervalSince1970))
+            self.lastDateString = String(describing: Int(dateToConvert))
         }
         self.tableView.refreshControl?.endRefreshing()
     }
-    
 
-    
-//    class DateFormatterVK {
-//        let dateFormatter = DateFormatter()
-//
-//        func convertDate(timeIntervalSince1970: Double) -> String{
-//            dateFormatter.dateFormat = "MM-dd-yyyy HH.mm"
-//            dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-//            let date = Date(timeIntervalSince1970: timeIntervalSince1970)
-//            return dateFormatter.string(from: date)
-//        }
-//    }
     func convertDatetoVK(timeIntervalSince1970: Double) -> String{
         if timeIntervalSince1970 == 0 {
             return ""

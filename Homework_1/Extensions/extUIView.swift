@@ -18,8 +18,6 @@ extension UIView {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time)) {
                         UIView.animate(withDuration: 0.9) {
-                            
-                            //view.addSubview(loadingView)
                             loadingView.alpha = 0
                         } completion: { (finished) in
                             loadingView.isHidden = true

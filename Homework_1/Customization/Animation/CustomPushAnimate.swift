@@ -70,8 +70,7 @@ class CustomPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             }
         )
     }
-    
-    }
+}
     
     
     

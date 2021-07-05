@@ -19,18 +19,14 @@ class FooterNewsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configureCell(numOfLikes: String, numOfComments: String) {
         self.numOfLikeLbl.text = numOfLikes
         self.numOfCommentsLbl.text = numOfComments
     }
-    
 }

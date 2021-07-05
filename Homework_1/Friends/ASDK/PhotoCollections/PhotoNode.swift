@@ -30,8 +30,4 @@ class PhotoNode: ASCellNode {
         photoImageNode.style.preferredSize = CGSize(width: width, height: width*resource.aspectRatio)
         return ASWrapperLayoutSpec(layoutElement: photoImageNode)
     }
-    
-//    override init(viewControllerBlock: @escaping ASDisplayNodeViewControllerBlock, didLoad didLoadBlock: ASDisplayNodeDidLoadBlock? = nil) {
-//        
-//    }
 }

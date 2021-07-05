@@ -80,7 +80,6 @@ class EntryViewController: UIViewController {
     }
 }
 
-
 //MARK: -> animation
 extension EntryViewController {
     func startDotsAnimation(time: Int) {

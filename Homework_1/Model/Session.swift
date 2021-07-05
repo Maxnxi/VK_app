@@ -16,5 +16,4 @@ final class Session {
     var authorized: Bool = false
     
     private init() {}
-    
 }

@@ -18,13 +18,10 @@ class HeaderNewsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configureCell(authorName: String, authorProfileImgUrl: String, date: Double) {
@@ -35,5 +32,4 @@ class HeaderNewsCell: UITableViewCell {
         guard let image = data else { return }
         self.newsAuthorProfileImg.avatarImage = UIImage(data: image)
     }
-    
 }

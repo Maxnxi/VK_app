@@ -11,18 +11,14 @@ import RealmSwift
 import Firebase
 
 class MyGroupsTableVC: UIViewController {
-
     
     @IBOutlet weak var tableView: UITableView!
     
     private var communitesFirebase = [FirebaseCommunity]()
-    private let ref = Database.database().reference(withPath: "Users") //.child( String(Session.shared.userID!))
-    
+    private let ref = Database.database().reference(withPath: "Users")
     private let apiVkService = ApiVkServices()
     private let realMServices = RealMServices()
-    
     public var myGroups = [GroupsRealMObject]()
-    
     //RealM Notifications
     public var token: NotificationToken?
 
@@ -30,13 +26,19 @@ class MyGroupsTableVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         realMServices.startGroupsRealmObserver(view: self)  //realm observer
         startCloudAnimation(time: 3) //cloud animation
         configureGroupsTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        // закрываем token Realm
+        super.viewDidDisappear(animated)
+        token?.invalidate()
     }
     
     func configureGroupsTableView() {
@@ -68,10 +70,8 @@ class MyGroupsTableVC: UIViewController {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             myGroups.remove(at: indexPath.row)
-            //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
     
     func refObserve() {
         ref.observe(.value, with: { snapshot in
@@ -88,17 +88,14 @@ class MyGroupsTableVC: UIViewController {
             print(communities.count)
         })
     }
-    
 
     @IBAction func unwindFromGlobGroups(_ segue:UIStoryboardSegue){
         guard let controller = segue.source as? GlobalGroupsTableVC,
               let indexPath = controller.tableView.indexPathForSelectedRow
         else { return }
-
         tableView.reloadData()
     }
 }
-
 
 extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -116,8 +113,6 @@ extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
-    
-    
 }
 
 //MARK: -> cloud animation

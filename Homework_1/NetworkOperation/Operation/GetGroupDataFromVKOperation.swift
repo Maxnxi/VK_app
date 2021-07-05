@@ -14,18 +14,10 @@ class GetGroupDataFromVKOperation: AsyncOperation {
     
     var userId: String
     var accessToken: String
-    
     let baseUrl = "https://api.vk.com/method/"
     let path = "groups.get"
     let version = "5.130"
-    
     var data: Data?
-    //private var request: DataRequest
-    
-//    override func cancel() {
-//        request.cancel()
-//        super.cancel()
-//    }
     
     override func main() {
         let parameters: Parameters = [
@@ -55,29 +47,3 @@ class GetGroupDataFromVKOperation: AsyncOperation {
         self.accessToken = accessToken
     }
 }
-
-
-/*
- class GetDataOperation: AsyncOperation {
-
-     override func cancel() {
-         request.cancel()
-         super.cancel()
-     }
-     
-     private var request: DataRequest
-     var data: Data?
-     
-     override func main() {
-         request.responseData(queue: DispatchQueue.global()) { [weak self] response in
-             self?.data = response.data
-             self?.state = .finished
-         }
-     }
-     
-     init(request: DataRequest) {
-         self.request = request
-     }
-     
- }
- */

@@ -9,9 +9,6 @@ import UIKit
 
 class MyGroupsCell: UITableViewCell {
 
-//    @IBOutlet weak var groupNameLbl: UILabel!
-//    @IBOutlet weak var groupProfileImgView: UIImageView!
-    
     @IBOutlet weak var groupNameLbl: UILabel!
     @IBOutlet weak var groupProfileImgView: RoundedImgView!
     
@@ -32,5 +29,4 @@ class MyGroupsCell: UITableViewCell {
         guard let image = data else { return }
         groupProfileImgView.image = UIImage(data: image)
     }
-
 }

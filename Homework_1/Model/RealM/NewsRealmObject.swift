@@ -46,7 +46,7 @@ class NewsRealmObject: Object, Codable {
         self.date = news.date ?? 0
         
         // фотография новости
-        guard let phUrl = news.attachments?.compactMap({$0.photo?.sizes?.last?.url}) as? [String] else { return }
+        guard let phUrl = news.attachments?.compactMap({$0.photo?.sizes?.last?.url}) else { return }
         aspectRatio = Float(news.attachments?.compactMap({$0.photo?.sizes?.last?.aspectRatio }).last ?? 1)
         
         if phUrl.count >= 4 {

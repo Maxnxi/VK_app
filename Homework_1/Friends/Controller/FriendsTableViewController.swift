@@ -16,9 +16,6 @@ class FriendsTableViewController: UIViewController {
    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    
-    //
-    //private var letterControl: LetterControl?
 
     private let apiVkServices = ApiVkServices()
     private let realMServices = RealMServices()
@@ -37,48 +34,30 @@ class FriendsTableViewController: UIViewController {
 
     private var filterListOfFriends: [UserRealMObject] = []
     private var sections: [String] = []
-//    {
-//        willSet {
-//            if newValue.count > 0 {
-//            let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-//            firstLetters = Array(Set(prepareToarrChar)).sorted()
-//            }
-//        }
-//    }
     private var cachedSectionsItems: [String:[UserRealMObject]] = [:]
-    //private var firstLetters = [Character]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let userId = Session.shared.userId else {
-                    print("Failed to get vkUserId")
-                    return
-                }
-        self.vkUserId = userId
-        
-        
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
-        //cloud animation
-        startCloudAnimation()
+        guard let userId = Session.shared.userId else {
+            print("Failed to get vkUserId")
+            return
+        }
+        self.vkUserId = userId
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //  realm observer
         realMServices.startFriendsRealmObserver(view: self)
-        
+        //cloud animation
+        startCloudAnimation()
         //настройка
         configureFriendsTableView()
-        
         //adding user to firebase
         FirebaseModel.instance.addUserInfoToFirebase(referenceTo: ref, vkUserId: vkUserId)
         usersFirebaceInfo = FirebaseModel.instance.startFirebaseObserve(referenceTo: ref)
-        
-        //настройка панели кнопок алфавита
-        //setLettersControl()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -90,11 +69,8 @@ class FriendsTableViewController: UIViewController {
     func configureFriendsTableView() {
         //загрузка друзей с сервера vk.com
         fetchDataFriendsFromVkServer()
-        
         //Загрузка списка друзей из Realm (рефакторинг)
         //myFriends = realMServices.loadDataFriendsFromRealm()
-
-        setupDataSource()
     }
     
     //сортировка друзей
@@ -126,27 +102,19 @@ class FriendsTableViewController: UIViewController {
                 // save friends to realm
                 self.realMServices.saveFriendsData(friends)
             }.ensure {
-                //TO DO animating
+                self.setupDataSource()
             }.catch { error in
                 print(error)
             }
-        
-        //версия 1
-//        apiVkServices.getFriends(userId: userId, accessToken: accessToken) {
-//            print("fetchDataFriendsFromVkServer - done")
-//        }
     }
     
     //сортировка списка Друзей
     private func setupDataSource() {
         //1 filter friends
         filterFriends(text: searchBar?.text)
-        
         //2 create sections of first letters
         let firstLetters = filterListOfFriends.map { String($0.lastName.uppercased().prefix(1)) }
         sections = Array(Set(firstLetters)).sorted()
-        //setLettersControl()
-        
         //3 created cached items for sections
         cachedSectionsItems = [:]
         for section in sections {
@@ -173,7 +141,6 @@ class FriendsTableViewController: UIViewController {
         return cachedSectionsItems[sectionLetter]![indexPath.row]
     }
 }
-
 
 //MARK: -> TableView Delegate and DataSource
 
@@ -221,21 +188,13 @@ extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //guard let view = storyboard.instantiateViewController(withIdentifier: FriendASPhotoCollectionVC.identifier) as? FriendASPhotoCollectionVC else {return}
         let newView = FriendASPhotoCollectionVC()
         let friend = getFriend(for: indexPath)
-//        DispatchQueue.main.async {
             newView.friend = friend
-            //print(view.friend?.firstName)
             newView.modalPresentationStyle = .fullScreen
-            
             self.navigationController?.pushViewController(newView, animated: true)
-//        }
-        
     }
 }
-
 
 //MARK: -> UISearchBar
 extension FriendsTableViewController: UISearchBarDelegate {
@@ -259,92 +218,4 @@ extension FriendsTableViewController {
         coverView.alpha = 0.6
         UIView.startLoadingCloudAnimation(view: coverView, time: 3)
     }
-}
-
-////MARK: -> Letter Control
-//extension FriendsTableViewController {
-//    private func setLettersControl(){
-//        letterControl = LetterControl()
-//        guard let letterControl = letterControl else { return }
-//        view.addSubview(letterControl)
-//        
-//        letterControl.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-//        letterControl.arrChar = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
-//        
-//        letterControl.backgroundColor = .clear
-//        letterControl.addTarget(self, action: #selector(scrollToSelectedLetter), for: [.touchUpInside])
-//        
-//        NSLayoutConstraint.activate([
-//            letterControl.heightAnchor.constraint(equalToConstant: CGFloat(15*letterControl.arrChar.count)),
-//            letterControl.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            letterControl.widthAnchor.constraint(equalToConstant: 20),
-//            letterControl.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//        ])
-//    }
-//
-//    @objc func scrollToSelectedLetter(){
-//        guard let letterControl = letterControl else { return }
-//        let selectLetter = letterControl.selectedLetter
-//        for indexSextion in 0..<firstLetters.count{
-//            if selectLetter == firstLetters[indexSextion]{
-//                tableView.scrollToRow(at: IndexPath(row: 0, section: indexSextion), at: .top, animated: true)
-//                break
-//            }
-//        }
-//    }
-//}
-
-//MARK: -> Добавляем инфу о группах пользователя в Firestore
-extension FriendsTableViewController {
-    
-    // Загрузка данных с сервера (в RealM)
-//    func fetchDataGroupsFromVkServer() {
-//        guard let userId = Session.shared.userId,
-//              let accessToken = Session.shared.token else {
-//            print("error getting userId")
-//            return
-//        }
-//        apiVkServices.getUserGroups(userId: userId, accessToken: accessToken)
-//        //{
-//            print("fetchDataGroupsFromServer - done")
-//            self.addUserGroupsInfo()
-//        //}
-//    }
-    
-//    func addUserGroupsInfo() {
-//        let usersRef = "users"
-//            do {
-//                // Загружаем группы пользователя из RealM
-//                guard let realm = try? Realm() else { return }
-//                let groupsFromRealm = realm.objects(GroupsRealMObject.self)
-//                let mainUserGroups = Array(groupsFromRealm)
-//                var groupsInfoConvertedToFirestore:[Dictionary<String, Any>] = []
-//                for element in mainUserGroups {
-//                    let id = element.id
-//                    let name = element.name
-//                    let group = [
-//                        "id": id,
-//                        "name": name
-//                    ] as [String : Any]
-//                    groupsInfoConvertedToFirestore.append(group)
-//                }
-//                // Выгружаем группы пользователя в Firestore
-//                Firestore.firestore().collection(usersRef).addDocument(data: [
-//                    "userId": Auth.auth().currentUser?.uid ?? "",
-//                    "vkUserId": Session.shared.userId,
-//                    "groups": groupsInfoConvertedToFirestore
-//                ]) { (error) in
-//                    if let error = error {
-//                        debugPrint("Error #1. adding user info to firestore. \(error.localizedDescription)")
-//                    } else {
-//                        print("\n\n\nUser info added to firestore - succes")
-//                    }
-//                    return
-//                }
-//            } catch {
-//                debugPrint(error.localizedDescription)
-//            }
-//    }
 }

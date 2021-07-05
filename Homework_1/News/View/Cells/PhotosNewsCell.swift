@@ -9,15 +9,12 @@ import UIKit
 
 class PhotosNewsCell: UITableViewCell {
 
-    //private let imagesViewArr: [UIImageView] = [UIImageView(),UIImageView(),UIImageView(),UIImageView()]
-    
     static let nibName: String = "PhotosNewsCell"
     static let reuseIdentifierOfCellNews: String = "photosNewsCell"
     
     private let newsImageView: UIImageView = {
      let newsImageView = UIImageView()
         newsImageView.translatesAutoresizingMaskIntoConstraints = false
-        
         return newsImageView
     }()
     

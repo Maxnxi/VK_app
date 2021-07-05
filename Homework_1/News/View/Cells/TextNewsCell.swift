@@ -25,12 +25,10 @@ class TextNewsCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setCell()
-        
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override func layoutSubviews() {
@@ -41,10 +39,6 @@ class TextNewsCell: UITableViewCell {
         } else {
             textNewsLbl.numberOfLines = 0
         }
-    }
-    
-    func setCell() {
-//        showMoreLessBtn.isHidden = true
     }
 
     override func prepareForReuse() {
@@ -60,35 +54,23 @@ class TextNewsCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configureCell(newsText: String) {
         self.textNewsLbl.text = newsText
-        
     }
-    
-    
-    
-    
+
     @IBAction func snowMoreLessBtnWasPressed(_ sender: Any) {
         if showStatusMore == false {
             textNewsLbl.numberOfLines = 0
             showStatusMore = true
             showMoreLessBtn.setTitle("show less", for: .normal)
             self.setNeedsDisplay()
-            //self.reloadInputViews()
-            //self.contentView.reloadInputViews()
         } else {
             textNewsLbl.numberOfLines = 4
             showStatusMore = false
             showMoreLessBtn.setTitle("show more", for: .normal)
             self.setNeedsDisplay()
-            
-            //self.reloadInputViews()
-            //self.contentView.reloadInputViews()
         }
     }
-    
 }

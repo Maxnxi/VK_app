@@ -35,12 +35,12 @@ class RealMServices {
     }
     
     // observer Realm для FriendsTableViewController
-    func startFriendsRealmObserver(view:FriendsTableViewController) {
+    func startFriendsRealmObserver(view: FriendsTableViewController) {
         do {
         let realm = try Realm()
         let friendsFromRealM = realm.objects(UserRealMObject.self)
-            view.token = friendsFromRealM.observe({ [weak self] (changes: RealmCollectionChange) in
-            guard let self = self, let tableView = view.tableView else { return }
+            view.token = friendsFromRealM.observe({ (changes: RealmCollectionChange) in
+            
                 switch changes {
                 case .initial(let friends):
                     print("initial friends - done")
@@ -77,19 +77,6 @@ class RealMServices {
         }
     }
     
-    // получаем Groups из Realm
-    func loadGroupsDataFromRealm() -> [GroupsRealMObject] {
-        var groups:[GroupsRealMObject] = []
-        do {
-            let realm = try Realm()
-            let groupsFromRealm = realm.objects(GroupsRealMObject.self)
-            groups = Array(groupsFromRealm)
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
-        return groups
-    }
-    
     // observer Realm для MyGroupsTableVC
     func startGroupsRealmObserver(view:MyGroupsTableVC) {
         do {
@@ -98,24 +85,14 @@ class RealMServices {
             view.token = groupsFromRealM.observe({ (changes: RealmCollectionChange) in
                 switch changes {
                 case .initial(let groups):
-                    print("initial friends - done")
+                    print("initial groups - done")
                     view.myGroups = Array(groups)
                     view.sortGroups()
                     DispatchQueue.main.async {
                         view.tableView.reloadData()
                     }
-                case .update(let groups, let deletions, let insertions, let modifications):
-//                    DispatchQueue.main.async {
-//                        view.tableView.beginUpdates()
-//                        view.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-//                                             with: .automatic)
-//                        view.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-//                                             with: .automatic)
-//                        view.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-//                                             with: .automatic)
-//                        view.tableView.endUpdates()
-//                    }
-                    print("update friends - done")
+                case .update(let groups, _, _, _):
+                    print("update groups - done")
                     view.myGroups = Array(groups)
                     view.sortGroups()
                     DispatchQueue.main.async {
@@ -143,19 +120,6 @@ class RealMServices {
             debugPrint(error.localizedDescription)
         }
     }
-    
-    // получаем News из Realm
-        func loadNewsDataFromRealm() -> [NewsRealmObject] {
-            var news:[NewsRealmObject] = []
-            do {
-                let realm = try Realm()
-                let newsFromRealm = realm.objects(NewsRealmObject.self)
-                news = Array(newsFromRealm)
-            } catch {
-                debugPrint(error.localizedDescription)
-            }
-            return news
-        }
     
     // realm observer к News
     func startNewsRealmObserver(view:NewsVC) {
@@ -198,45 +162,5 @@ class RealMServices {
         } catch {
             debugPrint(error.localizedDescription)
         }
-    }
-    
-    //MARK: -> Фотографии - колонка Друзья сохраняем url фото в бд
-    func saveUrlPhotosToRealm(_ photos: [PhotoRealMObject]) {
-        do {
-            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(configuration: config)
-                        if realm.objects(PhotoRealMObject.self).count != 0 {
-                            _ = try Realm.deleteFiles(for: Realm.Configuration.defaultConfiguration)
-                            let oldPhotosRequest = realm.objects(PhotoRealMObject.self)
-                            realm.beginWrite()
-                            realm.delete(oldPhotosRequest)
-                            try realm.commitWrite()
-                            print("/n/n/n oldPhotosRequest - deleted")
-                        }
-            realm.beginWrite()
-            realm.add(photos, update: .all)
-            try realm.commitWrite()
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
-    }
-    
-    func clearPhotoRealm() {
-        do {
-            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-            let realm = try Realm(configuration: config)
-            
-            if realm.objects(PhotoRealMObject.self).count != 0 {
-                _ = try Realm.deleteFiles(for: Realm.Configuration.defaultConfiguration)
-                let oldPhotosRequest = realm.objects(PhotoRealMObject.self)
-                realm.beginWrite()
-                realm.delete(oldPhotosRequest)
-                try realm.commitWrite()
-                print("/n/n/n oldPhotosRequest - deleted")
-            }
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
-        
     }
 }

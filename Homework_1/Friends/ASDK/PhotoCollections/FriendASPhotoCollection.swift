@@ -21,20 +21,11 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     var friend: UserRealMObject?
     //сетевой запрос
     let apiVkServices = ApiVkServices()
-    
-    //var noPhotoLbl = UILabel()
-//        = {
-//        var phtLbl = UILabel()
-//        phtLbl.text = ""
-//        return phtLbl
-//    }()
+
     //массив хранящий данные
     var totalPhotos: [PhotoModel] = []
-//    {
-//        didSet {
-//            collectionNode.reloadData()
-//        }
-//    }
+
+    //не подключено
     //дозагрузка данных - infinite scrolling
     var offSet = 0
     
@@ -47,8 +38,6 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         self.collectionNode.dataSource = self
         self.collectionNode.allowsSelection = false
         
-        //self.noPhotoLbl.text = ""
-        
         flowLayout.minimumInteritemSpacing = 1
         flowLayout.minimumLineSpacing = 1
         flowLayout.estimatedItemSize = CGSize(width: collectionNode.frame.size.width / 2, height: collectionNode.frame.size.width/2)
@@ -57,21 +46,6 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    func setNoPhotoLbl() {
-//        self.view.addSubview(noPhotoLbl)
-//        self.view.bringSubviewToFront(noPhotoLbl)
-//        noPhotoLbl.text = "No photos found"
-//        noPhotoLbl.textColor = .black
-//        noPhotoLbl.sizeThatFits(CGSize(width: 250, height: 50))
-//        noPhotoLbl.isHidden = true
-//        noPhotoLbl.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            noPhotoLbl.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-//            noPhotoLbl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-//        ])
-//
-//    }
     
     override func viewDidLoad() {
       super.viewDidLoad()
@@ -85,7 +59,6 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         print("totalPhotos is - ", self.totalPhotos.count)
         self.offSet = dataFromServer.offSet
         self.collectionNode.reloadData()
-        
     }
 
     //настройка коллекции
@@ -104,38 +77,11 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
-        let width = CGFloat(UIScreen.main.bounds.size.width/3) //)(collectionNode.frame.width / 2) - 10
+        let width = CGFloat(UIScreen.main.bounds.size.width/3 - 3) //)(collectionNode.frame.width / 2) - 10
         let min = CGSize(width: width, height: width)
         let max = CGSize(width: width, height: CGFloat(totalPhotos[indexPath.row].aspectRatio*width))
         return ASSizeRange(min: min, max: max)
     }
-    
-//    func shouldBatchFetch(for collectionNode: ASCollectionNode) -> Bool {
-//        return true
-//    }
-    
-//    func collectionNode(_ collectionNode: ASCollectionNode, willBeginBatchFetchWith context: ASBatchContext) {
-//        let dataFromServer = fetchDataPhotosFromVkServer(offSetIs: offSet)
-//        guard let photos = dataFromServer.photos else { return }
-//        self.offSet = dataFromServer.offSet
-//
-//        //let indexSet = IndexSet(integersIn: self.totalPhotos.count..<self.totalPhotos.count+photos.count)
-//
-//        //let indexPth = IndexPath(item: self.totalPhotos.count, section: 1)
-//
-//        var indexPathArr = [IndexPath]()
-//        for i in self.totalPhotos.count..<self.totalPhotos.count+photos.count {
-//            let indexPth = IndexPath(item: i, section: 1)
-//            indexPathArr.append(indexPth)
-//        }
-//
-//        self.totalPhotos.append(contentsOf: photos)
-//        self.collectionNode.insertItems(at: indexPathArr)
-//
-//
-//    }
-    
-    
     
     // переход на следующий экран при выборе фото
     func collectionNode(_ collectionNode: ASCollectionNode, didSelectItemAt indexPath: IndexPath) {
@@ -162,8 +108,45 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
                 self.offSet = newOffset
                 self.collectionNode.reloadData()
             }
-        
     return (photosTmp, newOffSet)
     }
-    
 }
+
+//MARK: -> не подключено
+
+//    func setNoPhotoLbl() {
+//        self.view.addSubview(noPhotoLbl)
+//        self.view.bringSubviewToFront(noPhotoLbl)
+//        noPhotoLbl.text = "No photos found"
+//        noPhotoLbl.textColor = .black
+//        noPhotoLbl.sizeThatFits(CGSize(width: 250, height: 50))
+//        noPhotoLbl.isHidden = true
+//        noPhotoLbl.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            noPhotoLbl.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+//            noPhotoLbl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+//        ])
+//
+//    }
+
+//    func shouldBatchFetch(for collectionNode: ASCollectionNode) -> Bool {
+//        return true
+//    }
+    
+//    func collectionNode(_ collectionNode: ASCollectionNode, willBeginBatchFetchWith context: ASBatchContext) {
+//        let dataFromServer = fetchDataPhotosFromVkServer(offSetIs: offSet)
+//        guard let photos = dataFromServer.photos else { return }
+//        self.offSet = dataFromServer.offSet
+//
+//        //let indexSet = IndexSet(integersIn: self.totalPhotos.count..<self.totalPhotos.count+photos.count)
+//
+//        //let indexPth = IndexPath(item: self.totalPhotos.count, section: 1)
+//
+//        var indexPathArr = [IndexPath]()
+//        for i in self.totalPhotos.count..<self.totalPhotos.count+photos.count {
+//            let indexPth = IndexPath(item: i, section: 1)
+//            indexPathArr.append(indexPth)
+//        }
+//        self.totalPhotos.append(contentsOf: photos)
+//        self.collectionNode.insertItems(at: indexPathArr)
+//    }

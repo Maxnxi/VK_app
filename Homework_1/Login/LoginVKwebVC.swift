@@ -54,7 +54,6 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
     }
 }
 
-
 extension LoginVKwebVC {
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
@@ -96,7 +95,5 @@ extension LoginVKwebVC {
         print("You are Logged in.")
         decisionHandler(.cancel)
     }
-    
-    
 }
     

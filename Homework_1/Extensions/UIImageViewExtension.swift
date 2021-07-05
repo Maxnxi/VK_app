@@ -41,5 +41,4 @@ extension UIImageView {
             }.resume()
         }
     }
-    
 }

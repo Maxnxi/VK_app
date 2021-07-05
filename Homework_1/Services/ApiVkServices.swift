@@ -29,17 +29,10 @@ class ApiVkServices {
         session = URLSession(configuration: configuration)
     }
     
-    //TO DO
-    func authorizationVkRequest(){
-        
-    }
-    
     //Для ДЗ №3 - Operation
     private let queue = OperationQueue()
     
     //MARK: -> Запрос к VK серверу "friends.get"
-    //ДЗ №4
-    //версия 2
     func getUrl(userId:String, accessToken:String) -> Promise<URL> {
         urlConstructor.path = "/method/friends.get"
         urlConstructor.queryItems = [
@@ -96,46 +89,7 @@ class ApiVkServices {
         }
     }
     
-    //версия 1
-//    func getFriends(userId: String, accessToken: String, completion: @escaping() -> Void) {
-//        let path = "friends.get"
-//
-//        let parameters: Parameters = [
-//            "user_id": userId,
-//            "access_token": accessToken,
-//            "v": version,
-//            "fields": "photo"
-//        ]
-//        let url = baseUrl + path
-//
-//        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-//            print("request - is ", response.request!)
-//
-//            guard let data = response.value else { return }
-//            do {
-//                let friendsResponse = try JSONDecoder().decode( ResponseUsers.self, from: data).response.items
-//
-//                var freindsForRealm:[UserRealMObject] = []
-//                for element in friendsResponse {
-//                    let friend = UserRealMObject(user: element)
-//                    freindsForRealm.append(friend)
-//
-//                    if friendsResponse.count == freindsForRealm.count {
-//
-//                        //записываем данные в RealM
-//                        self.realMServices.saveFriendsData(freindsForRealm)
-//                        completion()
-//                    }
-//                }
-//            } catch {
-//                debugPrint("error #1", error)
-//            }
-//        }
-//    }
-    
     //MARK: -> Запрос к VK серверу "groups.get"
-//версия №2
-//ДЗ №3
     func getUserGroups(userId: String, accessToken: String) {
    
         let getGroupDataOperation = GetGroupDataFromVKOperation(userId: userId, accessToken: accessToken)
@@ -155,46 +109,8 @@ class ApiVkServices {
         print("getUserGroups - done")
     }
     
-    // версия №1
-    //    func getUserGroups(userId: String, accessToken: String, completion: @escaping() -> ()) {
-//        let path = "groups.get"
-//        let parameters: Parameters = [
-//            "user_id": userId,
-//            "access_token": accessToken,
-//            "v": version,
-//            "extended": "1"
-//        ]
-//        let url = baseUrl + path
-//
-//        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-//            print("request - is ", response.request!)
-//            guard let data = response.value else {return}
-//            do {
-//                let groups = try JSONDecoder().decode( ResponseGroups.self, from: data).response.items
-//                var groupsForRealm: [GroupsRealMObject] = []
-//                for element in groups {
-//                    let group = GroupsRealMObject(group: element)
-//                    groupsForRealm.append(group)
-//                    if groupsForRealm.count == groups.count {
-//
-//                        //записываем данные в RealM
-//                        self.realMServices.saveGroupsData(groupsForRealm)
-//                        completion()
-//                    }
-//                }
-//            } catch {
-//                debugPrint("error #2", error)
-//            }
-//        }
-//    }
-    
-   
-    
     //MARK: -> Logout from VK
-    
-    //https://login.vk.com/?act=logout&hash=bbf6e9bd4f095255c9&_origin=https%3A%2F%2Fvk.com&reason=tn
     func logOutFromVkServer() {
-       
         let url = "https://login.vk.com/?act=logout&hash=bbf6e9bd4f095255c9&_origin=https%3A%2F%2Fvk.com&reason=tn"
         
         AF.request(url)
@@ -208,18 +124,18 @@ class ApiVkServices {
             return
         }
         var newsForRealm: [NewsRealmObject] = []
-
-            let path = "newsfeed.get"
-            let parameters: Parameters = [
-                "user_id": userId,
-                "access_token": accessToken,
-                "filters": "post", //"post,photo,photo_tag, wall_photo"
-                "count": "20",
-                "start_from": startFrom,
-                "start_time": startTime,
-                "v": self.version
-            ]
-            let url = self.baseUrl + path
+        
+        let path = "newsfeed.get"
+        let parameters: Parameters = [
+            "user_id": userId,
+            "access_token": accessToken,
+            "filters": "post", //"post,photo,photo_tag, wall_photo"
+            "count": "20",
+            "start_from": startFrom,
+            "start_time": startTime,
+            "v": self.version
+        ]
+        let url = self.baseUrl + path
         
         AF.request(url, method: .get, parameters: parameters).responseData() { response in
             print("newsfeed request - is ", response.request as Any)
@@ -230,70 +146,33 @@ class ApiVkServices {
                     guard let itemsArr = response?.items,
                           let groupsArr = response?.groups,
                           let profilesArr = response?.profiles else {
-                    print("Error #311")
-                    return
-                }
+                        print("Error #311")
+                        return
+                    }
                     let startFrm: String = response?.nextFrom ?? "next_from"
                     
                     //подготавливаем данные для модели NewsRealmObject
-                for element in itemsArr {
-                    guard let idVk = element.sourceID else { return }
-                    if idVk < 0 {
-                        let additionalData = groupsArr.first(where: { $0.id == -idVk})
-                        let oneNew = NewsRealmObject(news: element, additionalGroupData: additionalData)
-                        newsForRealm.append(oneNew)
-                    } else {
-                        let additionalData = profilesArr.first(where: { $0.id == idVk})
-                        let oneNew = NewsRealmObject(news: element, additionalProfileData: additionalData)
-                        newsForRealm.append(oneNew)
+                    for element in itemsArr {
+                        guard let idVk = element.sourceID else { return }
+                        if idVk < 0 {
+                            let additionalData = groupsArr.first(where: { $0.id == -idVk})
+                            let oneNew = NewsRealmObject(news: element, additionalGroupData: additionalData)
+                            newsForRealm.append(oneNew)
+                        } else {
+                            let additionalData = profilesArr.first(where: { $0.id == idVk})
+                            let oneNew = NewsRealmObject(news: element, additionalProfileData: additionalData)
+                            newsForRealm.append(oneNew)
+                        }
+                        if newsForRealm.count == itemsArr.count {
+                            print("news downloaded - ", newsForRealm.count)
+                            completion(newsForRealm, startFrm)
+                        }
                     }
-                    if newsForRealm.count == itemsArr.count {
-                        print("news downloaded - ", newsForRealm.count)
-                        completion(newsForRealm, startFrm)
-                    }
-                }
             } catch {
                 debugPrint("error #4", error)
             }
         }
     }
-
-
-    
-
-    
-    
-    //MARK: -> поиск группы
-    
-//    func getSearchCommunity(text: String?, onComplete: @escaping ([Community]) -> Void, onError: @escaping (Error) -> Void) {
-//        urlConstructor.path = "/method/groups.search"
-//        
-//        urlConstructor.queryItems = [
-//            URLQueryItem(name: "q", value: text),
-//            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-//            URLQueryItem(name: "v", value: constants.versionAPI),
-//        ]
-//        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
-//            
-//            if error != nil {
-//                onError(ServerError.errorTask)
-//            }
-//            
-//            guard let data = data else {
-//                onError(ServerError.noDataProvided)
-//                return
-//            }
-//            guard let communities = try? JSONDecoder().decode(Response<Community>.self, from: data).response.items else {
-//                onError(ServerError.failedToDecode)
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                onComplete(communities)
-//            }
-//        }
-//        task.resume()
-//    }
- 
     
     //MARK: -> Запрос к VK серверу Photos
     
@@ -337,59 +216,85 @@ class ApiVkServices {
         }
     }
     
+    //MARK: -> не подключено
     //photos.getAlbums - список Альбомов
-    func getPhotosGetAlbumsUrl(vkUser: String) -> Promise<URL> {
-        urlConstructor.path = "/method/photos.getAlbums"
-        urlConstructor.queryItems = [
-            URLQueryItem(name: "owner_id", value: vkUser),
-            URLQueryItem(name: "need_system", value: "0"),
-            URLQueryItem(name: "need_covers", value: "1"),
-            URLQueryItem(name: "count", value: "20"),
-            URLQueryItem(name: "access_token", value: Session.shared.token),
-            URLQueryItem(name: "v", value: self.version),
-        ]
-        return Promise { resolver in
-            guard let url = urlConstructor.url else {
-                resolver.reject(AppError.notCorrectUrl)
-                return
-            }
-            resolver.fulfill(url)
-        }
-    }
+//    func getPhotosGetAlbumsUrl(vkUser: String) -> Promise<URL> {
+//        urlConstructor.path = "/method/photos.getAlbums"
+//        urlConstructor.queryItems = [
+//            URLQueryItem(name: "owner_id", value: vkUser),
+//            URLQueryItem(name: "need_system", value: "0"),
+//            URLQueryItem(name: "need_covers", value: "1"),
+//            URLQueryItem(name: "count", value: "20"),
+//            URLQueryItem(name: "access_token", value: Session.shared.token),
+//            URLQueryItem(name: "v", value: self.version),
+//        ]
+//        return Promise { resolver in
+//            guard let url = urlConstructor.url else {
+//                resolver.reject(AppError.notCorrectUrl)
+//                return
+//            }
+//            resolver.fulfill(url)
+//        }
+//    }
+//
+//    func getPhotosGetAlbumsData(_ url: URL) -> Promise<Data> {
+//        return Promise { resolver in
+//            session.dataTask(with: url) { (data, response, error) in
+//                guard let data = data else {
+//                    resolver.reject(AppError.errorTask)
+//                    return
+//                }
+//                resolver.fulfill(data)
+//            }.resume()
+//        }
+//    }
+//
+//    func getPhotosGetAlbumsParsedData(_ data: Data) -> Promise<ResponsePhotoAlbumItem> {
+//        return Promise { resolver in
+//            do {
+//                let response = try JSONDecoder().decode(WelcomePhotoAlbum.self, from: data).response
+//                resolver.fulfill(response)
+//            } catch {
+//                resolver.reject(AppError.failedtoDecode)
+//            }
+//        }
+//    }
+//
+//    func getPhotosGetAlbumFinalData(_ items: ResponsePhotoAlbumItem) -> Promise<[PhotoAlbumModel]> {
+//        return Promise<[PhotoAlbumModel]> { resolver in
+//            let albums = items.items
+//            resolver.fulfill(albums)
+//        }
+//    }
     
-    func getPhotosGetAlbumsData(_ url: URL) -> Promise<Data> {
-        return Promise { resolver in
-            session.dataTask(with: url) { (data, response, error) in
-                guard let data = data else {
-                    resolver.reject(AppError.errorTask)
-                    return
-                }
-                resolver.fulfill(data)
-            }.resume()
-        }
-    }
+    // поиск группы
     
-    func getPhotosGetAlbumsParsedData(_ data: Data) -> Promise<ResponsePhotoAlbumItem> {
-        return Promise { resolver in
-            do {
-                let response = try JSONDecoder().decode(WelcomePhotoAlbum.self, from: data).response
-                resolver.fulfill(response)
-            } catch {
-                resolver.reject(AppError.failedtoDecode)
-            }
-        }
-    }
-    
-    func getPhotosGetAlbumFinalData(_ items: ResponsePhotoAlbumItem) -> Promise<[PhotoAlbumModel]> {
-        return Promise<[PhotoAlbumModel]> { resolver in
-            let albums = items.items
-            resolver.fulfill(albums)
-        }
-    }
-    
-    
-    
-    //photos.get - фотографии в одном Альбоме
-    
-    
+//    func getSearchCommunity(text: String?, onComplete: @escaping ([Community]) -> Void, onError: @escaping (Error) -> Void) {
+//        urlConstructor.path = "/method/groups.search"
+//
+//        urlConstructor.queryItems = [
+//            URLQueryItem(name: "q", value: text),
+//            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
+//            URLQueryItem(name: "v", value: constants.versionAPI),
+//        ]
+//        let task = session.dataTask(with: urlConstructor.url!) { (data, response, error) in
+//
+//            if error != nil {
+//                onError(ServerError.errorTask)
+//            }
+//
+//            guard let data = data else {
+//                onError(ServerError.noDataProvided)
+//                return
+//            }
+//            guard let communities = try? JSONDecoder().decode(Response<Community>.self, from: data).response.items else {
+//                onError(ServerError.failedToDecode)
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                onComplete(communities)
+//            }
+//        }
+//        task.resume()
+//    }
 }

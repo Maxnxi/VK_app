@@ -213,6 +213,24 @@
 			path = PhotoCollections;
 			sourceTree = "<group>";
 		};
+		0513159A269348B100F9DAA2 /* notAdded */ = {
+			isa = PBXGroup;
+			children = (
+				0538E77425E68E8C00FA631D /* GlobalGroupCell.swift */,
+				05D774A825E67D3200FA5CA5 /* GlobalGroupsTableVC.swift */,
+			);
+			path = notAdded;
+			sourceTree = "<group>";
+		};
+		0513159B2693497800F9DAA2 /* notAdded */ = {
+			isa = PBXGroup;
+			children = (
+				054AAEA225FBE37500E73DD9 /* LikeControlView.swift */,
+				0598BD21268DD9D200F3CDE9 /* FirstEntryAnimation.swift */,
+			);
+			path = notAdded;
+			sourceTree = "<group>";
+		};
 		051BE5622668BFE800582590 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +320,7 @@
 		0581820D26149BA200542167 /* Groups */ = {
 			isa = PBXGroup;
 			children = (
+				0513159A269348B100F9DAA2 /* notAdded */,
 				0581821426149D4900542167 /* Controller */,
 				0581821326149D4300542167 /* View */,
 			);
@@ -311,8 +330,8 @@
 		0581820E26149BAB00542167 /* Customization */ = {
 			isa = PBXGroup;
 			children = (
+				0513159B2693497800F9DAA2 /* notAdded */,
 				0581821726149E8900542167 /* Animation */,
-				054AAEA225FBE37500E73DD9 /* LikeControlView.swift */,
 				05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */,
 				0542ADBD25EE47CB003557DA /* AvatarView.swift */,
 			);
@@ -338,7 +357,7 @@
 		0581821126149D3400542167 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				05F3EADD268F075100FB7FAF /* Controls */,
+				05F3EADD268F075100FB7FAF /* notAdded_Controls */,
 				0597AF6B25E3CB710014BF41 /* FriendsTableCell.swift */,
 			);
 			path = View;
@@ -357,7 +376,6 @@
 			isa = PBXGroup;
 			children = (
 				05D7749F25E678AF00FA5CA5 /* MyGroupsCell.swift */,
-				0538E77425E68E8C00FA631D /* GlobalGroupCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -366,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				05D774A525E67D1900FA5CA5 /* MyGroupsTableVC.swift */,
-				05D774A825E67D3200FA5CA5 /* GlobalGroupsTableVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -379,7 +396,6 @@
 				0581821E2614A63100542167 /* CustomPopAnimate.swift */,
 				054E82532615FFD6009ABD20 /* CustomInteractiveTransition.swift */,
 				0598BD1B268DC9B000F3CDE9 /* LoadingAnimationView.swift */,
-				0598BD21268DD9D200F3CDE9 /* FirstEntryAnimation.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -515,12 +531,12 @@
 			path = waitingToBeDone;
 			sourceTree = "<group>";
 		};
-		05F3EADD268F075100FB7FAF /* Controls */ = {
+		05F3EADD268F075100FB7FAF /* notAdded_Controls */ = {
 			isa = PBXGroup;
 			children = (
 				05F3EADE268F076D00FB7FAF /* LetterControl.swift */,
 			);
-			path = Controls;
+			path = notAdded_Controls;
 			sourceTree = "<group>";
 		};
 		479057DA514EC9A452B13A0A /* Pods */ = {
