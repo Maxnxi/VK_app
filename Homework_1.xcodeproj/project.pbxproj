@@ -12,6 +12,9 @@
 		0501E9C62672432B00DA361C /* ParseGroupDataFromVKOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0501E9C52672432B00DA361C /* ParseGroupDataFromVKOperation.swift */; };
 		0501E9C8267247E100DA361C /* ConvertGroupFromVKParseToRealmObjectOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0501E9C7267247E100DA361C /* ConvertGroupFromVKParseToRealmObjectOperation.swift */; };
 		0501E9CA26724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0501E9C926724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift */; };
+		0513159326902E6100F9DAA2 /* PhotoAlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0513159226902E6100F9DAA2 /* PhotoAlbumModel.swift */; };
+		0513159526902F3800F9DAA2 /* PhotoAlbumItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0513159426902F3800F9DAA2 /* PhotoAlbumItem.swift */; };
+		051315992690345C00F9DAA2 /* PhotoAlbumsASCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051315982690345C00F9DAA2 /* PhotoAlbumsASCollection.swift */; };
 		051BE5652668C01300582590 /* HeaderNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051BE5632668C01300582590 /* HeaderNewsCell.swift */; };
 		051BE5662668C01300582590 /* HeaderNewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 051BE5642668C01300582590 /* HeaderNewsCell.xib */; };
 		051BE5692668C02A00582590 /* TextNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051BE5672668C02A00582590 /* TextNewsCell.swift */; };
@@ -80,6 +83,9 @@
 		0501E9C52672432B00DA361C /* ParseGroupDataFromVKOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGroupDataFromVKOperation.swift; sourceTree = "<group>"; };
 		0501E9C7267247E100DA361C /* ConvertGroupFromVKParseToRealmObjectOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertGroupFromVKParseToRealmObjectOperation.swift; sourceTree = "<group>"; };
 		0501E9C926724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGroupRealmObjDataToRealmOperation.swift; sourceTree = "<group>"; };
+		0513159226902E6100F9DAA2 /* PhotoAlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumModel.swift; sourceTree = "<group>"; };
+		0513159426902F3800F9DAA2 /* PhotoAlbumItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumItem.swift; sourceTree = "<group>"; };
+		051315982690345C00F9DAA2 /* PhotoAlbumsASCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumsASCollection.swift; sourceTree = "<group>"; };
 		051BE5632668C01300582590 /* HeaderNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderNewsCell.swift; sourceTree = "<group>"; };
 		051BE5642668C01300582590 /* HeaderNewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderNewsCell.xib; sourceTree = "<group>"; };
 		051BE5672668C02A00582590 /* TextNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextNewsCell.swift; sourceTree = "<group>"; };
@@ -186,6 +192,25 @@
 				0501E9C926724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift */,
 			);
 			path = Operation;
+			sourceTree = "<group>";
+		};
+		05131596269033ED00F9DAA2 /* notAdded_AlbumsCollection */ = {
+			isa = PBXGroup;
+			children = (
+				0513159226902E6100F9DAA2 /* PhotoAlbumModel.swift */,
+				051315982690345C00F9DAA2 /* PhotoAlbumsASCollection.swift */,
+			);
+			path = notAdded_AlbumsCollection;
+			sourceTree = "<group>";
+		};
+		05131597269033FC00F9DAA2 /* PhotoCollections */ = {
+			isa = PBXGroup;
+			children = (
+				05C32A6E268C7EDB007FD72E /* PhotoNode.swift */,
+				05C32A70268C7F61007FD72E /* PhotoModel.swift */,
+				05C32A6C268C6D74007FD72E /* FriendASPhotoCollection.swift */,
+			);
+			path = PhotoCollections;
 			sourceTree = "<group>";
 		};
 		051BE5622668BFE800582590 /* Cells */ = {
@@ -435,6 +460,7 @@
 				0538E77925E7A6AB00FA631D /* ResponseUsers.swift */,
 				05D774A225E6798900FA5CA5 /* ResponseGroups.swift */,
 				057E1492263012BB00569460 /* ResponseUserPhotos.swift */,
+				0513159426902F3800F9DAA2 /* PhotoAlbumItem.swift */,
 				056A99612604EF2A0069E1C5 /* ResponseNews.swift */,
 			);
 			path = Response;
@@ -451,9 +477,8 @@
 		05C32A72268C839A007FD72E /* ASDK */ = {
 			isa = PBXGroup;
 			children = (
-				05C32A6E268C7EDB007FD72E /* PhotoNode.swift */,
-				05C32A70268C7F61007FD72E /* PhotoModel.swift */,
-				05C32A6C268C6D74007FD72E /* FriendASPhotoCollection.swift */,
+				05131597269033FC00F9DAA2 /* PhotoCollections */,
+				05131596269033ED00F9DAA2 /* notAdded_AlbumsCollection */,
 			);
 			path = ASDK;
 			sourceTree = "<group>";
@@ -643,7 +668,9 @@
 				05D774A325E6798900FA5CA5 /* ResponseGroups.swift in Sources */,
 				05C43D94265E6851003338E7 /* ProfileViewController.swift in Sources */,
 				0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */,
+				0513159326902E6100F9DAA2 /* PhotoAlbumModel.swift in Sources */,
 				051BE5732668C06700582590 /* PhotosNewsCell.swift in Sources */,
+				0513159526902F3800F9DAA2 /* PhotoAlbumItem.swift in Sources */,
 				0501E9C02672306000DA361C /* AsyncOperation.swift in Sources */,
 				0598BD20268DD32D00F3CDE9 /* extUIView.swift in Sources */,
 				0501E9C426723BDB00DA361C /* GetGroupDataFromVKOperation.swift in Sources */,
@@ -673,6 +700,7 @@
 				0501E9C62672432B00DA361C /* ParseGroupDataFromVKOperation.swift in Sources */,
 				0583B531264E72470049FB58 /* LoginToFirebaseViewController.swift in Sources */,
 				0542ADBE25EE47CB003557DA /* AvatarView.swift in Sources */,
+				051315992690345C00F9DAA2 /* PhotoAlbumsASCollection.swift in Sources */,
 				0546BA1626037D7000CC57DF /* NewsVC.swift in Sources */,
 				059F65362636E2720062CC36 /* UserRealmObject.swift in Sources */,
 				056A99622604EF2A0069E1C5 /* ResponseNews.swift in Sources */,

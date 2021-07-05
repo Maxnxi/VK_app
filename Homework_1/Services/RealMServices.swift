@@ -105,22 +105,22 @@ class RealMServices {
                         view.tableView.reloadData()
                     }
                 case .update(let groups, let deletions, let insertions, let modifications):
-                    DispatchQueue.main.async {
-                        view.tableView.beginUpdates()
-                        view.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                             with: .automatic)
-                        view.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
-                                             with: .automatic)
-                        view.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                             with: .automatic)
-                        view.tableView.endUpdates()
-                    }
-                    print("update friends - done")
-//                    view.myGroups = Array(groups)
-//                    view.sortGroups()
 //                    DispatchQueue.main.async {
-//                        view.tableView.reloadData()
+//                        view.tableView.beginUpdates()
+//                        view.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+//                                             with: .automatic)
+//                        view.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+//                                             with: .automatic)
+//                        view.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+//                                             with: .automatic)
+//                        view.tableView.endUpdates()
 //                    }
+                    print("update friends - done")
+                    view.myGroups = Array(groups)
+                    view.sortGroups()
+                    DispatchQueue.main.async {
+                        view.tableView.reloadData()
+                    }
                 case .error(let error):
                     print(error)
                 }

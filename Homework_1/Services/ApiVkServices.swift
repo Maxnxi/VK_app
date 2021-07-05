@@ -188,40 +188,7 @@ class ApiVkServices {
 //        }
 //    }
     
-    //MARK: -> Запрос к VK серверу "photos.getAll"
-    func getUserPhotos(userId: Int, accessToken: String, completion: @escaping(_ photos: [PhotoModel]) ->()) {
-        let path = "photos.getAll"
-        let parameters: Parameters = [
-            "owner_id": userId,
-            "access_token": accessToken,
-            "no_service_albums": 0,
-            "count": 100,
-            "v": version,
-            "extended": 1,
-            "photo_sizes": 1
-        ]
-        let url = baseUrl + path
-        
-        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
-            guard let data = response.value else {return}
-                                   
-            do {
-                let photos = try JSONDecoder().decode( ResponseUserPhotos.self, from: data).response.items
-                
-                var photosForNode: [PhotoModel] = []
-                
-                for element in photos {
-                    guard let photo = PhotoModel(object: element) else { return }
-                    photosForNode.append(photo)
-                }
-                if photosForNode.count == photos.count {
-                    completion(photosForNode)
-                }
-            } catch {
-                debugPrint("error #3", error)
-            }
-        }
-    }
+   
     
     //MARK: -> Logout from VK
     
@@ -326,5 +293,103 @@ class ApiVkServices {
 //        }
 //        task.resume()
 //    }
+ 
+    
+    //MARK: -> Запрос к VK серверу Photos
+    
+    //"photos.getAll"
+    func getUserPhotos(userId: Int, accessToken: String, offSet:Int, completion: @escaping(_ photos: [PhotoModel], _ newOffSet: Int) ->()) {
+        let path = "photos.getAll"
+        let parameters: Parameters = [
+            "owner_id": userId,
+            "access_token": accessToken,
+            "no_service_albums": 0,
+            "count": 20,
+            "offset": offSet,
+            "v": version,
+            "extended": 1,
+            "photo_sizes": 1
+        ]
+        let url = baseUrl + path
+        
+        AF.request(url, method: .get, parameters: parameters).responseData { (response) in
+            print("request is - ", response.request)
+            guard let data = response.value else {return}
+                                   
+            do {
+                let rspns = try JSONDecoder().decode( ResponseUserPhotos.self, from: data).response
+                
+                
+                let photos = rspns.items
+                let newOffSet = rspns.count
+                var photosForNode: [PhotoModel] = []
+                
+                for element in photos {
+                    guard let photo = PhotoModel(object: element) else { return }
+                    photosForNode.append(photo)
+                }
+                if photosForNode.count == photos.count {
+                    completion(photosForNode, newOffSet)
+                }
+            } catch {
+                debugPrint("error #3", error)
+            }
+        }
+    }
+    
+    //photos.getAlbums - список Альбомов
+    func getPhotosGetAlbumsUrl(vkUser: String) -> Promise<URL> {
+        urlConstructor.path = "/method/photos.getAlbums"
+        urlConstructor.queryItems = [
+            URLQueryItem(name: "owner_id", value: vkUser),
+            URLQueryItem(name: "need_system", value: "0"),
+            URLQueryItem(name: "need_covers", value: "1"),
+            URLQueryItem(name: "count", value: "20"),
+            URLQueryItem(name: "access_token", value: Session.shared.token),
+            URLQueryItem(name: "v", value: self.version),
+        ]
+        return Promise { resolver in
+            guard let url = urlConstructor.url else {
+                resolver.reject(AppError.notCorrectUrl)
+                return
+            }
+            resolver.fulfill(url)
+        }
+    }
+    
+    func getPhotosGetAlbumsData(_ url: URL) -> Promise<Data> {
+        return Promise { resolver in
+            session.dataTask(with: url) { (data, response, error) in
+                guard let data = data else {
+                    resolver.reject(AppError.errorTask)
+                    return
+                }
+                resolver.fulfill(data)
+            }.resume()
+        }
+    }
+    
+    func getPhotosGetAlbumsParsedData(_ data: Data) -> Promise<ResponsePhotoAlbumItem> {
+        return Promise { resolver in
+            do {
+                let response = try JSONDecoder().decode(WelcomePhotoAlbum.self, from: data).response
+                resolver.fulfill(response)
+            } catch {
+                resolver.reject(AppError.failedtoDecode)
+            }
+        }
+    }
+    
+    func getPhotosGetAlbumFinalData(_ items: ResponsePhotoAlbumItem) -> Promise<[PhotoAlbumModel]> {
+        return Promise<[PhotoAlbumModel]> { resolver in
+            let albums = items.items
+            resolver.fulfill(albums)
+        }
+    }
+    
+    
+    
+    //photos.get - фотографии в одном Альбоме
+    
     
 }

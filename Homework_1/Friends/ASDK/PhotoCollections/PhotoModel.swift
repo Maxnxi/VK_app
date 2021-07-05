@@ -15,6 +15,7 @@ protocol ImageNodeRepresentable {
 
 class PhotoModel: ImageNodeRepresentable {
     let id: Int?
+    let albumId: Int?
     let date: Date?
     let width: Int
     let height: Int
@@ -24,6 +25,7 @@ class PhotoModel: ImageNodeRepresentable {
     
     init?(object: UserPhoto){
         self.id = object.id
+        self.albumId = object.albumID
         self.date = Date(timeIntervalSince1970: TimeInterval(object.date ))
         guard let xSize = object.sizes.first(where: {$0.type == "x"}),
               let url = URL(string: xSize.url) else { return nil }

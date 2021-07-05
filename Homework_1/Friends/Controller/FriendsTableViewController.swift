@@ -40,27 +40,13 @@ class FriendsTableViewController: UIViewController {
     private var sections: [String] = [] {
         willSet {
             if newValue.count > 0 {
-            //var firstLetters:[Character] = []
             let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-            firstLetters = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
-            //return firstLetters
+            firstLetters = Array(Set(prepareToarrChar)).sorted()
             }
         }
     }
     private var cachedSectionsItems: [String:[UserRealMObject]] = [:]
-    
     private var firstLetters = [Character]()
-//        = {
-//
-////            friendsDict.keys.sorted()
-//
-//                var firstLetters:[Character] = []
-//                let prepareToarrChar = sections.map { Character( String($0.uppercased().prefix(1))) }
-//                firstLetters = Array(Set(prepareToarrChar)).sorted() //friendsDict.keys.sorted()
-//                return firstLetters
-//    }()
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +71,6 @@ class FriendsTableViewController: UIViewController {
         
         //cloud animation
         startCloudAnimation()
-        
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -139,10 +124,8 @@ class FriendsTableViewController: UIViewController {
                 print("\\ Получен список друзей - done")
                 // save friends to realm
                 self.realMServices.saveFriendsData(friends)
-             
             }.ensure {
                 //TO DO animating
-              
             }.catch { error in
                 print(error)
             }
@@ -240,12 +223,15 @@ extension FriendsTableViewController: UITableViewDelegate, UITableViewDataSource
         //let storyboard = UIStoryboard(name: "Main", bundle: nil)
         //guard let view = storyboard.instantiateViewController(withIdentifier: FriendASPhotoCollectionVC.identifier) as? FriendASPhotoCollectionVC else {return}
         let newView = FriendASPhotoCollectionVC()
+        let friend = getFriend(for: indexPath)
+//        DispatchQueue.main.async {
+            newView.friend = friend
+            //print(view.friend?.firstName)
+            newView.modalPresentationStyle = .fullScreen
+            
+            self.navigationController?.pushViewController(newView, animated: true)
+//        }
         
-        newView.friend = getFriend(for: indexPath)
-        //print(view.friend?.firstName)
-        newView.modalPresentationStyle = .fullScreen
-        
-        self.navigationController?.pushViewController(newView, animated: true)
     }
 }
 

@@ -21,10 +21,21 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     var friend: UserRealMObject?
     //сетевой запрос
     let apiVkServices = ApiVkServices()
+    
+    //var noPhotoLbl = UILabel()
+//        = {
+//        var phtLbl = UILabel()
+//        phtLbl.text = ""
+//        return phtLbl
+//    }()
     //массив хранящий данные
-    var totalPhotos: [PhotoModel] = []
+    var totalPhotos: [PhotoModel] = [] {
+        didSet {
+            collectionNode.reloadData()
+        }
+    }
     //дозагрузка данных - infinite scrolling
-    var nextFrom: String?
+    var offSet = 0
     
     
     override init() {
@@ -35,6 +46,8 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         self.collectionNode.dataSource = self
         self.collectionNode.allowsSelection = false
         
+        //self.noPhotoLbl.text = ""
+        
         flowLayout.minimumInteritemSpacing = 1
           flowLayout.minimumLineSpacing = 1
         flowLayout.estimatedItemSize = CGSize(width: collectionNode.frame.size.width / 2, height: collectionNode.frame.size.width/2)
@@ -44,31 +57,42 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
         fatalError("init(coder:) has not been implemented")
     }
     
+//    func setNoPhotoLbl() {
+//        self.view.addSubview(noPhotoLbl)
+//        self.view.bringSubviewToFront(noPhotoLbl)
+//        noPhotoLbl.text = "No photos found"
+//        noPhotoLbl.textColor = .black
+//        noPhotoLbl.sizeThatFits(CGSize(width: 250, height: 50))
+//        noPhotoLbl.isHidden = true
+//        noPhotoLbl.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            noPhotoLbl.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+//            noPhotoLbl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+//        ])
+//
+//    }
+    
     override func viewDidLoad() {
       super.viewDidLoad()
       collectionNode.view.allowsSelection = true
       collectionNode.view.backgroundColor = .white
-        fetchDataPhotosFromVkServer()
+        
+    let dataFromServer = fetchDataPhotosFromVkServer(offSetIs: offSet)
+        guard let photos = dataFromServer.photos else {
+            return
+        }
+//        if photos.count == 0 {
+//            setNoPhotoLbl()
+//        }
+        self.totalPhotos = photos
+        self.offSet = dataFromServer.offSet
+        self.collectionNode.reloadData()
     }
 
     //настройка коллекции
     func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
         return totalPhotos.count
     }
-    
-//    func collectionNode(_ collectionNode: ASCollectionNode, nodeForItemAt indexPath: IndexPath) -> ASCellNode {
-//
-//        guard totalPhotos.count > indexPath.row else { return ASCellNode() }
-//
-//        let photo = totalPhotos[indexPath.row]
-//            let cellNode = { () -> ASCellNode in
-//                let node = PhotoNode(resource: photo)
-//                return node
-//            }
-//        return cellNode() // вопрос ()
-//
-//    }
-    
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         guard totalPhotos.count > indexPath.row else { return { ASCellNode() } }
@@ -81,28 +105,38 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
-        let width = CGFloat(UIScreen.main.bounds.size.width/2.5) //)(collectionNode.frame.width / 2) - 10
+        let width = CGFloat(UIScreen.main.bounds.size.width/3.5) //)(collectionNode.frame.width / 2) - 10
         let min = CGSize(width: width, height: width)
         let max = CGSize(width: width, height: CGFloat(totalPhotos[indexPath.row].aspectRatio*width))
         return ASSizeRange(min: min, max: max)
-    }
-     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.frame.width / 2) - 10
-        return CGSize(width: width, height: width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
     }
     
 //    func shouldBatchFetch(for collectionNode: ASCollectionNode) -> Bool {
 //        return true
 //    }
+    
+//    func collectionNode(_ collectionNode: ASCollectionNode, willBeginBatchFetchWith context: ASBatchContext) {
+//        let dataFromServer = fetchDataPhotosFromVkServer(offSetIs: offSet)
+//        guard let photos = dataFromServer.photos else { return }
+//        self.offSet = dataFromServer.offSet
+//
+//        //let indexSet = IndexSet(integersIn: self.totalPhotos.count..<self.totalPhotos.count+photos.count)
+//
+//        //let indexPth = IndexPath(item: self.totalPhotos.count, section: 1)
+//
+//        var indexPathArr = [IndexPath]()
+//        for i in self.totalPhotos.count..<self.totalPhotos.count+photos.count {
+//            let indexPth = IndexPath(item: i, section: 1)
+//            indexPathArr.append(indexPth)
+//        }
+//
+//        self.totalPhotos.append(contentsOf: photos)
+//        self.collectionNode.insertItems(at: indexPathArr)
+//
+////        collectionNode.insertSubnode(<#T##subnode: ASDisplayNode##ASDisplayNode#>, aboveSubnode: <#T##ASDisplayNode#>)
+//    }
+    
+    
     
     // переход на следующий экран при выборе фото
     func collectionNode(_ collectionNode: ASCollectionNode, didSelectItemAt indexPath: IndexPath) {
@@ -113,17 +147,20 @@ class FriendASPhotoCollectionVC: ASDKViewController<ASDisplayNode>, ASCollection
     }
     
     // Загрузка данных с сервера
-    func fetchDataPhotosFromVkServer() {
+    func fetchDataPhotosFromVkServer(offSetIs: Int) -> (photos:[PhotoModel]?, offSet: Int) {
         guard let userId = friend?.id,
               let accessToken = Session.shared.token else {
             print("Error while getting friendId in - FriendPhotoCollectionViewController ")
-            return
+            return (nil, 0)
         }
-            apiVkServices.getUserPhotos(userId: userId, accessToken: accessToken) { photos in
-                print("Doznloaded photos - done")
-                self.totalPhotos = photos
-                self.collectionNode.reloadData()
+        var photosTmp = [PhotoModel]()
+        var newOffSet = 0
+            apiVkServices.getUserPhotos(userId: userId, accessToken: accessToken, offSet: offSet) { photos, newOffset in
+                print("Downloaded photos - done", photos.count)
+                photosTmp = photos
+                newOffSet = newOffset
             }
-        }
+    return (photosTmp, newOffSet)
+    }
     
 }
