@@ -49,7 +49,7 @@ class CustomPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     withRelativeStartTime: 1/3,
                     relativeDuration: 1/3,
                     animations: {
-                        let rotation = CATransform3DGetAffineTransform(CATransform3DRotate(CATransform3DIdentity, -CGFloat.pi/2, 0, 1, 0))
+                        _ = CATransform3DGetAffineTransform(CATransform3DRotate(CATransform3DIdentity, -CGFloat.pi/2, 0, 1, 0))
                     })
                 // 3
                 UIView.addKeyframe(

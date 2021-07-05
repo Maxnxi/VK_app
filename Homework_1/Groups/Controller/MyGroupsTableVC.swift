@@ -26,12 +26,12 @@ class MyGroupsTableVC: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        startCloudAnimation(time: 3) //cloud animation
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         realMServices.startGroupsRealmObserver(view: self)  //realm observer
-        startCloudAnimation(time: 3) //cloud animation
         configureGroupsTableView()
     }
     

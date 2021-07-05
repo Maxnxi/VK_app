@@ -19,12 +19,10 @@ class TextNewsCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setCell()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setCell()
     }
     
     override func awakeFromNib() {
@@ -59,7 +57,7 @@ class TextNewsCell: UITableViewCell {
     func configureCell(newsText: String) {
         self.textNewsLbl.text = newsText
     }
-
+    
     @IBAction func snowMoreLessBtnWasPressed(_ sender: Any) {
         if showStatusMore == false {
             textNewsLbl.numberOfLines = 0
@@ -73,4 +71,5 @@ class TextNewsCell: UITableViewCell {
             self.setNeedsDisplay()
         }
     }
+    
 }

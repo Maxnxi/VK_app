@@ -45,14 +45,18 @@ class FriendsTableViewController: UIViewController {
             return
         }
         self.vkUserId = userId
+        //cloud animation
+        startCloudAnimation()
+        myFriends = realMServices.loadDataFriendsFromRealm()
+        setupDataSource()
+        tableView.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //  realm observer
         realMServices.startFriendsRealmObserver(view: self)
-        //cloud animation
-        startCloudAnimation()
+        
         //настройка
         configureFriendsTableView()
         //adding user to firebase
@@ -69,8 +73,6 @@ class FriendsTableViewController: UIViewController {
     func configureFriendsTableView() {
         //загрузка друзей с сервера vk.com
         fetchDataFriendsFromVkServer()
-        //Загрузка списка друзей из Realm (рефакторинг)
-        //myFriends = realMServices.loadDataFriendsFromRealm()
     }
     
     //сортировка друзей
