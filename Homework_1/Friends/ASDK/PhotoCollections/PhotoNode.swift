@@ -21,6 +21,7 @@ class PhotoNode: ASCellNode {
     func setupSubnodes() {
         photoImageNode.url = resource.url
         photoImageNode.contentMode = .scaleAspectFill
+        photoImageNode.clipsToBounds = true
         photoImageNode.shouldRenderProgressImages = true
         addSubnode(photoImageNode)
     }
@@ -28,6 +29,12 @@ class PhotoNode: ASCellNode {
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let width = constrainedSize.max.width // уточнить размер
         photoImageNode.style.preferredSize = CGSize(width: width, height: width*resource.aspectRatio)
-        return ASWrapperLayoutSpec(layoutElement: photoImageNode)
+        
+        let insets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        
+        let phtwithinset = ASInsetLayoutSpec(insets: insets, child: photoImageNode)
+        
+        
+        return ASWrapperLayoutSpec(layoutElement: phtwithinset)
     }
 }
