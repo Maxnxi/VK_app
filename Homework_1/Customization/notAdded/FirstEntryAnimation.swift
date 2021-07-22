@@ -25,15 +25,18 @@ class FirstEntryAnimationView: UIView {
         let rect = CGRect(x: 0, y: 0, width: 20, height: 20)
 
         let viewRect1 = UIView(frame: rect)
-        viewRect1.backgroundColor = setRandomColor()
+        viewRect1.backgroundColor = UIColor.randomClr
+            //setRandomColor()
         viewRect1.layer.cornerRadius = viewRect1.frame.height/2
 
         let viewRect2 = UIView(frame: rect)
-        viewRect2.backgroundColor = setRandomColor()
+        viewRect2.backgroundColor = UIColor.randomClr
+        //setRandomColor()
         viewRect2.layer.cornerRadius = viewRect1.frame.height/2
 
         let viewRect3 = UIView(frame: rect)
-        viewRect3.backgroundColor = setRandomColor()
+        viewRect3.backgroundColor = UIColor.randomClr
+        //setRandomColor()
         viewRect3.layer.cornerRadius = viewRect1.frame.height/2
 
         view.addSubview(viewRect1)
@@ -67,10 +70,10 @@ class FirstEntryAnimationView: UIView {
     }
 
     //random color
-    func setRandomColor() -> UIColor {
-        let randomRedColor =  Double.random(in: 0...1)
-        let randomGreenColor =  Double.random(in: 0...1)
-        let randomBlueColor =  Double.random(in: 0...1)
-        return UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
-        }
+//    func setRandomColor() -> UIColor {
+//        let randomRedColor =  Double.random(in: 0...1)
+//        let randomGreenColor =  Double.random(in: 0...1)
+//        let randomBlueColor =  Double.random(in: 0...1)
+//        return UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
+//        }
 }

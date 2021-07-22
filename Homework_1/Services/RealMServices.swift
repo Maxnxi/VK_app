@@ -82,26 +82,26 @@ class RealMServices {
         do {
         let realm = try Realm()
         let groupsFromRealM = realm.objects(GroupsRealMObject.self)
-            view.token = groupsFromRealM.observe({ (changes: RealmCollectionChange) in
-                switch changes {
-                case .initial(let groups):
-                    print("initial groups - done")
-                    view.myGroups = Array(groups)
-                    view.sortGroups()
-                    DispatchQueue.main.async {
-                        view.tableView.reloadData()
-                    }
-                case .update(let groups, _, _, _):
-                    print("update groups - done")
-                    view.myGroups = Array(groups)
-                    view.sortGroups()
-                    DispatchQueue.main.async {
-                        view.tableView.reloadData()
-                    }
-                case .error(let error):
-                    print(error)
-                }
-            })
+//            view.token = groupsFromRealM.observe({ (changes: RealmCollectionChange) in
+//                switch changes {
+//                case .initial(let groups):
+//                    print("initial groups - done")
+//                    view.myGroups = Array(groups)
+//                    view.sortGroups()
+//                    DispatchQueue.main.async {
+//                        view.tableView.reloadData()
+//                    }
+//                case .update(let groups, _, _, _):
+//                    print("update groups - done")
+//                    view.myGroups = Array(groups)
+//                    view.sortGroups()
+//                    DispatchQueue.main.async {
+//                        view.tableView.reloadData()
+//                    }
+//                case .error(let error):
+//                    print(error)
+//                }
+//            })
         } catch {
             debugPrint(error.localizedDescription)
         }

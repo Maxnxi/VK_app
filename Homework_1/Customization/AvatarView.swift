@@ -12,7 +12,7 @@ import UIKit
 class AvatarView: UIView {
  
     @IBInspectable
-    var shadowColor : UIColor = .white {
+    var shadowColor : UIColor = UIColor.whiteClr {
         didSet{
             self.updateShadowColor()
         }
@@ -118,9 +118,9 @@ class AvatarView: UIView {
     
     func configureView(nameOfImage: String) {
         if nameOfImage.contains("light") {
-            self.layer.backgroundColor = UIColor.darkGray.cgColor
+            self.layer.backgroundColor = UIColor.darkGrayClr.cgColor
         } else {
-            self.layer.backgroundColor = UIColor.white.cgColor
+            self.layer.backgroundColor = UIColor.whiteClr.cgColor
         }
     }
     

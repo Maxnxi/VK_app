@@ -56,7 +56,7 @@ class LikeControlView: UIView {
     }
     
     func setupView() {
-        self.layer.backgroundColor = UIColor.lightGray.cgColor
+        self.layer.backgroundColor = UIColor.lightGrayClr.cgColor
         self.layer.opacity = 0.7
         self.layer.cornerRadius = 3
         
@@ -77,7 +77,7 @@ class LikeControlView: UIView {
         print(numOfLikeLbl.text)
         numOfLikeLbl.font = .boldSystemFont(ofSize: 14)
         numOfLikeLbl.textAlignment = .right
-        numOfLikeLbl.textColor = UIColor.darkGray
+        numOfLikeLbl.textColor = UIColor.lightGrayClr
         addSubview(numOfLikeLbl)
               
         let tap = UITapGestureRecognizer(target: self, action: #selector(likeControlTapped))
@@ -109,7 +109,7 @@ class LikeControlView: UIView {
             numOfLikeLbl.textColor = UIColor.red
             numOfLikes += 1
         } else {
-            numOfLikeLbl.textColor = UIColor.darkGray
+            numOfLikeLbl.textColor = UIColor.lightGrayClr
             numOfLikes -= 1
         }
     }

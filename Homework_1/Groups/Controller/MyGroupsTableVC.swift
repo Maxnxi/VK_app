@@ -16,52 +16,67 @@ class MyGroupsTableVC: UIViewController {
     
     private var communitesFirebase = [FirebaseCommunity]()
     private let ref = Database.database().reference(withPath: "Users")
-    private let apiVkService = ApiVkServices()
-    private let realMServices = RealMServices()
-    public var myGroups = [GroupsRealMObject]()
+    
+    private let groupAdapter = GroupAdapter()
+    private var groupsArray: [GroupVK] = []
+//    private let apiVkService = ApiVkServices()
+//    private let realMServices = RealMServices()
+    
+//    public var myGroups = [GroupsRealMObject]()
+    //insert adapter
+    
     //RealM Notifications
-    public var token: NotificationToken?
+    //public var token: NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         startCloudAnimation(time: 3) //cloud animation
+        
+        groupAdapter.getGroups { [weak self] groups in
+            guard let self = self else { return }
+            self.groupsArray = groups
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        realMServices.startGroupsRealmObserver(view: self)  //realm observer
+        //realMServices.startGroupsRealmObserver(view: self)  //realm observer
         configureGroupsTableView()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         // закрываем token Realm
         super.viewDidDisappear(animated)
-        token?.invalidate()
+       // token?.invalidate()
     }
     
     func configureGroupsTableView() {
-        fetchDataGroupsFromVkServer()
+        //fetchDataGroupsFromVkServer()
         refObserve()
     }
     
     // Загрузка данных с сервера (в RealM)
-    func fetchDataGroupsFromVkServer() {
-        guard let userId = Session.shared.userId,
-              let accessToken = Session.shared.token else {
-            print("error getting userId")
-            return
-        }
-        apiVkService.getUserGroups(userId: userId, accessToken: accessToken)
-            print("fetchDataGroupsFromServer - done")
-    }
+//    func fetchDataGroupsFromVkServer() {
+//        guard let userId = Session.shared.userId,
+//              let accessToken = Session.shared.token else {
+//            print("error getting userId")
+//            return
+//        }
+//        apiVkService.getUserGroups(userId: userId, accessToken: accessToken)
+//            print("fetchDataGroupsFromServer - done")
+//    }
     
     //сортировка
     func sortGroups() {
-        if !self.myGroups.isEmpty {
-            self.myGroups = self.myGroups.sorted(by: {
-                ($0.name.lowercased()) < ($1.name.lowercased())
+        if !self.groupsArray.isEmpty {
+            self.groupsArray = self.groupsArray.sorted(by: {
+                ($0.groupName.lowercased()) < ($1.groupName.lowercased())
             })
         }
     }
@@ -69,7 +84,7 @@ class MyGroupsTableVC: UIViewController {
     //кнопка delete на tableView
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            myGroups.remove(at: indexPath.row)
+            groupsArray.remove(at: indexPath.row)
         }
     }
     
@@ -100,13 +115,13 @@ class MyGroupsTableVC: UIViewController {
 extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myGroups.count
+        return groupsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "myGroupsCell", for: indexPath) as? MyGroupsCell {
             print("configure cell: ",indexPath.row)
-            cell.configureCell(group: myGroups[indexPath.row])
+            cell.configureCell(with: groupsArray[indexPath.row])
             return cell
         } else {
             print("сработал UITableViewCell()")

@@ -18,16 +18,17 @@ class LoadingAnimationView: UIView {
             //fatalError("init(coder:) has not been implemented")
         }
     
-    func setRandomColor() -> UIColor {
-        let randomRedColor =  Double.random(in: 0...1)
-        let randomGreenColor =  Double.random(in: 0...1)
-        let randomBlueColor =  Double.random(in: 0...1)
-        return UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
-        }
+//    func setRandomColor() -> UIColor {
+//        let randomRedColor =  Double.random(in: 0...1)
+//        let randomGreenColor =  Double.random(in: 0...1)
+//        let randomBlueColor =  Double.random(in: 0...1)
+//        return UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
+//        }
         
         override func draw(_ rect: CGRect) {
             let cloudLayer = CAShapeLayer()
-            cloudLayer.fillColor = setRandomColor().cgColor
+            cloudLayer.fillColor = UIColor.randomClr.cgColor
+            //setRandomColor().cgColor
             let cloudPath = UIBezierPath()
             cloudPath.move(to: CGPoint(x: 7.53, y: 25.5))
             cloudPath.addCurve(to: CGPoint(x: 20, y: 25.5),
@@ -54,7 +55,7 @@ class LoadingAnimationView: UIView {
                                controlPoint2: CGPoint(x: -0.1, y: 25.11))
             cloudPath.close()
             cloudLayer.path = cloudPath.cgPath
-            cloudLayer.strokeColor = setRandomColor().cgColor
+            cloudLayer.strokeColor = UIColor.randomClr.cgColor //setRandomColor().cgColor
             cloudLayer.lineWidth = 2.0
             cloudLayer.lineCap = .round
             cloudLayer.transform = CATransform3DMakeScale(4, 4, 1)

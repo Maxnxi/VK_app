@@ -15,7 +15,7 @@ class EntryViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private let publishSubject = PublishSubject<UIColor>()
-    private var appNameTextColor: UIColor = .white
+    private var appNameTextColor: UIColor = .whiteClr
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,10 +46,11 @@ class EntryViewController: UIViewController {
     }
     
     func changeAppNameTextColor() {
-        let randomRedColor =  Double.random(in: 0...1)
-        let randomGreenColor =  Double.random(in: 0...1)
-        let randomBlueColor =  Double.random(in: 0...1)
-        let newColor = UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
+//        let randomRedColor =  Double.random(in: 0...1)
+//        let randomGreenColor =  Double.random(in: 0...1)
+//        let randomBlueColor =  Double.random(in: 0...1)
+        let newColor = UIColor.randomClr
+            //UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
         publishSubject.onNext(newColor)
         }
     

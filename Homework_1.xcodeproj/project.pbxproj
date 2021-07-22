@@ -72,6 +72,9 @@
 		05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774A825E67D3200FA5CA5 /* GlobalGroupsTableVC.swift */; };
 		05D774AF25E6842A00FA5CA5 /* RoundedImgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */; };
 		05DEF3B226807D280066D10C /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DEF3B126807D280066D10C /* ImageService.swift */; };
+		05E6F1C526A866E8007BD786 /* ExtUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6F1C426A866E8007BD786 /* ExtUIColor.swift */; };
+		05E6F1C726A86BF6007BD786 /* GroupAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6F1C626A86BF6007BD786 /* GroupAdapter.swift */; };
+		05E6F1C926A8B6D2007BD786 /* GroupVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6F1C826A8B6D2007BD786 /* GroupVK.swift */; };
 		05ED4F24261EDB7800FB097A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ED4F23261EDB7800FB097A /* Session.swift */; };
 		05F3EADF268F076D00FB7FAF /* LetterControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F3EADE268F076D00FB7FAF /* LetterControl.swift */; };
 		DBCA1B9668CEE3D65FE8DD99 /* Pods_Homework_1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A46A77B7B13E0F3FE10539A7 /* Pods_Homework_1.framework */; };
@@ -146,6 +149,9 @@
 		05D774A825E67D3200FA5CA5 /* GlobalGroupsTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalGroupsTableVC.swift; sourceTree = "<group>"; };
 		05D774AE25E6842A00FA5CA5 /* RoundedImgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImgView.swift; sourceTree = "<group>"; };
 		05DEF3B126807D280066D10C /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		05E6F1C426A866E8007BD786 /* ExtUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtUIColor.swift; sourceTree = "<group>"; };
+		05E6F1C626A86BF6007BD786 /* GroupAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAdapter.swift; sourceTree = "<group>"; };
+		05E6F1C826A8B6D2007BD786 /* GroupVK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupVK.swift; sourceTree = "<group>"; };
 		05ED4F23261EDB7800FB097A /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		05F3EADE268F076D00FB7FAF /* LetterControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterControl.swift; sourceTree = "<group>"; };
 		51A7E74BB988C75AC851BB5F /* Pods-Homework_1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Homework_1.debug.xcconfig"; path = "Target Support Files/Pods-Homework_1/Pods-Homework_1.debug.xcconfig"; sourceTree = "<group>"; };
@@ -276,6 +282,7 @@
 		057D76F525DC363D00A9E18B /* Homework_1 */ = {
 			isa = PBXGroup;
 			children = (
+				05E6F1C026A8668E007BD786 /* Pattern */,
 				0501E9C1267230E600DA361C /* NetworkOperation */,
 				05920FAF26311B1700B54031 /* App */,
 				05920FB326311E1600B54031 /* Services */,
@@ -524,6 +531,40 @@
 			path = OptimizationProfiles;
 			sourceTree = "<group>";
 		};
+		05E6F1C026A8668E007BD786 /* Pattern */ = {
+			isa = PBXGroup;
+			children = (
+				05E6F1C326A866C3007BD786 /* simpleFactory */,
+				05E6F1C226A866AF007BD786 /* adapter */,
+				05E6F1C126A866A8007BD786 /* flyweight */,
+			);
+			path = Pattern;
+			sourceTree = "<group>";
+		};
+		05E6F1C126A866A8007BD786 /* flyweight */ = {
+			isa = PBXGroup;
+			children = (
+				05E6F1C426A866E8007BD786 /* ExtUIColor.swift */,
+			);
+			path = flyweight;
+			sourceTree = "<group>";
+		};
+		05E6F1C226A866AF007BD786 /* adapter */ = {
+			isa = PBXGroup;
+			children = (
+				05E6F1C626A86BF6007BD786 /* GroupAdapter.swift */,
+				05E6F1C826A8B6D2007BD786 /* GroupVK.swift */,
+			);
+			path = adapter;
+			sourceTree = "<group>";
+		};
+		05E6F1C326A866C3007BD786 /* simpleFactory */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = simpleFactory;
+			sourceTree = "<group>";
+		};
 		05ED4F22261EDAFC00FB097A /* waitingToBeDone */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,6 +725,7 @@
 				05D774A325E6798900FA5CA5 /* ResponseGroups.swift in Sources */,
 				05C43D94265E6851003338E7 /* ProfileViewController.swift in Sources */,
 				0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */,
+				05E6F1C526A866E8007BD786 /* ExtUIColor.swift in Sources */,
 				0513159326902E6100F9DAA2 /* PhotoAlbumModel.swift in Sources */,
 				051BE5732668C06700582590 /* PhotosNewsCell.swift in Sources */,
 				0513159526902F3800F9DAA2 /* PhotoAlbumItem.swift in Sources */,
@@ -694,6 +736,7 @@
 				0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */,
 				057E1493263012BC00569460 /* ResponseUserPhotos.swift in Sources */,
 				05D774A025E678AF00FA5CA5 /* MyGroupsCell.swift in Sources */,
+				05E6F1C926A8B6D2007BD786 /* GroupVK.swift in Sources */,
 				0598BD25268DF96A00F3CDE9 /* FirebaseCommunity.swift in Sources */,
 				05C9D1922624BB66002652BF /* LoginVKwebVC.swift in Sources */,
 				0597AF6C25E3CB710014BF41 /* FriendsTableCell.swift in Sources */,
@@ -727,6 +770,7 @@
 				051E82A42678C87E00EF827C /* FirebaseModel.swift in Sources */,
 				0501E9CA26724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift in Sources */,
 				05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */,
+				05E6F1C726A86BF6007BD786 /* GroupAdapter.swift in Sources */,
 				0557F00C263C166000037E4C /* PhotoRealMObject.swift in Sources */,
 				05D774A625E67D1900FA5CA5 /* MyGroupsTableVC.swift in Sources */,
 				05C32A71268C7F61007FD72E /* PhotoModel.swift in Sources */,
