@@ -17,8 +17,14 @@ class MyGroupsTableVC: UIViewController {
     private var communitesFirebase = [FirebaseCommunity]()
     private let ref = Database.database().reference(withPath: "Users")
     
+    //Adapter
     private let groupAdapter = GroupAdapter()
     private var groupsArray: [GroupVK] = []
+    
+    //Factory
+    private let viewModelFacroy = GroupViewModelFactory()
+    private var viewModels: [GroupViewModel] = []
+    
 //    private let apiVkService = ApiVkServices()
 //    private let realMServices = RealMServices()
     
@@ -37,6 +43,9 @@ class MyGroupsTableVC: UIViewController {
         groupAdapter.getGroups { [weak self] groups in
             guard let self = self else { return }
             self.groupsArray = groups
+            
+            self.viewModels = self.viewModelFacroy.constructViewModel(from: groups)
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -121,7 +130,11 @@ extension MyGroupsTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "myGroupsCell", for: indexPath) as? MyGroupsCell {
             print("configure cell: ",indexPath.row)
-            cell.configureCell(with: groupsArray[indexPath.row])
+            
+            //cell.configureCell(with: groupsArray[indexPath.row])
+            
+            //Factory
+            cell.configureCell(with: viewModels[indexPath.row])
             return cell
         } else {
             print("сработал UITableViewCell()")

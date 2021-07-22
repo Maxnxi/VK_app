@@ -47,6 +47,8 @@
 		0581821C2614A61B00542167 /* CustomPushAnimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0581821B2614A61B00542167 /* CustomPushAnimate.swift */; };
 		0581821F2614A63100542167 /* CustomPopAnimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0581821E2614A63100542167 /* CustomPopAnimate.swift */; };
 		0583B531264E72470049FB58 /* LoginToFirebaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */; };
+		058BEA1026A9668E00E59B34 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058BEA0F26A9668E00E59B34 /* GroupViewModel.swift */; };
+		058BEA1226A9679600E59B34 /* GroupViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058BEA1126A9679600E59B34 /* GroupViewModelFactory.swift */; };
 		05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05920FB426311E2E00B54031 /* ApiVkServices.swift */; };
 		0597AF6525E3B8AB0014BF41 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */; };
 		0597AF6825E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */; };
@@ -123,6 +125,8 @@
 		0581821B2614A61B00542167 /* CustomPushAnimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPushAnimate.swift; sourceTree = "<group>"; };
 		0581821E2614A63100542167 /* CustomPopAnimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopAnimate.swift; sourceTree = "<group>"; };
 		0583B530264E72470049FB58 /* LoginToFirebaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToFirebaseViewController.swift; sourceTree = "<group>"; };
+		058BEA0F26A9668E00E59B34 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
+		058BEA1126A9679600E59B34 /* GroupViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModelFactory.swift; sourceTree = "<group>"; };
 		05920FB426311E2E00B54031 /* ApiVkServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiVkServices.swift; sourceTree = "<group>"; };
 		0597AF6425E3B8AB0014BF41 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		0597AF6725E3B8DE0014BF41 /* exFriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exFriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
@@ -561,6 +565,8 @@
 		05E6F1C326A866C3007BD786 /* simpleFactory */ = {
 			isa = PBXGroup;
 			children = (
+				058BEA0F26A9668E00E59B34 /* GroupViewModel.swift */,
+				058BEA1126A9679600E59B34 /* GroupViewModelFactory.swift */,
 			);
 			path = simpleFactory;
 			sourceTree = "<group>";
@@ -753,6 +759,7 @@
 				054AAEA925FBE53D00E73DD9 /* UIImageViewExtension.swift in Sources */,
 				05B59C47266E199F00A838D5 /* HeaderNewsView.swift in Sources */,
 				05B59C49266E1BBA00A838D5 /* NewsRealmObject.swift in Sources */,
+				058BEA1026A9668E00E59B34 /* GroupViewModel.swift in Sources */,
 				05C32A6D268C6D74007FD72E /* FriendASPhotoCollection.swift in Sources */,
 				05D774A925E67D3200FA5CA5 /* GlobalGroupsTableVC.swift in Sources */,
 				057D76F725DC363D00A9E18B /* AppDelegate.swift in Sources */,
@@ -768,6 +775,7 @@
 				05C32A6F268C7EDB007FD72E /* PhotoNode.swift in Sources */,
 				059F65332636E2320062CC36 /* RealMServices.swift in Sources */,
 				051E82A42678C87E00EF827C /* FirebaseModel.swift in Sources */,
+				058BEA1226A9679600E59B34 /* GroupViewModelFactory.swift in Sources */,
 				0501E9CA26724AB200DA361C /* SaveGroupRealmObjDataToRealmOperation.swift in Sources */,
 				05920FB526311E2E00B54031 /* ApiVkServices.swift in Sources */,
 				05E6F1C726A86BF6007BD786 /* GroupAdapter.swift in Sources */,

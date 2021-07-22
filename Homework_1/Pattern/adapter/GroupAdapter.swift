@@ -17,7 +17,7 @@ class GroupAdapter {
               let realmGroup = realm.objects(GroupsRealMObject.self)
               
         //(ofType: GroupsRealMObject.self, forPrimaryKey: id.self)
-        realmNotificationToken.invalidate()// .stop
+        //realmNotificationToken.invalidate()// .stop
         
         let token = realmGroup.observe { [weak self] (changes) in
             switch changes {
