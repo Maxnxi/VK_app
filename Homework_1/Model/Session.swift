@@ -10,10 +10,10 @@ import Foundation
 final class Session {
     
     static let shared = Session()
-        
+    
     var token: String?
     var userId: String?
+    var authorized: Bool = false
     
     private init() {}
-    
 }

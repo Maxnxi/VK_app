@@ -15,14 +15,14 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
             wkWebView.navigationDelegate = self
         }
     }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        startCloudAnimation()       //cloud animation
         configureWebView()
     }
     
-    func configureWebView(){
+    func configureWebView() {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "oauth.vk.com"
@@ -44,12 +44,20 @@ class LoginVKwebVC: UIViewController, WKNavigationDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    //cloud animation
+    func startCloudAnimation() {
+        let coverView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        view.addSubview(coverView)
+        coverView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        coverView.alpha = 0.6
+        UIView.startLoadingCloudAnimation(view: coverView, time: 2)
+    }
 }
 
-
 extension LoginVKwebVC {
-    
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        
+        startCloudAnimation()
         
         guard let url = navigationResponse.response.url,
               url.path == "/blank.html",
@@ -77,7 +85,7 @@ extension LoginVKwebVC {
         guard let userId = params["user_id"] else {return}
         Session.shared.userId = userId
         print("\n UserId saved to singleton - done : \(String(describing: Session.shared.userId)) \n")
-        
+        Session.shared.authorized = true
         
         //loading UI
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -87,7 +95,5 @@ extension LoginVKwebVC {
         print("You are Logged in.")
         decisionHandler(.cancel)
     }
-    
-    
 }
     

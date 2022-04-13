@@ -13,16 +13,19 @@ class EntryViewController: UIViewController {
 
     @IBOutlet weak var appNameLbl: UILabel!
     
-    let disposeBag = DisposeBag()
-    let publishSubject = PublishSubject<UIColor>()
-    var appNameTextColor: UIColor = .white
+    private let disposeBag = DisposeBag()
+    private let publishSubject = PublishSubject<UIColor>()
+    private var appNameTextColor: UIColor = .whiteClr
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         subscribeToColorOfAppNameLbl()
         setupView()
         addTapToAppNameLbl()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //startDotsAnimation(time: 6) //animation
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -33,7 +36,7 @@ class EntryViewController: UIViewController {
     //MARK: -> Настройка цвета и интерактивности appNameLbl
     func subscribeToColorOfAppNameLbl(){
         publishSubject.subscribe { (color) in
-             print("label Color is: ", color.element )
+            print("label Color is: ", color.element ?? 0 )
              self.appNameLbl.textColor = color.element
          }.disposed(by: disposeBag)
     }
@@ -43,10 +46,11 @@ class EntryViewController: UIViewController {
     }
     
     func changeAppNameTextColor() {
-        let randomRedColor =  Double.random(in: 0...1)
-        let randomGreenColor =  Double.random(in: 0...1)
-        let randomBlueColor =  Double.random(in: 0...1)
-        let newColor = UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
+//        let randomRedColor =  Double.random(in: 0...1)
+//        let randomGreenColor =  Double.random(in: 0...1)
+//        let randomBlueColor =  Double.random(in: 0...1)
+        let newColor = UIColor.randomClr
+            //UIColor(red: CGFloat(randomRedColor), green: CGFloat(randomGreenColor), blue: CGFloat(randomBlueColor), alpha: 1)
         publishSubject.onNext(newColor)
         }
     
@@ -74,5 +78,16 @@ class EntryViewController: UIViewController {
         let view = storyboard.instantiateViewController(withIdentifier: "vkLogin")
         view.modalPresentationStyle = .fullScreen
         present(view, animated: true, completion: nil)
+    }
+}
+
+//MARK: -> animation
+extension EntryViewController {
+    func startDotsAnimation(time: Int) {
+        let coverView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+        view.addSubview(coverView)
+        coverView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        coverView.alpha = 0.7
+        UIView.startLoadingFirstEntryAnimation(view: coverView, time: time)
     }
 }

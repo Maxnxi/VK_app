@@ -18,9 +18,7 @@ class LoginToFirebaseViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     
     private var handle: AuthStateDidChangeListenerHandle!
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -83,10 +81,6 @@ class LoginToFirebaseViewController: UIViewController {
                 self?.moveToVkLoginViewController()
             }
         }
-        
-        
-        
-        
     }
     
     @IBAction func backBtnWasPrssd(_ sender: Any) {
@@ -96,6 +90,4 @@ class LoginToFirebaseViewController: UIViewController {
     @IBAction func skipLoginButton(_ sender: Any) {
        moveToVkLoginViewController()
     }
-    
-
 }

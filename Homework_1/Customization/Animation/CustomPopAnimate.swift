@@ -24,7 +24,7 @@ class CustomPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         destination.view.frame = source.view.frame
         
-        destination.view.center.x = 0//source.view.frame.origin.x
+        destination.view.center.x = 0
         destination.view.layer.anchorPoint = CGPoint(x: 0 , y: 0.5)
         let rotation = CATransform3DGetAffineTransform(CATransform3DRotate(CATransform3DIdentity, CGFloat.pi/2, 0, 1, 0))
         let scale = CGAffineTransform(scaleX: 0.5, y: 0.5)
@@ -49,10 +49,7 @@ class CustomPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                     withRelativeStartTime: 1/3,
                     relativeDuration: 1/3,
                     animations: {
-                        //source.view.transform = CGAffineTransform(translationX: source.view.frame.width, y: 0.0)
-                        
-                        let rotation = CATransform3DGetAffineTransform(CATransform3DRotate(CATransform3DIdentity, -CGFloat.pi/2, 0, 1, 0))
-                       //destination.view.transform = rotation
+                        _ = CATransform3DGetAffineTransform(CATransform3DRotate(CATransform3DIdentity, -CGFloat.pi/2, 0, 1, 0))
                     })
                 // 3
                 UIView.addKeyframe(
