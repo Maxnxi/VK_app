@@ -1,3 +1,3 @@
-# light VK client
+# VK client
 
 This is a light VK client
